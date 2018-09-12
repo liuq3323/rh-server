@@ -1,0 +1,81 @@
+package com.ntnikka.modules.pay.aliPay.utils;
+
+import java.security.MessageDigest;
+
+/**
+ * Created by liuq on 2018/9/11.
+ */
+public class MD5Utils {
+
+    /**
+     * 加密
+     * @param str
+     * @return
+     */
+    public static String encode(String str) {
+        String strDigest = "";
+        try {
+            // 此 MessageDigest 类为应用程序提供信息摘要算法的功能，必须用try,catch捕获
+            MessageDigest md5 = MessageDigest.getInstance("MD5");
+
+            byte[] data;
+            data = md5.digest(str.getBytes("utf-8"));// 转换为MD5码
+            strDigest = bytesToHexString(data);
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+        return strDigest;
+    }
+
+    public static String bytesToHexString(byte[] src) {
+        StringBuilder stringBuilder = new StringBuilder("");
+        if (src == null || src.length <= 0) {
+            return null;
+        }
+        for (int i = 0; i < src.length; i++) {
+            int v = src[i] & 0xFF;
+            String hv = Integer.toHexString(v);
+            if (hv.length() < 2) {
+                stringBuilder.append(0);
+            }
+            stringBuilder.append(hv);
+        }
+        return stringBuilder.toString();
+    }
+
+    // 加密后解密
+    public static String JM(String inStr) {
+        char[] a = inStr.toCharArray();
+        for (int i = 0; i < a.length; i++) {
+            a[i] = (char) (a[i] ^ 't');
+        }
+        String k = new String(a);
+        return k;
+    }
+
+    /**
+     * 加密解密算法 执行一次加密，两次解密
+     */
+    public static String convertMD5(String inStr){
+
+        char[] a = inStr.toCharArray();
+        for (int i = 0; i < a.length; i++){
+            a[i] = (char) (a[i] ^ 't');
+        }
+        String s = new String(a);
+        return s;
+
+    }
+
+
+    public static void main(String[] args) {
+        String s = "orderAmount=0.01&orderId=15247092903822&partner=120180423025954421&payMethod=22&payType=syt&signType=MD5&version=1.0";
+        String s2 = "B67EC9504492E88E3F37C23EE7F3D3EA";
+        String Md5Str = encode(s);
+        System.out.println("加密============================"+Md5Str);
+        String Str = convertMD5(JM("98568d540134639BE4655198a36614a4"));
+        System.out.println("解密==========================="+Str);
+        System.out.println(SignUtil.checkSign(Md5Str , s));
+        System.out.println("================>>"+ Md5Str.toUpperCase());
+    }
+}
