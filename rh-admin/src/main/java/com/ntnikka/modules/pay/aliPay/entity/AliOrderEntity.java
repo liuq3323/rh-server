@@ -35,7 +35,7 @@ public class AliOrderEntity implements Serializable {
     /*
     商户订单金额(金额最小0.01)
      */
-    private BigDecimal orderAmount;
+    private Double orderAmount;
     /*
     商户号（签约的商户对应的本平台唯一用户号）
      */
@@ -149,11 +149,11 @@ public class AliOrderEntity implements Serializable {
         this.orderId = orderId;
     }
 
-    public BigDecimal getOrderAmount() {
+    public Double getOrderAmount() {
         return orderAmount;
     }
 
-    public void setOrderAmount(BigDecimal orderAmount) {
+    public void setOrderAmount(Double orderAmount) {
         this.orderAmount = orderAmount;
     }
 

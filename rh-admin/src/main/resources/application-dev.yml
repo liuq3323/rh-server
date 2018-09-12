@@ -36,5 +36,3 @@ spring:
                 wall:
                     config:
                         multi-statement-allow: true
-server:
-  port: 9000

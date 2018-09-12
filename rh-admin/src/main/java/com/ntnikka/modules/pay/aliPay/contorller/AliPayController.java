@@ -1,9 +1,11 @@
 package com.ntnikka.modules.pay.aliPay.contorller;
 
 
+import com.ntnikka.common.Enum.PayTypeEnum;
 import com.ntnikka.modules.pay.aliPay.entity.AliOrderEntity;
 import com.ntnikka.modules.pay.aliPay.service.AliOrderService;
 import com.ntnikka.modules.pay.aliPay.utils.SignUtil;
+import com.ntnikka.modules.sys.controller.AbstractController;
 import com.ntnikka.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +21,7 @@ import java.util.Date;
 
 @RestController
 @RequestMapping("/api/v1")
-public class AliPayController extends BaseController{
+public class AliPayController extends AbstractController {
 
     @Autowired
     private AliOrderService aliOrderService;
@@ -39,12 +41,15 @@ public class AliPayController extends BaseController{
         if (!SignUtil.checkSign(sign , ParamStr)){
             return R.error(403013 , "验签失败");
         }
-        // TODO: 2018/9/11
         //3.订单信息入库
         aliOrderEntity.setCreateTime(new Date());
         aliOrderEntity.setUpdateTime(new Date());
         aliOrderService.save(aliOrderEntity);
-        //4.调起支付宝下单接口
+        //4.调起支付宝下单接口 根据不同的payType处理不同下单方式
+        if (PayTypeEnum.WAP.getMessage() == aliOrderEntity.getPayType()){
+
+        }
+
         //5.返回
         return R.ok().put("data","test OK!");
     }

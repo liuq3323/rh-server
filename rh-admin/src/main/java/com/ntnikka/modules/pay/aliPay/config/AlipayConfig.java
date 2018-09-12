@@ -16,7 +16,7 @@ public class AlipayConfig {
 //↓↓↓↓↓↓↓↓↓↓请在这里配置您的基本信息↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
 
 	// 合作身份者ID，签约账号，以2088开头由16位纯数字组成的字符串，查看地址：https://b.alipay.com/order/pidAndKey.htm
-	public static String partner = "2088021273428911";
+	public static String partner = "2088231357369791";
 	
 	// 收款支付宝账号，以2088开头由16位纯数字组成的字符串，一般情况下收款账号就是签约账号
 	public static String seller_id = partner;
@@ -61,7 +61,7 @@ public class AlipayConfig {
 	public static String sign_type_md5 = "MD5";
 	
 	// 调试用，创建TXT日志文件夹路径，见AlipayCore.java类中的logResult(String sWord)打印方法。
-	public static String log_path = "/Users/pandeng/Documents/";
+	//public static String log_path = "/Users/pandeng/Documents/";
 		
 	// 字符编码格式 目前支持utf-8
 	public static String input_charset = "utf-8";

@@ -7,7 +7,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 
 @SpringBootApplication
-@MapperScan(basePackages = {"com.ntnikka.modules.*.dao"})
+@MapperScan(basePackages = {"com.ntnikka.modules.*.dao","com.ntnikka.modules.*.*.dao"})
 public class RhAdminApplication extends SpringBootServletInitializer {
 
 	@Override

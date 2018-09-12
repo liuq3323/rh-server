@@ -10,5 +10,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AliOrderDao extends BaseMapper<AliOrderEntity>{
 
-    void save(AliOrderEntity aliOrderEntity);
 }
