@@ -10,7 +10,7 @@ import java.util.Date;
  * Created by liuq on 2018/9/11.
  */
 
-@TableName("orders")
+@TableName("trade_order")
 public class AliOrderEntity implements Serializable {
 
 
@@ -184,7 +184,7 @@ public class AliOrderEntity implements Serializable {
     public static boolean checkParam(AliOrderEntity aliOrderEntity){
         if (null == aliOrderEntity.getNotifyUrl() || null == aliOrderEntity.getOrderAmount() || null == aliOrderEntity.getOrderId()
                 || null == aliOrderEntity.getPartner() || null == aliOrderEntity.getPayType() || null == aliOrderEntity.getVersion()
-                || null == aliOrderEntity.getSign() || null == aliOrderEntity.getSignType())
+                || null == aliOrderEntity.getSign() || null == aliOrderEntity.getSignType() || null == aliOrderEntity.getProductName())
             return false;
         return true;
     }

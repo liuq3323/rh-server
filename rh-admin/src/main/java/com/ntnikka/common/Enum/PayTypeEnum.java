@@ -2,7 +2,7 @@ package com.ntnikka.common.Enum;
 
 public enum  PayTypeEnum {
 
-    WAP(0,"wap"),QRCODE(1,"qcCode");
+    WAP(0,"Wap"),QRCODE(1,"QrCode");
 
     private int code;
     private String message;

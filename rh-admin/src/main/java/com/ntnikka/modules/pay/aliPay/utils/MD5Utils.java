@@ -69,7 +69,7 @@ public class MD5Utils {
 
 
     public static void main(String[] args) {
-        String s = "orderAmount=0.01&orderId=15247092903822&partner=120180423025954421&payMethod=22&payType=syt&signType=MD5&version=1.0";
+        String s = "orderAmount=1.0&orderId=1524709290382234&partner=120180423025954421&payMethod=22&payType=QrCode&signType=MD5&version=1.0";
         String s2 = "B67EC9504492E88E3F37C23EE7F3D3EA";
         String Md5Str = encode(s);
         System.out.println("加密============================"+Md5Str);

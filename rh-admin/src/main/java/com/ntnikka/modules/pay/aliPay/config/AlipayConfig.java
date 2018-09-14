@@ -17,7 +17,9 @@ public class AlipayConfig {
 
 	// 合作身份者ID，签约账号，以2088开头由16位纯数字组成的字符串，查看地址：https://b.alipay.com/order/pidAndKey.htm
 	public static String partner = "2088231357369791";
-	
+
+	public static String app_id = "2018091361358374";
+
 	// 收款支付宝账号，以2088开头由16位纯数字组成的字符串，一般情况下收款账号就是签约账号
 	public static String seller_id = partner;
 
@@ -26,23 +28,10 @@ public class AlipayConfig {
 	public static String account = "";
 
 	//商户的私钥,需要PKCS8格式，RSA公私钥生成：https://doc.open.alipay.com/doc2/detail.htm?spm=a219a.7629140.0.0.nBDxfy&treeId=58&articleId=103242&docType=1
-	public static String private_key = "MIICdQIBADANBgkqhkiG9w0BAQEFAASCAl8wggJbAgEAAoGBALDv+rzBHZ3Fg67D" +
-			"RPbY5EBA7oMjCEnGpJMJkuaA4VKMSt88Rx4scP+7ORFLIkX5E6a0O9A0HIotpcyX" +
-			"9jAmu2zx5CHPb6Wjsqge6yGqFXij8onRw4LMYdLLQtFACfGXZZGdfvcdH0WbLOTw" +
-			"Bcmeu4L7+jT4Afdilq3ZG2aLXPrVAgMBAAECgYBlNS/YLiJxr5wOKBXXmOKeukVz" +
-			"72L7SEu064ICpW+9VxAwtvr7EHKmZQJUmQSGv910up2ID3bPtyKib73bdxw3VnRU" +
-			"NWJ6MbHcpHbRNriuwTOPCxMS9AbBjKyPkzKXVE31bBXpdVx+n7dCVDcLrnSfabQC" +
-			"IMxOmw3pj77PPdEolQJBANjVXiA1zVz+OkhgoIgOIy8315E+piu2zfZqWR9SBuTN" +
-			"+Z2KpTjaUTrxCp5QGJsT7ijDurJtAonXRL43ijEYl+sCQQDQ5cWh+RMGczWgRH7Q" +
-			"b6FhyIz9Dd2fvATskaMFylhBrA/uVwskGcST/Co487FmbXzW2YydrGXS4MXkufp2" +
-			"4Mg/AkAuEK5Ng4Cch/oT1EtmfDJnXqKyXa/py41YE2HZsJB8XXHxUTomqOLm9bx+" +
-			"w59mmsZW7LYmH9iRNiWJj70RDxt/AkAw+o66CXJCguTB7Q1mxaWrDaCw/H1IJIdr" +
-			"CEKW6viCfVtG4LXGAxyqLeegbtLbVzR8E4n6th8xsG310P0+vjl1AkAocKX3zqfl" +
-			"KP8OJtHIc/2+Y//KRhxukaKPgC2UCQbqefxuzNUQ0O08UEqUSf5/6aDjTOODJ3Ow" +
-			"91+rrG4dtrl/";
+	public static String private_key = "MIIEwAIBADANBgkqhkiG9w0BAQEFAASCBKowggSmAgEAAoIBAQC7ijYkXmwWjYLCoTWg55bM57chIr6MS2a4dtfamWDjsgHSRkkiNyTHwMcj0Hci5vK/zUMPwCyI5elfs94CDHeq2RAdaZYUvmovQkx7ijWtW4GQ8W7fwqyt69PQ91cCIqmWxcV5WC0aP4Q7h5Gn4dRCkBl4YkigQZ5S11QU8CUtmas5Gvm4pTgKEi5ffPmit8wY41FwpXtYWBgwe5i58cqFxbhQDlEnftpqvrolmU3nKWs7pvwOw1zKxgi+1DEz6VQ9vDxqODIQPxmmlt58ki15M5ahIkv3Ygh6vzFmDkRbt4LVyzNVW4aK3NJSF3u3Bu4+Uh9pgTwKnQ8nYoLWa9YrAgMBAAECggEBAI7Q7fI8RavXECEPizuBoYFhZEBDqUBFm3AWcMLz0qkTQffTtpXr0IKd+Aj6E//sSChwNAWmn0ORcmuDGioNPIRK0M7VPYmGiG582qmp0r611LGAaqLUKZQ45xFXilcB9ovvCDckQxSeEiETWIS0oWQfQIZAsnX4Ao2rlUhsqKNT9wPKhKq6U8r6GGq59/eDhXrFNrYFvm+NyJUnHGq3AYXFf+5HYDowsfmazCbMnMm8ZRuMUPltoDYl25RGlc8/Vmp/GIjMHWeWHtmdj+7HRlPlJeLbuN2jmxu/fLiO5xVg9r7/hL61TCMle4jnQqO1BJHXD/kfZHPfIVDHiMdHdGECgYEA9XZbQkm/+YcdGwhvCqiyWAP5imT5N9+i/hECNeLL/0iORy5q88y4tsy1Ghp9z8LZmEBxifnFnFLalYDpulvM4cf+vGxhBXXrW+6GTFosyOVcjEqEUHjctW0lDVOlqSYEW4mvaxQPFsP/nc5J9PDtz95o05XuoHSauv3iOX2amI8CgYEAw5dI0FXZNTXXiHjAu13sw/dQEknB3cyk+XGRODx3nhNYSDha15IgSxTp2sxMc0FhIGUidsrJIsppNxKnQgWnlwiee2qp0ZZuYZM7tjPsG1VYek2+xWxHMV3FrVsgHnCbJaf0c3bcJh2lV5FExynwc3e2uyzjxJWPUhcc4/mNXqUCgYEApINS3ra3J/Jam4enhKlT/pGLaioKrlwAze9wX9VFjC+AzExb+lK3ai0BJCGlON4LIHPwpNz2iLMvNQxVmkV0p852+KpazGIgAFl5QSse4PZ4dL5st9KJej9QmgH6AcgtG3zISSgEhOmQJJ/iCXyAptUVxNm0OW5tVe5a9NUuDBkCgYEAvwcazp+KLTYQ8/E8C8OIYz1ArxvqhL5Cwn3w34PvMCykpKSl1LWbZLlgTZoLcOYB/qnIJ02XdKtMZ8WIJitvq0t3vgJHKbRKynIKd8HucCPC7nDQSfGe9tAnKVE+5XwFi5mmXr9P9Movmn7/NaX4ek4J4nXNX0rTV9HLHb22HSECgYEA3tmSGcV5JRCR/wDW2bX7C9nKQN14NgmuqRGfrbQcgK91QcRbDVQqxRzLum2GYdyq7w6MeM8+a0CcNEAIg8oqdNhVROR1GaibJCGaAS755Vima7qCaA3aiX2BNYT3ej6Ndrqi0IEKSzZ8+uvazP/XbDs0X+2UDg1HUURoGr8s7NQ=";
 	
 	// 支付宝的公钥,查看地址：https://b.alipay.com/order/pidAndKey.htm
-	public static String alipay_public_key  = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCnxj/9qwVfgoUh/y2W89L6BkRAFljhNhgPdyPuBV64bfQNN1PjbCzkIM6qRdKBoLPXmKKMiFYnkd6rAoprih3/PrQEB/VsW8OoM8fxn67UDYuyBTqA23MML9q1+ilIZwBC2AQ2UBVOrFXfFl75p6/B5KsiNG9zpgmLCUYuLkxpLQIDAQAB";
+	public static String alipay_public_key  = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAounwJ0cIGZLbI5m8CkqJydwl8sFlM1L1gTu10Cv5GZ76kxrRmi3KmSqNbkmY/lsQHhtmVXmSVPH/4ona0p8sNvpnnxxVLC+a2nJHgmDR59/7H+B6D4qMXW3CCHO1DCrtRvokwWb7+OLSIrrteNOGX2lg3hiRRD90UE1JBNOqX4601SYoUO7c4BPKCqQ371w2BfsTAv5jVn68soMMX9MLxICfOe58AvlpVBbe8JwBIVnW82gxyfYTBSbLQOPPSCreBlZ5PiBNvRZwEehd5RQLhCX2YB0ieq/vDLvi5Okzmjjqx8h9CR687Q0WQZ4Y+7tc68XBVd5xpv4TSz6SbwImmQIDAQAB";
 	
 	public static String zebra_public_key_md5 = "e8s54m06awo6f0kisv75v02df1t6s5yj";
 	// 服务器异步通知页面路径  需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
@@ -57,7 +46,8 @@ public class AlipayConfig {
 	public static String return_url = "http://106.75.130.135/return.html";
 
 	// 签名方式
-	public static String sign_type = "RSA";
+	public static String getSign_type_RSA = "RSA";
+	public static String sign_type_RSA2 = "RSA2";
 	public static String sign_type_md5 = "MD5";
 	
 	// 调试用，创建TXT日志文件夹路径，见AlipayCore.java类中的logResult(String sWord)打印方法。

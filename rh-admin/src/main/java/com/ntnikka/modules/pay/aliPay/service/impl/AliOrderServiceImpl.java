@@ -4,6 +4,7 @@ package com.ntnikka.modules.pay.aliPay.service.impl;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.ntnikka.modules.pay.aliPay.dao.AliOrderDao;
 import com.ntnikka.modules.pay.aliPay.entity.AliOrderEntity;
+import com.ntnikka.modules.pay.aliPay.entity.TradePrecreateMsg;
 import com.ntnikka.modules.pay.aliPay.service.AliOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,5 +22,15 @@ public class AliOrderServiceImpl extends ServiceImpl<AliOrderDao , AliOrderEntit
     @Override
     public void save(AliOrderEntity aliOrderEntity) {
         this.insert(aliOrderEntity);
+    }
+
+    @Override
+    public int checkRepeatId(Long orderId) {
+        return aliOrderDao.checkRepeatId(orderId);
+    }
+
+    @Override
+    public void save(TradePrecreateMsg tradePrecreateMsg) {
+        aliOrderDao.savetradePrecreateMsg(tradePrecreateMsg);
     }
 }
