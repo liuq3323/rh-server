@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import static java.util.concurrent.CompletableFuture.runAsync;
 
@@ -42,7 +43,6 @@ public class AliPayController extends AbstractController {
 
     @RequestMapping(value = "/test" , method = RequestMethod.POST)
     public R testController(@RequestBody AliOrderEntity aliOrderEntity){
-        //System.out.println("aliOrderEntity = [" + aliOrderEntity + "]");
         //1.校验必填参数
         if (!AliOrderEntity.checkParam(aliOrderEntity)){
             return R.error(403000 , "缺少参数");

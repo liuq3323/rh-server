@@ -29,8 +29,4 @@ public class AliOrderServiceImpl extends ServiceImpl<AliOrderDao , AliOrderEntit
         return aliOrderDao.checkRepeatId(orderId);
     }
 
-    @Override
-    public void save(TradePrecreateMsg tradePrecreateMsg) {
-        aliOrderDao.saveTradePrecreateMsg(tradePrecreateMsg);
-    }
 }

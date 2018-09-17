@@ -12,5 +12,4 @@ public interface AliOrderService extends IService<AliOrderEntity> {
 
     int checkRepeatId(Long orderId);
 
-    void save(TradePrecreateMsg tradePrecreateMsg);
 }

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>订单管理</title>
+    <#include "/header.html">
+</head>
+<body>
+<div id="rrapp" v-cloak>
+    <div v-show="showList">
+        <div class="grid-btn">
+            <div class="col-sm-2">
+                <input class="form-control" type="text" id="startime" style="width:100%"  value="" placeholder="开始时间">
+            </div>
+            <div class="col-sm-2">
+                <input class="form-control" type="text" id="endtime" style="width:100%"  value="" placeholder="结束时间">
+            </div>
+            <div class="form-group col-sm-2">
+                <input type="text" class="form-control" v-model="q.id" placeholder="系统订单号">
+            </div>
+            <div class="form-group col-sm-2">
+                <input type="text" class="form-control" v-model="q.orderid" placeholder="商户订单号">
+            </div>
+            <div class="form-group col-sm-2">
+            <input class="form-control" type="text" style="height: 31px" v-model="q.pname" placeholder="商户ID">
+            </div>
+            <div class="form-group col-sm-2">
+                <select class="form-control" name="status" id="status" style="width: 110px;height: 32px;padding: 6px 12px;">
+                    <option value="3" selected>所有</option>
+                    <option value="0" >支付中</option>
+                    <option value="1" >成功</option>
+                    <option value="2" >失败</option>
+                </select>
+            </div>
+            <a class="btn btn-default" @click="query">查询</a>
+            <!--<#if shiro.hasPermission("sys:dict:save")>-->
+            <!--<a class="btn btn-primary" @click="use"><i class="fa fa-plus"></i>&nbsp;取号</a>-->
+            <!--</#if>-->
+            <!--<#if shiro.hasPermission("sys:dict:update")>-->
+            <!--<a class="btn btn-primary" @click="refund"><i class="fa fa-pencil-square-o"></i>&nbsp;退号</a>-->
+            <!--<a class="btn btn-primary" @click="useless"><i class="fa fa-pencil-square-o"></i>&nbsp;废号</a>-->
+            <!--</#if>-->
+            <!--<#if shiro.hasPermission("sys:dict:delete")>-->
+            <!--<a class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>-->
+            <!--</#if>-->
+        </div>
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+</div>
+<script src="${request.contextPath}/statics/plugins/layDate/laydate/laydate.js"></script>
+<script src="${request.contextPath}/statics/js/modules/tradeOrderManager/tradeOrder.js"></script>
+<script type="text/javascript">
+    laydate.render({
+        elem: '#startime',
+        type: 'datetime'
+        ,theme: 'grid'
+    });
+    laydate.render({
+        elem: '#endtime',
+        type: 'datetime'
+        ,theme: 'grid'
+    });
+    // var start = {
+    //     elem: '#startime',
+    //     type: 'datetime',
+    //     choose: function (datas) {
+    //         end.min = datas; //开始日选好后，重置结束日的最小日期
+    //         end.start = datas //将结束日的初始值设定为开始日
+    //     }
+    // };
+    // var end = {
+    //     elem: '#endtime' ,
+    //     type: 'datetime',
+    //     isclear: true, //是否显示清空
+    //     issure: true, //是否显示确认
+    //     choose: function (datas) {
+    //         start.max = datas; //结束日选好后，重置开始日的最大日期
+    //     }
+    // };
+    // laydate(start);
+    // laydate(end);
+    // //给input赋值
+    // $('#startime').val(laydate.now(-1, 'YYYY-MM-DD hh:mm:ss'));
+    // $('#endtime').val(laydate.now(0, 'YYYY-MM-DD hh:mm:ss'));
+</script>
+</body>
+</html>
