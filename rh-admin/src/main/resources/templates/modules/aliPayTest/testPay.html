@@ -5,9 +5,35 @@
     <title>Title</title>
     <#include "/header.html">
 </head>
-<body>
-<form action="/api/v1/PagePayTest" method="GET">
-    <button type="submit">提交</button>
-</form>
+<body onload="load()">
+<!--<form action="/api/v1/PagePayTest" method="GET">-->
+    <!--<button type="submit">提交</button>-->
+<!--</form>-->
+<div>
+    <img id="qrCode">
+</div>
+<script>
+    function load() {
+        $.ajax({
+            url : baseURL + "/api/v1/QrCodeTest" ,
+            type: 'post',
+            data: {
+                "orderId": 201809170954,
+                "orderAmount" : 1.0,
+                "productName" : "小酱油"
+            },//一同上传的数据
+            dataType: 'json', //返回值类型一般设置为json
+            success: function (data, status)  //服务器成功响应处理函数
+            {
+                debugger
+                if (status == "success") {
+                    $("#qrCode").attr('src', data.qr_code);
+                } else {
+                    alert("上传失败");
+                }
+            }
+        })
+    }
+</script>
 </body>
 </html>

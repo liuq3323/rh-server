@@ -12,5 +12,5 @@ import org.springframework.stereotype.Repository;
 public interface AliOrderDao extends BaseMapper<AliOrderEntity>{
     int checkRepeatId(Long orderId);
 
-    void savetradePrecreateMsg(TradePrecreateMsg tradePrecreateMsg);
+    void saveTradePrecreateMsg(TradePrecreateMsg tradePrecreateMsg);
 }

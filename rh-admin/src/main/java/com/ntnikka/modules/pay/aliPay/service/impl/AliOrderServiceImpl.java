@@ -31,6 +31,6 @@ public class AliOrderServiceImpl extends ServiceImpl<AliOrderDao , AliOrderEntit
 
     @Override
     public void save(TradePrecreateMsg tradePrecreateMsg) {
-        aliOrderDao.savetradePrecreateMsg(tradePrecreateMsg);
+        aliOrderDao.saveTradePrecreateMsg(tradePrecreateMsg);
     }
 }
