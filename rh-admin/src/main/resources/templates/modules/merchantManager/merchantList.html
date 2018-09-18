@@ -9,7 +9,7 @@
 	<div v-show="showList">
 		<div class="grid-btn">
 			<div class="form-group col-sm-2">
-				<input type="text" class="form-control"  @keyup.enter="query" placeholder="商户名">
+				<input type="text" v-model="merchant.merchantName" class="form-control"  @keyup.enter="query" placeholder="商户名">
 			</div>
 			<!--
 			  完整语法
