@@ -7,16 +7,18 @@ $(function () {
         datatype: "json",
         type: 'post',
         colModel: [
+            { label: '商户ID', name: 'merchantId', index: 'merchantId', width: 20 },
             { label: '序号', name: 'id', index: 'id', width: 20 },
-            { label: '订单号', name: 'reviseorder', index: 'reviseorder', width: 50 },
-            { label: '订购号码', name: 'openphone', index: 'openphone', width: 70 },
-            { label: '状态', name: 'state', index: 'state', width: 30 },
-            { label: '商品名称', name: 'pname', index: 'pname', width: 80 },
-            { label: '卡品品类', name: 'pstyle', index: 'pstyle', width: 80 },
+            { label: '订单号', name: 'orderId', index: 'orderId', width: 50 },
+            { label: '订单金额', name: 'orderAmount', index: 'orderAmount', width: 70 },
+            { label: '订单状态', name: 'status', index: 'status', width: 30 },
+            { label: '通知状态', name: 'notifyStatus', index: 'notifyStatus', width: 30 },
+            { label: '支付方式', name: 'payType', index: 'payType', width: 80 },
+            // { label: '创建时间', name: 'createTime', index: 'createTime', width: 80 },
             { label: '订单生成日期',
-                name: 'createtime',
+                name: 'createTime',
                 // sortorder: 'desc',
-                index: 'createtime',
+                index: 'createTime',
                 width: 80,
                 formatter: function (cellvalue, options, row) {
                     return new Date(cellvalue).toLocaleString()
@@ -65,8 +67,12 @@ var vm = new Vue({
     el:'#rrapp',
     data:{
         q:{
-            openphone: null,
-            pname:null
+            tradeid:null,
+            orderid: null,
+            merchantid:null,
+            starttime:null,
+            endtime:null,
+            tradestatus:null
         },
         showList: true,
         title: null,
@@ -200,7 +206,12 @@ var vm = new Vue({
             vm.showList = true;
             $("#jqGrid").jqGrid('clearGridData');
             $("#jqGrid").jqGrid('setGridParam',{
-                postData:{'openphone': vm.q.openphone},
+                postData:{'tradeid': $("#tradeid").val(),
+                    'orderid':$("#orderid").val(),
+                    'starttime' : $("#starttime").val(),
+                    'endtime' : $("#endtime").val(),
+                    'merchantid' : $("#merchantid").val(),
+                    'status' : $("#status").val()},
                 page:1
             }).trigger("reloadGrid");
         },
@@ -208,11 +219,15 @@ var vm = new Vue({
             vm.showList = true;
             var page = $("#jqGrid").jqGrid('getGridParam','page');
             $("#jqGrid").jqGrid('setGridParam',{
-                postData:{'openphone': vm.q.openphone,'pname':vm.q.pname},
+                postData:{'tradeid': $("#tradeid").val(),
+                    'orderid':$("#orderid").val(),
+                'starttime' : $("#starttime").val(),
+                'endtime' : $("#endtime").val(),
+                'merchantid' : $("#merchantid").val(),
+                'status' : $("#status").val()
+                },
                 page:page
             }).trigger("reloadGrid");
-            vm.q.openphone=null;
-            vm.q.pname=null;
         }
     }
 });

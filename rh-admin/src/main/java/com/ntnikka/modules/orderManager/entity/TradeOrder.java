@@ -1,5 +1,6 @@
 package com.ntnikka.modules.orderManager.entity;
 
+import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 
 import java.io.Serializable;
@@ -13,14 +14,17 @@ import java.util.Date;
  **/
 @TableName("trade_order")
 public class TradeOrder implements Serializable {
+
+    @TableId
+    private Long id;
     //商户订单id(唯一)
     private Long orderId;
-//支付方式：0-wap ,1-qrCode
+    //支付方式：0-wap ,1-qrCode
     private String payType;
 //版本号
     private String version;
 //加密方式(MD5)
-    private String singType;
+    private String signType;
 //订单金额
     private Double orderAmount;
 //商户密钥(商户注册时平台生成)
@@ -48,6 +52,14 @@ public class TradeOrder implements Serializable {
 //是否已通知商户(默认0)0-未通知，1-已通知
     private int notifyStatus;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Long getOrderId() {
         return orderId;
     }
@@ -72,12 +84,12 @@ public class TradeOrder implements Serializable {
         this.version = version;
     }
 
-    public String getSingType() {
-        return singType;
+    public String getSignType() {
+        return signType;
     }
 
-    public void setSingType(String singType) {
-        this.singType = singType;
+    public void setSignType(String signType) {
+        this.signType = signType;
     }
 
     public Double getOrderAmount() {
