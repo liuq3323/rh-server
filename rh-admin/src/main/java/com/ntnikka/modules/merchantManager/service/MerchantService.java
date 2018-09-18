@@ -1,0 +1,20 @@
+package com.ntnikka.modules.merchantManager.service;
+
+import com.baomidou.mybatisplus.service.IService;
+import com.ntnikka.modules.merchantManager.entity.MerchantEntity;
+import com.ntnikka.utils.PageUtils;
+
+import java.util.Map;
+
+/**
+ * 
+ *
+ * @author Liuq
+ * @email
+ * @date 2018-09-18 16:41:11
+ */
+public interface MerchantService extends IService<MerchantEntity> {
+
+    PageUtils queryPage(Map<String, Object> params);
+}
+

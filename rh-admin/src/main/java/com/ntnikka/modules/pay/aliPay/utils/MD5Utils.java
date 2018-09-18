@@ -1,5 +1,7 @@
 package com.ntnikka.modules.pay.aliPay.utils;
 
+import com.ntnikka.modules.merchantManager.entity.MerchantEntity;
+
 import java.security.MessageDigest;
 
 /**
@@ -67,6 +69,12 @@ public class MD5Utils {
 
     }
 
+    public static String creatMerchantKey(MerchantEntity merchantEntity){
+        String str = "phone="+merchantEntity.getMerchantPhone()+"&pid"+merchantEntity.getPid()+"&storeNumber="+merchantEntity.getStoreNumber()
+                +"&authCode="+merchantEntity.getAuthCode();
+        String merchantKey = encode(str).toUpperCase();
+        return merchantKey;
+    }
 
     public static void main(String[] args) {
         String s = "orderAmount=1.0&orderId=1524709290382234&partner=120180423025954421&payMethod=22&payType=QrCode&signType=MD5&version=1.0";

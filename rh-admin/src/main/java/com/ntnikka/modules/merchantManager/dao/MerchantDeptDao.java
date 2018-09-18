@@ -2,6 +2,7 @@ package com.ntnikka.modules.merchantManager.dao;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.ntnikka.modules.merchantManager.entity.MerchantDept;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -11,6 +12,7 @@ import java.util.List;
  * @Description todo
  * @Date 2018/9/18 14:15
  **/
+@Repository
 public interface MerchantDeptDao extends BaseMapper<MerchantDept> {
 
     /**
