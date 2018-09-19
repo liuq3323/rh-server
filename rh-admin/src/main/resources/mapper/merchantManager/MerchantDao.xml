@@ -21,5 +21,10 @@
         <result property="merchantDeptId" column="merchant_dept_id"/>
     </resultMap>
 
+    <update id="updateTradeStatus" parameterType="map">
+        update merchant set
+        trade_status = #{tradeStatus}
+        where id = #{merchantId}
+    </update>
 
 </mapper>

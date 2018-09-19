@@ -31,6 +31,8 @@ public class MerchantDept implements Serializable {
     //排序
     private Integer orderNum;
 
+    private Long merchantId;
+
     @TableLogic
     private Integer delFlag;
     /**
@@ -41,6 +43,13 @@ public class MerchantDept implements Serializable {
     @TableField(exist=false)
     private List<?> list;
 
+    public Long getMerchantId() {
+        return merchantId;
+    }
+
+    public void setMerchantId(Long merchantId) {
+        this.merchantId = merchantId;
+    }
 
     public void setDeptId(Long deptId) {
         this.deptId = deptId;

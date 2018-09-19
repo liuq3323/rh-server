@@ -32,6 +32,13 @@
                     <option value="2" >失败</option>
                 </select>
             </div>
+            <div class="form-group col-sm-2">
+                <!--<div class="control-label">所属部门</div>-->
+                <div class="col-sm-10">
+                    <input type="text" id="merchantName" class="form-control" style="cursor:pointer;" @click="deptTree" readonly="readonly" placeholder="所属部门"/>
+                    <input type="hidden" id="merchantNum" class="form-control" style="cursor:pointer;" readonly="readonly"/>
+                </div>
+            </div>
             <a class="btn btn-default" @click="query">查询</a>
             <!--<#if shiro.hasPermission("sys:dict:save")>-->
             <!--<a class="btn btn-primary" @click="use"><i class="fa fa-plus"></i>&nbsp;取号</a>-->
@@ -48,8 +55,13 @@
         <div id="jqGridPager"></div>
     </div>
 </div>
+<!-- 选择部门 -->
+<div id="deptLayer" style="display: none;padding:10px;">
+    <ul id="deptTree" class="ztree"></ul>
+</div>
+<script src="${request.contextPath}/statics/js/modules/tradeOrderManager/tradeOrder.js?_${.now?long}"></script>
+<!--<script src="${request.contextPath}/statics/js/modules/merchantManager/user.js?_${.now?long}"></script>-->
 <script src="${request.contextPath}/statics/plugins/layDate/laydate/laydate.js"></script>
-<script src="${request.contextPath}/statics/js/modules/tradeOrderManager/tradeOrder.js"></script>
 <script type="text/javascript">
     var star = laydate.render({
         elem: '#starttime',

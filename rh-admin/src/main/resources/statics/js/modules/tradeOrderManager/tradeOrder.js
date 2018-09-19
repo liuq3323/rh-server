@@ -49,6 +49,8 @@ $(function () {
             $("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
         },
     });
+
+    vm.getDept();
     //配置状态字段背景色
     // function addCellAttr(rowId, val, rawObject, cm, rdata) {
     //     if (rawObject.state == '可选') {
@@ -62,6 +64,20 @@ $(function () {
     //     }
     // }
 });
+var setting = {
+    data: {
+        simpleData: {
+            enable: true,
+            idKey: "deptId",
+            pIdKey: "parentId",
+            rootPId: -1
+        },
+        key: {
+            url:"nourl"
+        }
+    }
+};
+var ztree;
 
 var vm = new Vue({
     el:'#rrapp',
@@ -74,13 +90,31 @@ var vm = new Vue({
             endtime:null,
             tradestatus:null
         },
+        dept:{
+            parentName:null,
+            deptId : null,
+            parentId:0,
+            orderNum:0
+        },
         showList: true,
         title: null,
         abd: {}
     },
     methods: {
         query: function () {
-            vm.reload2();
+            vm.reload();
+        },
+        getDept: function(){
+            //加载部门树
+            $.get(baseURL + "merchant/dept/list", function(r){
+                ztree = $.fn.zTree.init($("#deptTree"), setting, r);
+                var node = ztree.getNodeByParam("deptId", vm.dept.deptId);
+                if(node != null){
+                    ztree.selectNode(node);
+                    vm.dept.parentName = node.name;
+                    // vm.merchant.merchantdeptid = node.id;
+                }
+            })
         },
         use: function(){
             var id = getSelectedRow();
@@ -202,9 +236,30 @@ var vm = new Vue({
                 vm.abd = r.abd;
             });
         },
+        deptTree: function(){
+            layer.open({
+                type: 1,
+                offset: '50px',
+                skin: 'layui-layer-molv',
+                title: "选择合作商",
+                area: ['300px', '450px'],
+                shade: 0,
+                shadeClose: false,
+                content: jQuery("#deptLayer"),
+                btn: ['确定', '取消'],
+                btn1: function (index) {
+                    var node = ztree.getSelectedNodes();
+                    //选择上级部门
+                    $("#merchantName").val(node[0].name);
+                    $("#merchantNum").val(node[0].deptId);
+                    layer.close(index);
+                }
+            });
+        },
         reload: function (event) {
             vm.showList = true;
             $("#jqGrid").jqGrid('clearGridData');
+            var page = $("#jqGrid").jqGrid('getGridParam','page');
             $("#jqGrid").jqGrid('setGridParam',{
                 postData:{'tradeid': $("#tradeid").val(),
                     'orderid':$("#orderid").val(),
@@ -212,8 +267,9 @@ var vm = new Vue({
                     'endtime' : $("#endtime").val(),
                     'merchantid' : $("#merchantid").val(),
                     'status' : $("#status").val()},
-                page:1
+                page:page
             }).trigger("reloadGrid");
+            vm.getDept();
         },
         reload2: function (event) {
             vm.showList = true;
@@ -231,3 +287,4 @@ var vm = new Vue({
         }
     }
 });
+

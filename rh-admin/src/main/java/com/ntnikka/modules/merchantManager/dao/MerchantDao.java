@@ -5,6 +5,7 @@ import com.ntnikka.modules.merchantManager.entity.MerchantEntity;
 import org.springframework.stereotype.Repository;
 
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * @ClassName MerchantDao
@@ -14,5 +15,5 @@ import java.io.Serializable;
  **/
 @Repository
 public interface MerchantDao extends BaseMapper<MerchantEntity> {
-
+    void updateTradeStatus(Map<String, Object> params);
 }

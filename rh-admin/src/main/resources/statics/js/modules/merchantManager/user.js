@@ -14,6 +14,13 @@ $(function () {
 					'<span class="label label-danger">其他</span>';
 			}},
 			// { label: '创建时间', name: 'createTime', index: "create_time", width: 85},
+            { label: '商户交易权限', name: 'tradeStatus', width: 65,
+                formatter: function (value,options,row) {
+                    return value === 0 ?
+                        '<span class="label label-success pointer" onclick="vm.updateTradeStatus(\''+value+'\',\''+row.id+'\')">关闭交易</span>' :
+                        '<span class="label label-danger pointer" onclick="vm.updateTradeStatus(\''+value+'\',\''+row.id+'\')">开启交易</span>';
+                }
+            },
             { label: '通道配置', name: 'id', width: 65,
                 formatter: function (value,options,row) {
                     return '<span class="label label-success pointer" onclick="vm.audit(\''+value+'\')">详情</span>'
@@ -205,6 +212,28 @@ var vm = new Vue({
             $.get(baseURL + "merchant/mgr/info/"+id, function(r){
                 vm.merchant = r.merchant;
                 vm.getDept();
+            });
+        },
+        updateTradeStatus: function(value , id) {
+            // console.log(value);//开启状态传来的value为0
+            // console.log(id);
+            confirm('确定操作商户交易权限？', function() {
+                var dataMap = '{"merchantId":"' + id + '" , "tradeStatus":"' + value + '"}';
+                $.ajax({
+                    type: "POST",
+                    url: baseURL + "merchant/mgr/tradestatus",
+                    contentType: "application/json",
+                    data: dataMap,
+                    success: function (r) {
+                        if (r.code === 0) {
+                            alert('操作成功', function () {
+                                vm.reload();
+                            });
+                        } else {
+                            alert(r.msg);
+                        }
+                    }
+                });
             });
         },
         getRoleList: function(){

@@ -16,5 +16,9 @@ import java.util.Map;
 public interface MerchantService extends IService<MerchantEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    void updateTradeStatus(Map<String, Object> params);
+
+    void save(MerchantEntity merchantEntity);
 }
 

@@ -3,16 +3,23 @@ package com.ntnikka.modules.pay.aliPay.contorller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alipay.api.AlipayApiException;
+import com.alipay.api.internal.util.AlipaySignature;
 import com.ntnikka.common.Enum.PayTypeEnum;
 import com.ntnikka.common.utils.AliPayRequest;
+import com.ntnikka.modules.orderManager.entity.TradeOrder;
+import com.ntnikka.modules.pay.aliPay.config.AlipayConfig;
 import com.ntnikka.modules.pay.aliPay.entity.AliOrderEntity;
 import com.ntnikka.modules.pay.aliPay.entity.TradePrecreateMsg;
 import com.ntnikka.modules.pay.aliPay.service.AliOrderService;
 import com.ntnikka.modules.pay.aliPay.service.TradePrecreateMsgService;
+import com.ntnikka.modules.pay.aliPay.utils.AliUtils;
 import com.ntnikka.modules.pay.aliPay.utils.ImageToBase64Util;
 import com.ntnikka.modules.pay.aliPay.utils.SignUtil;
 import com.ntnikka.modules.sys.controller.AbstractController;
 import com.ntnikka.utils.R;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,10 +27,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 
+import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import static java.util.concurrent.CompletableFuture.runAsync;
 
@@ -34,6 +42,8 @@ import static java.util.concurrent.CompletableFuture.runAsync;
 @RestController
 @RequestMapping("/api/v1")
 public class AliPayController extends AbstractController {
+
+    private static Logger logger = LoggerFactory.getLogger(AliPayController.class);
 
     @Autowired
     private AliOrderService aliOrderService;
@@ -72,6 +82,7 @@ public class AliPayController extends AbstractController {
                 tradePrecreateMsg.setCode(resultJson.getInteger("code"));
                 tradePrecreateMsg.setOrderId(aliOrderEntity.getOrderId());
                 tradePrecreateMsg.setMsg(resultJson.getString("msg"));
+                tradePrecreateMsgService.save(tradePrecreateMsg);
             });
             if (resultJson.getInteger("code") != 10000){
                 return R.error().put("sub_code",resultJson.getString("sub_code")).put("sub_msg",resultJson.getString("sub_msg"));
@@ -127,8 +138,64 @@ public class AliPayController extends AbstractController {
     }
 
     @RequestMapping(value = "AliNotify" , method = RequestMethod.POST)
-    public void NotifyController(){
+    public String  NotifyController(HttpServletRequest request){
         //用户支付后 接受支付宝回调 处理业务逻辑 通知下游商户
+        Map<String, String> params = AliUtils.convertRequestParamsToMap(request); // 将异步通知中收到的待验证所有参数都存放到map中
+        String paramsJson = JSON.toJSONString(params);
+        logger.info("支付宝回调，{}", paramsJson);
+        try {
+            boolean signVerified = AlipaySignature.rsaCheckV1(params, AlipayConfig.alipay_public_key,
+                    AlipayConfig.input_charset_utf8 , AlipayConfig.sign_type_RSA2);
+            if (signVerified){
+                logger.info("支付宝回调签名认证成功");
+                this.check(params);//验证业务参数
+                //异步处理业务数据
+                return "success";
+            }else {
+                logger.info("支付宝回调签名认证失败，signVerified=false, paramsJson:{}", paramsJson);
+                return "failure";
+            }
+        }catch (AlipayApiException e){
+            logger.error("支付宝回调签名认证失败,paramsJson:{},errorMsg:{}", paramsJson, e.getMessage());
+            return "failure";
+        }
+    }
+
+
+    /**
+     * 1、商户需要验证该通知数据中的out_trade_no是否为商户系统中创建的订单号，
+     * 2、判断total_amount是否确实为该订单的实际金额（即商户订单创建时的金额），
+     * 3、校验通知中的seller_id（或者seller_email)是否为out_trade_no这笔单据的对应的操作方（有的时候，一个商户可能有多个seller_id/seller_email），
+     * 4、验证app_id是否为该商户本身。上述1、2、3、4有任何一个验证不通过，则表明本次通知是异常通知，务必忽略。
+     * 在上述验证通过后商户必须根据支付宝不同类型的业务通知，正确的进行不同的业务处理，并且过滤重复的通知结果数据。
+     * 在支付宝的业务通知中，只有交易通知状态为TRADE_SUCCESS或TRADE_FINISHED时，支付宝才会认定为买家付款成功。
+     *
+     * @param params
+     * @throws AlipayApiException
+     */
+    private void check(Map<String, String> params) throws AlipayApiException {
+        String outTradeNo = params.get("out_trade_no");
+
+        // 1、商户需要验证该通知数据中的out_trade_no是否为商户系统中创建的订单号，
+        // TODO: 2018/9/19 根据out_trade_no查询订单是否存在
+        TradeOrder order = new TradeOrder();
+        if (order == null) {
+            throw new AlipayApiException("out_trade_no错误");
+        }
+
+        // 2、判断total_amount是否确实为该订单的实际金额（即商户订单创建时的金额），
+        long total_amount = new BigDecimal(params.get("total_amount")).multiply(new BigDecimal(100)).longValue();
+        if (total_amount != order.getOrderAmount().longValue()) {
+            throw new AlipayApiException("error total_amount");
+        }
+
+        // 3、校验通知中的seller_id（或者seller_email)是否为out_trade_no这笔单据的对应的操作方（有的时候，一个商户可能有多个seller_id/seller_email），
+        // 第三步可根据实际情况省略
+
+        // 4、验证app_id是否为该商户本身。
+        if (!params.get("app_id").equals(AlipayConfig.app_id)) {
+            throw new AlipayApiException("app_id不一致");
+        }
     }
 
 }

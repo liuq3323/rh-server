@@ -1,22 +1,20 @@
 package com.ntnikka.modules.merchantManager.controller;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
+import com.ntnikka.modules.merchantManager.entity.MerchantDept;
 import com.ntnikka.modules.merchantManager.entity.MerchantEntity;
+import com.ntnikka.modules.merchantManager.service.MerchantDeptService;
 import com.ntnikka.modules.merchantManager.service.MerchantService;
 import com.ntnikka.modules.pay.aliPay.utils.MD5Utils;
 import com.ntnikka.utils.PageUtils;
 import com.ntnikka.utils.R;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
 
 
 /**
@@ -32,6 +30,9 @@ public class MerchantController {
 
     @Autowired
     private MerchantService merchantService;
+
+    @Autowired
+    private MerchantDeptService merchantDeptService;
 
     /**
      * 列表
@@ -53,13 +54,28 @@ public class MerchantController {
         return R.ok().put("merchant", merchant);
     }
 
+    @RequestMapping(value = "/tradestatus" , method = RequestMethod.POST)
+    public R updateTradeStatus(@RequestBody Map params){
+        int tradeStatus = 0 ; //默认开启
+        if ( Integer.parseInt(params.get("tradeStatus").toString()) == 0){//关闭
+            tradeStatus = 1;
+        }
+        Long id = Long.parseLong(params.get("merchantId").toString());
+        Map<String , Object> paramMap = new HashMap();
+        paramMap.put("merchantId" , id);
+        paramMap.put("tradeStatus" , tradeStatus);
+        merchantService.updateTradeStatus(paramMap);
+        return R.ok();
+    }
+
     /**
      * 保存
      */
     @RequestMapping("/save")
+    @Transactional
     public R save(@RequestBody MerchantEntity merchant){
         merchant.setMerchantKey(MD5Utils.creatMerchantKey(merchant));
-        merchantService.insert(merchant);
+        merchantService.save(merchant);
         return R.ok();
     }
 
