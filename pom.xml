@@ -12,6 +12,7 @@
     <modules>
         <module>rh-admin</module>
         <module>rh-common</module>
+        <module>pay</module>
     </modules>
 
 
