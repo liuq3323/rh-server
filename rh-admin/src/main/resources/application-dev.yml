@@ -4,13 +4,13 @@ spring:
         driverClassName: com.mysql.jdbc.Driver
         druid:
             first:  #数据源1 epframe_init为MyApply数据源
-                url: jdbc:mysql://123.206.133.175:3306/renren_fastplus?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
+                url: jdbc:mysql://47.92.241.14:3306/backend?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
                 username: root
-                password: mysql66677
+                password: Lq-332384114
             second:  #数据源2
-                url: jdbc:mysql://123.206.133.175:3306/renren_fastplus?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
+                url: jdbc:mysql://47.92.241.14:3306/backend?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
                 username: root
-                password: mysql66677
+                password: Lq-332384114
             initial-size: 10
             max-active: 100
             min-idle: 10

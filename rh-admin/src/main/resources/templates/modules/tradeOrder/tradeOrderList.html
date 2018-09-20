@@ -9,22 +9,22 @@
 <div id="rrapp" v-cloak>
     <div v-show="showList">
         <div class="grid-btn">
-            <div class="form-group col-sm-2">
+            <div class="form-group col-sm-4">
                 <input class="form-control" type="text" id="starttime"  style="width:100%"  value="" placeholder="开始时间">
             </div>
-            <div class="form-group col-sm-2">
+            <div class="form-group col-sm-4">
                 <input class="form-control" type="text" id="endtime"  style="width:100%"  value="" placeholder="结束时间">
             </div>
-            <div class="form-group col-sm-2">
+            <div class="form-group col-sm-4">
                 <input type="text" class="form-control" id="tradeid"  placeholder="系统订单号">
             </div>
-            <div class="form-group col-sm-2">
+            <div class="form-group col-sm-4">
                 <input type="text" class="form-control"  id="orderid" placeholder="商户订单号">
             </div>
-            <div class="form-group col-sm-2">
+            <div class="form-group col-sm-4">
             <input class="form-control" id="merchantid" type="text" style="height: 31px"  placeholder="商户ID">
             </div>
-            <div class="form-group col-sm-2">
+            <div class="form-group col-sm-4">
                 <select class="form-control" name="status" id="status"  style="width: 110px;height: 32px;padding: 6px 12px;" placeholder="订单状态">
                     <option value="" selected>所有</option>
                     <option value="0" >支付中</option>
@@ -32,7 +32,7 @@
                     <option value="2" >失败</option>
                 </select>
             </div>
-            <div class="form-group col-sm-2">
+            <div class="form-group col-sm-4">
                 <!--<div class="control-label">所属部门</div>-->
                 <div class="col-sm-10">
                     <input type="text" id="merchantName" class="form-control" style="cursor:pointer;" @click="deptTree" readonly="readonly" placeholder="所属部门"/>
@@ -51,7 +51,7 @@
             <!--<a class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>-->
             <!--</#if>-->
         </div>
-        <table id="jqGrid"></table>
+        <table class="jqGridTable" id="jqGrid"></table>
         <div id="jqGridPager"></div>
     </div>
 </div>
