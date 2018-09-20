@@ -9,7 +9,7 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>rh-common</artifactId>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 
 	<name>rh-common</name>
 	<description>Common project for Spring Boot</description>
