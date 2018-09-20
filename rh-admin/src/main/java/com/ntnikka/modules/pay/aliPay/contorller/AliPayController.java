@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.internal.util.AlipaySignature;
+import com.ntnikka.common.Enum.AlipayTradeStatus;
 import com.ntnikka.common.Enum.PayTypeEnum;
 import com.ntnikka.common.utils.AliPayRequest;
 import com.ntnikka.modules.orderManager.entity.TradeOrder;
@@ -150,9 +151,23 @@ public class AliPayController extends AbstractController {
                 logger.info("支付宝回调签名认证成功");
                 this.check(params);//验证业务参数
                 //异步处理业务数据
+                runAsync(() -> {
+                    Long tradeId = Long.parseLong(params.get("out_trade_no"));
+                    String tradeStatus = params.get("trade_status");
+                    if (tradeStatus.equals(AlipayTradeStatus.TRADE_SUCCESS.getStatus())
+                            || tradeStatus.equals(AlipayTradeStatus.TRADE_FINISHED.getStatus())) {//支付完成 支付成功 处理订单状态 通知商户
+                            aliOrderService.updateTradeOrder(tradeId);
+                    }else if (tradeStatus.equals(AlipayTradeStatus.TRADE_CLOSED.getStatus())){
+                            aliOrderService.updateTradeStatusClosed(tradeId);
+                    }else {
+                        logger.error("没有处理支付宝回调业务，支付宝交易状态:", tradeStatus);
+                    }
+                    //通知下游商户
+                    // TODO: 2018/9/20  
+                });
                 return "success";
             }else {
-                logger.info("支付宝回调签名认证失败，signVerified=false, paramsJson:{}", paramsJson);
+                logger.error("支付宝回调签名认证失败，signVerified=false, paramsJson:{}", paramsJson);
                 return "failure";
             }
         }catch (AlipayApiException e){
@@ -178,7 +193,7 @@ public class AliPayController extends AbstractController {
 
         // 1、商户需要验证该通知数据中的out_trade_no是否为商户系统中创建的订单号，
         // TODO: 2018/9/19 根据out_trade_no查询订单是否存在
-        TradeOrder order = new TradeOrder();
+        AliOrderEntity order = aliOrderService.queryTradeId(Long.parseLong(outTradeNo));
         if (order == null) {
             throw new AlipayApiException("out_trade_no错误");
         }
@@ -197,5 +212,7 @@ public class AliPayController extends AbstractController {
             throw new AlipayApiException("app_id不一致");
         }
     }
+
+
 
 }

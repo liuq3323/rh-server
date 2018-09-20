@@ -13,4 +13,10 @@ public interface AliOrderDao extends BaseMapper<AliOrderEntity>{
     int checkRepeatId(Long orderId);
 
     void saveTradePrecreateMsg(TradePrecreateMsg tradePrecreateMsg);
+
+    AliOrderEntity queryByTradeId(Long orderId);
+
+    void updateTradeStatus(Long orderId);
+
+    void updateTradeStatusClosed(Long orderId);
 }

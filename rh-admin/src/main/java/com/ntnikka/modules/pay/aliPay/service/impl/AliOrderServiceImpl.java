@@ -29,4 +29,18 @@ public class AliOrderServiceImpl extends ServiceImpl<AliOrderDao , AliOrderEntit
         return aliOrderDao.checkRepeatId(orderId);
     }
 
+    @Override
+    public AliOrderEntity queryTradeId(Long orderId) {
+        return aliOrderDao.queryByTradeId(orderId);
+    }
+
+    @Override
+    public void updateTradeOrder(Long orderId) {
+        aliOrderDao.updateTradeStatus(orderId);
+    }
+
+    @Override
+    public void updateTradeStatusClosed(Long orderId) {
+        aliOrderDao.updateTradeStatusClosed(orderId);
+    }
 }
