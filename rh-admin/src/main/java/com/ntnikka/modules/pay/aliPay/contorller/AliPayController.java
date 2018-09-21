@@ -8,6 +8,7 @@ import com.alipay.api.internal.util.AlipaySignature;
 import com.ntnikka.common.Enum.AlipayTradeStatus;
 import com.ntnikka.common.Enum.PayTypeEnum;
 import com.ntnikka.common.utils.AliPayRequest;
+import com.ntnikka.common.utils.HttpClientUtil;
 import com.ntnikka.modules.orderManager.entity.TradeOrder;
 import com.ntnikka.modules.pay.aliPay.config.AlipayConfig;
 import com.ntnikka.modules.pay.aliPay.entity.AliOrderEntity;
@@ -118,15 +119,15 @@ public class AliPayController extends AbstractController {
     @RequestMapping(value = "/QrCodeTest" , method = RequestMethod.POST)
     public R QcCodeTestController(){
         try {
-            String result = AliPayRequest.doQrCodeAliRequest(201809170952L , 1.0 , "MECHREVO");
+            String result = AliPayRequest.doQrCodeAliRequest(20180917095254L , 1.0 , "MECHREVO");
             JSONObject resultJson = JSON.parseObject(result).getJSONObject("alipay_trade_precreate_response");
-            runAsync(() -> {//异步保存
-                TradePrecreateMsg tradePrecreateMsg = new TradePrecreateMsg();
-                tradePrecreateMsg.setCode(resultJson.getInteger("code"));
-                tradePrecreateMsg.setOrderId(201809170115L);
-                tradePrecreateMsg.setMsg(resultJson.getString("msg"));
-                tradePrecreateMsgService.save(tradePrecreateMsg);
-            });
+//            runAsync(() -> {//异步保存
+////                TradePrecreateMsg tradePrecreateMsg = new TradePrecreateMsg();
+////                tradePrecreateMsg.setCode(resultJson.getInteger("code"));
+////                tradePrecreateMsg.setOrderId(201809170115L);
+////                tradePrecreateMsg.setMsg(resultJson.getString("msg"));
+////                tradePrecreateMsgService.save(tradePrecreateMsg);
+////            });
             String imgStr = ImageToBase64Util.createQRCode(resultJson.getString("qr_code"));
             Map resultMap = new HashMap();
             resultMap.put("out_trade_no",resultJson.getString("out_trade_no"));
@@ -163,7 +164,7 @@ public class AliPayController extends AbstractController {
                         logger.error("没有处理支付宝回调业务，支付宝交易状态:", tradeStatus);
                     }
                     //通知下游商户
-                    // TODO: 2018/9/20  
+                    // TODO: 2018/9/21
                 });
                 return "success";
             }else {
@@ -213,6 +214,28 @@ public class AliPayController extends AbstractController {
         }
     }
 
+    @RequestMapping(value = "pageTest" , method = RequestMethod.POST)
+    public R payTest(){
+        runAsync(() -> {
+            String url = "http://localhost/api/v1/notify";
+            Map<String , String> params = new HashMap<>();
+            params.put("out_trade_no" , "12115448574");
+            params.put("trade_status" , AlipayTradeStatus.TRADE_SUCCESS.getStatus());
+            params.put("totalAmount" , "1");
+            String rreturnStr = HttpClientUtil.doPost(url, params);
+            if (rreturnStr.equals("success")){
+                logger.info("通知商户成功，修改通知状态");
+            }else{
+                logger.error("通知商户失败");
+            }
+        });
+        return R.ok().put("data" , "test Ok !!!!!!!!!");
+    }
 
+    @RequestMapping(value = "notify" , method = RequestMethod.POST)
+    public String testNotify(HttpServletRequest request){
+        logger.info("进入模拟商户回调:{}", request);
+        return "success";
+    }
 
 }

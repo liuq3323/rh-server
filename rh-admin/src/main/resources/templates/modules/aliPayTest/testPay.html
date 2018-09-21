@@ -5,15 +5,54 @@
     <title>Title</title>
     <#include "/header.html">
 </head>
-<body onload="load()">
+<body onload="ld();">
 <!--<form action="/api/v1/PagePayTest" method="GET">-->
     <!--<button type="submit">提交</button>-->
 <!--</form>-->
+<form class="form-horizontal">
+    <div class="form-group">
+        <div class="col-sm-2 control-label">用户密钥</div>
+        <div class="col-sm-10">
+            <input type="text" id="priKey" class="form-control" placeholder="用户密钥"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-2 control-label">商户订单号</div>
+        <div class="col-sm-10">
+            <input type="text" id="orderId" class="form-control" placeholder="商户订单号"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-2 control-label">订单描述</div>
+        <div class="col-sm-10">
+            <input type="text" id="productDesc" class="form-control" placeholder="订单描述"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-2 control-label">支付金额</div>
+        <div class="col-sm-10">
+            <input type="text" id="totalAmount" class="form-control" placeholder="支付金额"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-2 control-label">支付方式</div>
+        <label class="radio-inline">
+            <input type="radio" name="status" value="Wap" /> 手机wap支付
+        </label>
+        <label class="radio-inline">
+            <input type="radio" name="status" value="QrCode" checked/> 二维码支付
+        </label>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-2 control-label"></div>
+        <input type="button" class="btn btn-primary" onclick="submitFrom();" value="确定"/>
+    </div>
+</form>
 <div>
     <img id="qrCode">
 </div>
 <script>
-    function load() {
+    function ld() {
         $.ajax({
             url : baseURL + "/api/v1/QrCodeTest" ,
             type: 'post',
@@ -25,11 +64,53 @@
             dataType: 'json', //返回值类型一般设置为json
             success: function (data, status)  //服务器成功响应处理函数
             {
-                debugger
                 if (status == "success") {
                     $("#qrCode").attr('src', data.qr_code);
                 } else {
-                    alert("上传失败");
+                    alert(data.msg);
+                }
+            }
+        })
+    }
+</script>
+<script>
+    function submitFrom() {
+        var priKey = $("#priKey").val();
+        if (priKey.trim() == "" || priKey.trim() == null ) {
+            alert("商户密钥不能为空!")
+            return false;
+        }
+        var orderId = $("#orderId").val();
+        if(orderId.trim() == "" || orderId.trim() == null){
+            alert("订单流水号不能为空!")
+            return false;
+        }
+        var productDesc = $("#productDesc").val();
+        if(productDesc.trim() == "" || productDesc.trim() == null){
+            alert("商品描述不能为空!")
+            return false;
+        }
+        var totalAmount = $("#totalAmount").val();
+        if(totalAmount.trim() == "" || totalAmount.trim() == null){
+            alert("商品金额不能为空!")
+            return false;
+        }
+        $("input[name='status']:checked").val();
+        $.ajax({
+            url : baseURL + "/api/v1/pageTest" ,
+            type: 'post',
+            data: {
+                "orderId": 201809170954,
+                "orderAmount" : 1.0,
+                "productName" : "小酱油"
+            },//一同上传的数据
+            dataType: 'json', //返回值类型一般设置为json
+            success: function (data, status)  //服务器成功响应处理函数
+            {
+                if (status == "success") {
+                    $("#qrCode").attr('src', data.qr_code);
+                } else {
+                    alert(data.msg);
                 }
             }
         })

@@ -7,7 +7,7 @@ package com.ntnikka.common.Enum;
  * @Date 2018/9/20 9:39
  **/
 public enum AlipayTradeStatus {
-    TRADE_SUCCESS(0,"TRADE_FINISHED"),TRADE_FINISHED(1 , "TRADE_SUCCESS"),TRADE_CLOSED(2,"TRADE_CLOSED");
+    TRADE_SUCCESS(0,"TRADE_SUCCESS"),TRADE_FINISHED(1 , "TRADE_FINISHED"),TRADE_CLOSED(2,"TRADE_CLOSED");
     private int code;
     private String status;
 
