@@ -27,4 +27,9 @@
         where id = #{merchantId}
     </update>
 
+    <select id="findByPriKey" parameterType="java.lang.String" resultType="com.ntnikka.modules.merchantManager.entity.MerchantEntity">
+        SELECT * from merchant where
+        merchant_key = #{priKey}
+    </select>
+
 </mapper>

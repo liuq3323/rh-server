@@ -16,4 +16,6 @@ import java.util.Map;
 @Repository
 public interface MerchantDao extends BaseMapper<MerchantEntity> {
     void updateTradeStatus(Map<String, Object> params);
+
+    MerchantEntity findByPriKey(String priKey);
 }

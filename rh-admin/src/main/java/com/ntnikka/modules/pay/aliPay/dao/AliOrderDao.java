@@ -19,4 +19,6 @@ public interface AliOrderDao extends BaseMapper<AliOrderEntity>{
     void updateTradeStatus(Long orderId);
 
     void updateTradeStatusClosed(Long orderId);
+
+    void updateNotifyStatus(Long orderId);
 }

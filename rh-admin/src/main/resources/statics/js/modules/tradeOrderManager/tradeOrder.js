@@ -11,9 +11,31 @@ $(function () {
             { label: '序号', name: 'id', index: 'id', width: 20 },
             { label: '订单号', name: 'orderId', index: 'orderId', width: 50 },
             { label: '订单金额', name: 'orderAmount', index: 'orderAmount', width: 70 },
-            { label: '订单状态', name: 'status', index: 'status', width: 30 },
-            { label: '通知状态', name: 'notifyStatus', index: 'notifyStatus', width: 30 },
-            { label: '支付方式', name: 'payType', index: 'payType', width: 80 },
+            { label: '订单状态', name: 'status', index: 'status', width: 30  ,
+                formatter: function(value, options, row){
+                    if (value === 0 ){
+                        return '<span class="label label-danger">处理中</span>' ;
+                    }else if(value === 1 ){
+                        return '<span class="label label-success">交易成功</span>';
+                    }else {
+                        return '<span class="label label-success">交易失败</span>';
+                    }
+
+                }},
+            { label: '通知状态', name: 'notifyStatus', index: 'notifyStatus', width: 30 ,
+                formatter: function(value, options, row){
+                    return value === 0 ?
+                        '<span class="label label-danger">未通知</span>' :
+                        '<span class="label label-success">已通知</span>';
+                }},
+            { label: '支付方式', name: 'payType', index: 'payType', width: 80 ,
+                formatter: function(value, options, row){
+                    if(value === "QrCode")  {
+                        return  '<span>二维码支付</span>' ;
+                    }else {
+                        return '<span>WAP支付</span>';
+                    }
+                }},
             // { label: '创建时间', name: 'createTime', index: 'createTime', width: 80 },
             { label: '订单生成日期',
                 name: 'createTime',

@@ -17,4 +17,19 @@ public class SignUtil {
             return true;
         return false;
     }
+
+    public static String doubleTrans(double d){
+        if(Math.round(d)-d==0){
+            return String.valueOf((long)d);
+        }
+        return String.valueOf(d);
+    }
+
+    public static void main(String[] args) {
+        String total_amount = "2.00";
+        Double amount = 2D;
+        System.out.println(Double.parseDouble(total_amount));
+        System.out.println(doubleTrans(amount));
+        System.out.println(amount == Double.parseDouble(total_amount));
+    }
 }

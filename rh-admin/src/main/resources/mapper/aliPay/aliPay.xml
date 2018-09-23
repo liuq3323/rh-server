@@ -25,4 +25,10 @@
 		status = 2
 		where  order_id = #{orderId}
 	</update>
+
+	<update id="updateNotifyStatus" parameterType="java.lang.Long">
+		update trade_order set
+		notify_status = 1
+		where  order_id = #{orderId}
+	</update>
 </mapper>

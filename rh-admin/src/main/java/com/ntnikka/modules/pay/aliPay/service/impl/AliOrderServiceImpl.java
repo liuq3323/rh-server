@@ -43,4 +43,8 @@ public class AliOrderServiceImpl extends ServiceImpl<AliOrderDao , AliOrderEntit
     public void updateTradeStatusClosed(Long orderId) {
         aliOrderDao.updateTradeStatusClosed(orderId);
     }
+
+    public void updateNotifyStatus(Long orderId){
+        aliOrderDao.updateNotifyStatus(orderId);
+    }
 }

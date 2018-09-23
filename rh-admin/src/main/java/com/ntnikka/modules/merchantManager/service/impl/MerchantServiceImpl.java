@@ -1,5 +1,9 @@
 package com.ntnikka.modules.merchantManager.service.impl;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.mapper.Wrapper;
+import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.ntnikka.common.utils.EmptyUtil;
 import com.ntnikka.common.utils.Query;
 import com.ntnikka.modules.merchantManager.dao.MerchantDao;
@@ -10,11 +14,9 @@ import com.ntnikka.modules.merchantManager.service.MerchantService;
 import com.ntnikka.utils.PageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.Map;
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.plugins.Page;
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Map;
 
 
 @Service("merchantService")
@@ -53,5 +55,9 @@ public class MerchantServiceImpl extends ServiceImpl<MerchantDao, MerchantEntity
         merchantDept.setDelFlag(0);
         merchantDept.setMerchantId(merchantEntity.getId());
         merchantDeptService.insert(merchantDept);
+    }
+    @Override
+    public MerchantEntity findByPriKey(String priKey){
+        return merchantDao.findByPriKey(priKey);
     }
 }
