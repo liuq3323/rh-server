@@ -59,7 +59,8 @@ $(function () {
             root: "page.list",
             page: "page.currPage",
             total: "page.totalPage",
-            records: "page.totalCount"
+            records: "page.totalCount",
+            userdata: "countDate"
         },
         prmNames : {
             page:"page",

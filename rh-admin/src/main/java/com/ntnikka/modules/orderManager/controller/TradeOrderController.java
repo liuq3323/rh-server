@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -32,8 +33,12 @@ public class TradeOrderController extends AbstractController {
     public R queryOrderList(@RequestParam Map<String, Object> params){
         System.out.println("params = [" + params + "]");
         PageUtils page = tradeOrderService.queryPage(params);
-        List orderList = page.getList().stream().collect(Collectors.toList());
-        return R.ok().put("page", page);
+        Map<String , Object> map = new HashMap<>();
+        map.put("totalCount" , 100);
+        map.put("totalSuccessCount" , 65);
+        map.put("totalAmount" , 500000);
+        map.put("totalSuccessAmount" , 320000);
+        return R.ok().put("page", page).put("countDate",map);
     }
 
 }

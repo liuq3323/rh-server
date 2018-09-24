@@ -7,10 +7,7 @@ import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.request.*;
-import com.alipay.api.response.AlipayOpenAuthTokenAppQueryResponse;
-import com.alipay.api.response.AlipayOpenAuthTokenAppResponse;
-import com.alipay.api.response.AlipaySystemOauthTokenResponse;
-import com.alipay.api.response.AlipayTradePrecreateResponse;
+import com.alipay.api.response.*;
 import com.ntnikka.modules.pay.aliPay.config.AlipayConfig;
 import com.ntnikka.modules.pay.aliPay.contorller.AliPayController;
 import org.slf4j.Logger;
@@ -58,6 +55,23 @@ public class AliPayRequest {
         AlipayOpenAuthTokenAppResponse response = alipayClient.execute(request);
         logger.info("auth_token : {}" , response.getBody());
         return response.getBody();
+    }
+
+    public static String queryOrder(String appId , String privateKey , String aliPubKey) throws AlipayApiException{
+        AlipayClient alipayClient = new DefaultAlipayClient("https://openapi.alipay.com/gateway.do",appId,privateKey,"json",AlipayConfig.input_charset,aliPubKey,AlipayConfig.sign_type_RSA2);
+        AlipayTradeQueryRequest request = new AlipayTradeQueryRequest();
+        request.setBizContent("{" +
+                "\"out_trade_no\":\"20150320010101001\"," +
+                "\"trade_no\":\"2014112611001004680 073956707\"," +
+                "\"org_pid\":\"2088101117952222\"" +
+                "  }");
+        AlipayTradeQueryResponse response = alipayClient.execute(request);
+        if(response.isSuccess()){
+            System.out.println("调用成功");
+        } else {
+            System.out.println("调用失败");
+        }
+        return "";
     }
 
 

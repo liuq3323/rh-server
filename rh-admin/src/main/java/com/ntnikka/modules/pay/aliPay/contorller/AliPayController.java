@@ -100,6 +100,7 @@ public class AliPayController extends AbstractController {
                 tradePrecreateMsgService.save(tradePrecreateMsg);
             });
             if (resultJson.getInteger("code") != 10000){
+                aliOrderService.updateTradeStatusClosed(aliOrderEntity.getOrderId());
                 return R.error().put("sub_code",resultJson.getString("sub_code")).put("sub_msg",resultJson.getString("sub_msg"));
             }
             //4.调起支付宝下单接口 根据不同的payType处理不同下单方式
@@ -202,6 +203,15 @@ public class AliPayController extends AbstractController {
             return "failure";
         }
     }
+
+
+    public R queryOrderStatus(){
+
+
+
+        return R.ok();
+    }
+
 
 
     /**
