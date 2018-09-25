@@ -19,6 +19,7 @@ import com.ntnikka.modules.pay.aliPay.service.AliOrderService;
 import com.ntnikka.modules.pay.aliPay.service.TradePrecreateMsgService;
 import com.ntnikka.modules.pay.aliPay.utils.AliUtils;
 import com.ntnikka.modules.pay.aliPay.utils.ImageToBase64Util;
+import com.ntnikka.modules.pay.aliPay.utils.MD5Utils;
 import com.ntnikka.modules.pay.aliPay.utils.SignUtil;
 import com.ntnikka.modules.sys.controller.AbstractController;
 import com.ntnikka.utils.R;
@@ -179,7 +180,7 @@ public class AliPayController extends AbstractController {
                         // TODO: 2018/9/21
                         AliOrderEntity aliOrderEntity = aliOrderService.queryTradeId(tradeId);
                         //测试回调暂时写死 后面修改 aliOrderEntity.getNotifyUrl()
-                        String returnMsg = this.doNotify("http://369pay.net/api/v1/notify",aliOrderEntity.getOrderId().toString(),AlipayTradeStatus.TRADE_SUCCESS.getStatus(),aliOrderEntity.getOrderAmount().toString());
+                        String returnMsg = this.doNotify(aliOrderEntity.getNotifyUrl(),aliOrderEntity.getOrderId().toString(),AlipayTradeStatus.TRADE_SUCCESS.getStatus(),aliOrderEntity.getOrderAmount().toString(),aliOrderEntity.getPartner());
                         if (returnMsg.equals("success")){
                             logger.info("通知商户成功，修改通知状态");
                             aliOrderService.updateNotifyStatus(tradeId);
@@ -291,11 +292,14 @@ public class AliPayController extends AbstractController {
         return R.ok();
     }
 
-    private String doNotify(String url , String out_trade_no , String trade_status , String total_amount){
+    private String doNotify(String url , String out_trade_no , String trade_status , String total_amount , String partner){
         Map<String , String> params = new HashMap<>();
         params.put("out_trade_no" , out_trade_no);
         params.put("trade_status" , trade_status);
         params.put("totalAmount" , total_amount);
+        String signStr = "orderAmount="+total_amount+"&orderId="+out_trade_no+"&partner="+partner;
+        String sign = MD5Utils.encode(signStr).toUpperCase();
+        params.put("sign",sign);
         return HttpClientUtil.doPost(url, params);
     }
 
