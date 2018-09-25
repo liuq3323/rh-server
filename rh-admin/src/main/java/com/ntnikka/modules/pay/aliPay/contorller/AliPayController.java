@@ -176,21 +176,7 @@ public class AliPayController extends AbstractController {
             if (signVerified){
                 logger.info("支付宝回调签名认证成功");
                 this.check(params);//验证业务参数
-                //验证有效 回调入库
-                AliNotifyEntity aliNotifyEntity = new AliNotifyEntity();
-                aliNotifyEntity.setOutTradeNo(params.get("out_trade_no"));
-                aliNotifyEntity.setTradeNo(params.get("trade_no"));
-                aliNotifyEntity.setAppId(params.get("app_id"));
-                aliNotifyEntity.setBuyerId(params.get("buyer_id"));
-                aliNotifyEntity.setTradeStatus(params.get("trade_status"));
-                aliNotifyEntity.setTotalAmount(new BigDecimal(params.get("total_amount")));
-                aliNotifyEntity.setReceiptAmount(new BigDecimal(params.get("receipt_amount")));
-                aliNotifyEntity.setBuyerPayAmount(new BigDecimal(params.get("buyer_pay_amount")));
-                aliNotifyEntity.setSubject(params.get("subject"));
-                aliNotifyEntity.setGmtCreate(DateUtil.string2Date(params.get("gmt_create")));
-                aliNotifyEntity.setCreatedAt(new Date());
-                aliNotifyEntity.setUpdatedAt(new Date());
-                aliNotifyService.save(aliNotifyEntity);
+                //验证有效
                 //异步处理业务数据
                 runAsync(() -> {
                     Long tradeId = Long.parseLong(params.get("out_trade_no"));
@@ -200,6 +186,21 @@ public class AliPayController extends AbstractController {
                         map.put("orderId" , tradeId);
                         map.put("tradeNo" , params.get("trade_no"));
                         aliOrderService.updateTradeOrder(map);
+                        //回调入库
+                        AliNotifyEntity aliNotifyEntity = new AliNotifyEntity();
+                        aliNotifyEntity.setOutTradeNo(params.get("out_trade_no"));
+                        aliNotifyEntity.setTradeNo(params.get("trade_no"));
+                        aliNotifyEntity.setAppId(params.get("app_id"));
+                        aliNotifyEntity.setBuyerId(params.get("buyer_id"));
+                        aliNotifyEntity.setTradeStatus(params.get("trade_status"));
+                        aliNotifyEntity.setTotalAmount(new BigDecimal(params.get("total_amount")));
+                        aliNotifyEntity.setReceiptAmount(new BigDecimal(params.get("receipt_amount")));
+                        aliNotifyEntity.setBuyerPayAmount(new BigDecimal(params.get("buyer_pay_amount")));
+                        aliNotifyEntity.setSubject(params.get("subject"));
+                        aliNotifyEntity.setGmtCreate(DateUtil.string2Date(params.get("gmt_create")));
+                        aliNotifyEntity.setCreatedAt(new Date());
+                        aliNotifyEntity.setUpdatedAt(new Date());
+                        aliNotifyService.save(aliNotifyEntity);
                         //通知下游商户
                         // TODO: 2018/9/21
                         AliOrderEntity aliOrderEntity = aliOrderService.queryTradeId(tradeId);
