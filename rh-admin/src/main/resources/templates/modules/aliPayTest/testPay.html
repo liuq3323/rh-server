@@ -126,7 +126,11 @@
             success: function (data, status)  //服务器成功响应处理函数
             {
                 if (status == "success") {
+                    if (payType == "QrCode"){
                     $("#qrCode").attr('src', data.qr_code);
+                    }else {
+                        window.location.href=data.qr_code;
+                    }
                 } else {
                     alert(data.msg);
                 }
