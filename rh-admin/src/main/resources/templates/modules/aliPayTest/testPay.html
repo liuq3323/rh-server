@@ -5,7 +5,7 @@
     <title>Title</title>
     <#include "/header.html">
 </head>
-<body onload="ld();">
+<body>
 <!--<form action="/api/v1/PagePayTest" method="GET">-->
     <!--<button type="submit">提交</button>-->
 <!--</form>-->
@@ -56,15 +56,18 @@
 </div>
 <script>
     function ld() {
+        var sign = hex_md5("orderId=2018092509050001&partner=9897629AB169CF59326301BFBA839FAE").toUpperCase();
+        var data = {
+            "orderId": 2018092509050001,
+            "partner" : "9897629AB169CF59326301BFBA839FAE",
+            "sign" : sign
+        };
         $.ajax({
-            url : baseURL + "/api/v1/QrCodeTest" ,
+            url : baseURL + "/api/v1/queryOrder" ,
             type: 'post',
-            data: {
-                "orderId": 201809170954,
-                "orderAmount" : 1.0,
-                "productName" : "小酱油"
-            },//一同上传的数据
+            data: JSON.stringify(data),//一同上传的数据
             dataType: 'json', //返回值类型一般设置为json
+            contentType:'application/json;charset=utf-8',
             success: function (data, status)  //服务器成功响应处理函数
             {
                 debugger;
@@ -125,7 +128,7 @@
             contentType:'application/json;charset=utf-8',
             success: function (data, status)  //服务器成功响应处理函数
             {
-                if (status == "success") {
+                if (data.code == 0) {
                     if (payType == "QrCode"){
                     $("#qrCode").attr('src', data.qr_code);
                     }else {

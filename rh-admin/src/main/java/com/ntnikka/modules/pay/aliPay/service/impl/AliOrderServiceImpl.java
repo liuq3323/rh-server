@@ -1,14 +1,13 @@
 package com.ntnikka.modules.pay.aliPay.service.impl;
 
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.ntnikka.modules.pay.aliPay.dao.AliOrderDao;
 import com.ntnikka.modules.pay.aliPay.entity.AliOrderEntity;
-import com.ntnikka.modules.pay.aliPay.entity.TradePrecreateMsg;
 import com.ntnikka.modules.pay.aliPay.service.AliOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by liuq on 2018/9/11.
@@ -46,5 +45,10 @@ public class AliOrderServiceImpl extends ServiceImpl<AliOrderDao , AliOrderEntit
 
     public void updateNotifyStatus(Long orderId){
         aliOrderDao.updateNotifyStatus(orderId);
+    }
+
+    @Override
+    public AliOrderEntity queryById(Long id) {
+        return this.selectOne(new EntityWrapper<AliOrderEntity>().eq("id" , id));
     }
 }

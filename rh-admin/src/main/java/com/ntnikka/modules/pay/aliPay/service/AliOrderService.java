@@ -19,4 +19,6 @@ public interface AliOrderService extends IService<AliOrderEntity> {
     void updateTradeStatusClosed(Long orderId);
 
     void updateNotifyStatus(Long orderId);
+
+    AliOrderEntity queryById(Long id);
 }

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.ntnikka.common.utils.EmptyUtil;
 import com.ntnikka.common.utils.Query;
+import com.ntnikka.modules.merchantManager.service.MerchantDeptService;
 import com.ntnikka.modules.orderManager.dao.TradeOrderDao;
 import com.ntnikka.modules.orderManager.entity.TradeOrder;
 import com.ntnikka.modules.orderManager.service.TradeOrderService;
@@ -13,6 +14,8 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,6 +30,9 @@ public class TradeOrderServiceImpl extends ServiceImpl<TradeOrderDao , TradeOrde
     @Autowired
     TradeOrderDao tradeOrderDao;
 
+    @Autowired
+    private MerchantDeptService merchantDeptService;
+
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         String tradeId = params.get("tradeid") == null ? "" : params.get("tradeid").toString();
@@ -35,12 +41,18 @@ public class TradeOrderServiceImpl extends ServiceImpl<TradeOrderDao , TradeOrde
         String status = params.get("status") == null ? "" : params.get("status").toString();
         String star =  params.get("starttime") == null ? "" : params.get("starttime").toString();
         String end =  params.get("endtime") == null ? "" : params.get("endtime").toString();
+        String merchantdept = params.get("merchantdept") == null ? "" : params.get("merchantdept").toString();
+        List<Long> idList = new ArrayList<>();
+        if (!merchantdept.isEmpty()){
+            idList = merchantDeptService.queryMerchantDeptIdList(Long.parseLong(merchantdept));
+        }
         Page<TradeOrder> page = this.selectPage(new Query<TradeOrder>(params).getPage() ,
                                                     new EntityWrapper<TradeOrder>()
                                                     .eq(EmptyUtil.isNotEmpty(tradeId) , "id" , tradeId)
                                                     .eq(EmptyUtil.isNotEmpty(orderId) , "order_id" , orderId)
                                                     .eq(EmptyUtil.isNotEmpty(merchantId),"merchant_id", merchantId)
                                                     .eq(EmptyUtil.isNotEmpty(status), "status", status)
+                                                    .in(EmptyUtil.isNotEmpty(idList) , "merchant_id" ,idList)
                                                     .ge(EmptyUtil.isNotEmpty(star), "create_time",star)
                                                     .le(EmptyUtil.isNotEmpty(end), "create_time",end));
          return new PageUtils(page);

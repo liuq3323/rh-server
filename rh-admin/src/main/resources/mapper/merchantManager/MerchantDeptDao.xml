@@ -7,4 +7,9 @@
 		select dept_id from merchant_dept where parent_id = #{value} and del_flag = 0
 	</select>
 
+	<select id="queryMerchantDeptIdList" resultType="long">
+		select merchant_id from merchant_dept
+		where parent_id = #{value}
+		and del_flag = 0
+	</select>
 </mapper>

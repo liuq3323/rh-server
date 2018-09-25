@@ -14,11 +14,11 @@ $(function () {
             { label: '订单状态', name: 'status', index: 'status', width: 30  ,
                 formatter: function(value, options, row){
                     if (value === 0 ){
-                        return '<span class="label label-danger">处理中</span>' ;
+                        return '<span class="label label-danger">处理中</span> <span class="label label-danger pointer" onclick="vm.queryOrderStatus(\''+value+'\',\''+row.id+'\');">查询</span>' ;
                     }else if(value === 1 ){
                         return '<span class="label label-success">交易成功</span>';
                     }else {
-                        return '<span class="label label-success">交易失败</span>';
+                        return '<span class="label label-danger">交易失败</span>';
                     }
 
                 }},
@@ -177,7 +177,7 @@ var vm = new Vue({
             }
             $.ajax({
                 type: "POST",
-                url: baseURL + "abd/refund",
+                url: baseURL + "queryOrderByAdmin",
                 contentType: "application/json",
                 data: JSON.stringify(id),
                 success: function(r){
@@ -279,6 +279,27 @@ var vm = new Vue({
                 }
             });
         },
+        queryOrderStatus : function(value , id){
+            console.log(value);
+            console.log(id);
+            var data = {"id" : id};
+            $.ajax({
+                type: "POST",
+                url: baseURL + "/api/v1/queryOrderByAdmin",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                success: function(r){
+                    debugger;
+                    if(r.code === 0){
+                        alert('操作成功', function(index){
+                            vm.reload();
+                        });
+                    }else{
+                        alert(r.msg);
+                    }
+                }
+            });
+        },
         reload: function (event) {
             vm.showList = true;
             $("#jqGrid").jqGrid('clearGridData');
@@ -289,7 +310,8 @@ var vm = new Vue({
                     'starttime' : $("#starttime").val(),
                     'endtime' : $("#endtime").val(),
                     'merchantid' : $("#merchantid").val(),
-                    'status' : $("#status").val()},
+                    'status' : $("#status").val() ,
+                    'merchantdept' : $("#merchantNum").val()},
                 page:page
             }).trigger("reloadGrid");
             vm.getDept();
@@ -303,7 +325,8 @@ var vm = new Vue({
                 'starttime' : $("#starttime").val(),
                 'endtime' : $("#endtime").val(),
                 'merchantid' : $("#merchantid").val(),
-                'status' : $("#status").val()
+                'status' : $("#status").val(),
+                'merchantdept' : $("#merchantNum").val()
                 },
                 page:page
             }).trigger("reloadGrid");

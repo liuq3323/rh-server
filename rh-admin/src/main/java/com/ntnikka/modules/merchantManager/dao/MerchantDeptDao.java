@@ -20,4 +20,6 @@ public interface MerchantDeptDao extends BaseMapper<MerchantDept> {
      * @param parentId  上级部门ID
      */
     List<Long> queryDetpIdList(Long parentId);
+
+    List<Long> queryMerchantDeptIdList(Long parentId);
 }

@@ -67,6 +67,16 @@ public class AliOrderEntity implements Serializable {
 
     private Date updateTime;
 
+    private Long merchantId;
+
+    public Long getMerchantId() {
+        return merchantId;
+    }
+
+    public void setMerchantId(Long merchantId) {
+        this.merchantId = merchantId;
+    }
+
     public Date getCreateTime() {
         return createTime;
     }

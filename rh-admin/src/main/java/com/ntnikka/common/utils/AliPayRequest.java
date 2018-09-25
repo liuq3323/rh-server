@@ -57,21 +57,19 @@ public class AliPayRequest {
         return response.getBody();
     }
 
-    public static String queryOrder(String appId , String privateKey , String aliPubKey) throws AlipayApiException{
+    public static String queryOrder(String appId , String privateKey , String aliPubKey , Long out_trade_no , String authCode) throws AlipayApiException{
         AlipayClient alipayClient = new DefaultAlipayClient("https://openapi.alipay.com/gateway.do",appId,privateKey,"json",AlipayConfig.input_charset,aliPubKey,AlipayConfig.sign_type_RSA2);
         AlipayTradeQueryRequest request = new AlipayTradeQueryRequest();
         request.setBizContent("{" +
-                "\"out_trade_no\":\"20150320010101001\"," +
-                "\"trade_no\":\"2014112611001004680 073956707\"," +
-                "\"org_pid\":\"2088101117952222\"" +
+                "\"out_trade_no\":\""+out_trade_no+"\"" +
                 "  }");
-        AlipayTradeQueryResponse response = alipayClient.execute(request);
+        AlipayTradeQueryResponse response = alipayClient.execute(request , "" , authCode);
         if(response.isSuccess()){
-            System.out.println("调用成功");
+            logger.info("查询订单状态成功 ：{}" , response.getBody());
         } else {
-            System.out.println("调用失败");
+            logger.info("查询订单状态失败 ：{}" , response.getBody());
         }
-        return "";
+        return response.getBody();
     }
 
 

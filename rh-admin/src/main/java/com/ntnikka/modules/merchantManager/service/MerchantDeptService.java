@@ -27,4 +27,11 @@ public interface MerchantDeptService extends IService<MerchantDept> {
      * 获取子部门ID，用于数据过滤
      */
     List<Long> getSubDeptIdList(Long deptId);
+
+    /**
+     * 查询子部门部门ID列表
+     * @param parentId
+     * @return
+     */
+    List<Long> queryMerchantDeptIdList(Long parentId);
 }
