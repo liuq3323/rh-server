@@ -13,15 +13,14 @@ import com.ntnikka.modules.merchantManager.entity.MerchantEntity;
 import com.ntnikka.modules.merchantManager.service.MerchantService;
 import com.ntnikka.modules.orderManager.entity.TradeOrder;
 import com.ntnikka.modules.pay.aliPay.config.AlipayConfig;
+import com.ntnikka.modules.pay.aliPay.entity.AliNotifyEntity;
 import com.ntnikka.modules.pay.aliPay.entity.AliOrderEntity;
 import com.ntnikka.modules.pay.aliPay.entity.TradePrecreateMsg;
 import com.ntnikka.modules.pay.aliPay.entity.TradeQueryParam;
+import com.ntnikka.modules.pay.aliPay.service.AliNotifyService;
 import com.ntnikka.modules.pay.aliPay.service.AliOrderService;
 import com.ntnikka.modules.pay.aliPay.service.TradePrecreateMsgService;
-import com.ntnikka.modules.pay.aliPay.utils.AliUtils;
-import com.ntnikka.modules.pay.aliPay.utils.ImageToBase64Util;
-import com.ntnikka.modules.pay.aliPay.utils.MD5Utils;
-import com.ntnikka.modules.pay.aliPay.utils.SignUtil;
+import com.ntnikka.modules.pay.aliPay.utils.*;
 import com.ntnikka.modules.sys.controller.AbstractController;
 import com.ntnikka.utils.R;
 import org.slf4j.Logger;
@@ -58,6 +57,8 @@ public class AliPayController extends AbstractController {
     private TradePrecreateMsgService tradePrecreateMsgService;
     @Autowired
     private MerchantService merchantService;
+    @Autowired
+    private AliNotifyService aliNotifyService;
 
     @RequestMapping(value = "/create" , method = RequestMethod.POST)
     public R testController(@RequestBody AliOrderEntity aliOrderEntity){
@@ -175,6 +176,21 @@ public class AliPayController extends AbstractController {
             if (signVerified){
                 logger.info("支付宝回调签名认证成功");
                 this.check(params);//验证业务参数
+                //验证有效 回调入库
+                AliNotifyEntity aliNotifyEntity = new AliNotifyEntity();
+                aliNotifyEntity.setOutTradeNo(params.get("out_trade_no"));
+                aliNotifyEntity.setTradeNo(params.get("trade_no"));
+                aliNotifyEntity.setAppId(params.get("app_id"));
+                aliNotifyEntity.setBuyerId(params.get("buyer_id"));
+                aliNotifyEntity.setTradeStatus(params.get("trade_status"));
+                aliNotifyEntity.setTotalAmount(new BigDecimal(params.get("total_amount")));
+                aliNotifyEntity.setReceiptAmount(new BigDecimal(params.get("receipt_amount")));
+                aliNotifyEntity.setBuyerPayAmount(new BigDecimal(params.get("buyer_pay_amount")));
+                aliNotifyEntity.setSubject(params.get("subject"));
+                aliNotifyEntity.setGmtCreate(DateUtil.string2Date(params.get("gmt_create")));
+                aliNotifyEntity.setCreatedAt(new Date());
+                aliNotifyEntity.setUpdatedAt(new Date());
+                aliNotifyService.save(aliNotifyEntity);
                 //异步处理业务数据
                 runAsync(() -> {
                     Long tradeId = Long.parseLong(params.get("out_trade_no"));
