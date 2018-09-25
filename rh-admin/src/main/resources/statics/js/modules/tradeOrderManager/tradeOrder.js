@@ -291,7 +291,7 @@ var vm = new Vue({
                 success: function(r){
                     debugger;
                     if(r.code === 0){
-                        alert('操作成功', function(index){
+                        alert(r.msg, function(index){
                             vm.reload();
                         });
                     }else{
