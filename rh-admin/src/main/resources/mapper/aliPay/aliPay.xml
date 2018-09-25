@@ -14,9 +14,9 @@
 		where order_id = #{orderId}
 	</select>
 
-	<update id="updateTradeStatus" parameterType="java.lang.Long">
+	<update id="updateTradeStatus" parameterType="map">
 		update trade_order set
-		status = 1
+		status = 1 , trade_no = #{tradeNo}
 		where  order_id = #{orderId}
 	</update>
 

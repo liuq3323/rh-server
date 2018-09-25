@@ -69,6 +69,16 @@ public class AliOrderEntity implements Serializable {
 
     private Long merchantId;
 
+    private String tradeNo;
+
+    public String getTradeNo() {
+        return tradeNo;
+    }
+
+    public void setTradeNo(String tradeNo) {
+        this.tradeNo = tradeNo;
+    }
+
     public Long getMerchantId() {
         return merchantId;
     }

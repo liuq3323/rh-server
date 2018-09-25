@@ -179,9 +179,11 @@ public class AliPayController extends AbstractController {
                 runAsync(() -> {
                     Long tradeId = Long.parseLong(params.get("out_trade_no"));
                     String tradeStatus = params.get("trade_status");
-                    if (tradeStatus.equals(AlipayTradeStatus.TRADE_SUCCESS.getStatus())
-                            || tradeStatus.equals(AlipayTradeStatus.TRADE_FINISHED.getStatus())) {//支付完成 支付成功 处理订单状态 通知商户
-                            aliOrderService.updateTradeOrder(tradeId);
+                    if (tradeStatus.equals(AlipayTradeStatus.TRADE_SUCCESS.getStatus()) || tradeStatus.equals(AlipayTradeStatus.TRADE_FINISHED.getStatus())) {//支付完成 支付成功 处理订单状态 通知商户
+                        Map<String , Object> map = new HashMap<>();
+                        map.put("orderId" , tradeId);
+                        map.put("tradeNo" , params.get("trade_no"));
+                        aliOrderService.updateTradeOrder(map);
                         //通知下游商户
                         // TODO: 2018/9/21
                         AliOrderEntity aliOrderEntity = aliOrderService.queryTradeId(tradeId);
@@ -244,13 +246,20 @@ public class AliPayController extends AbstractController {
         JSONObject resultJson = JSON.parseObject(returnStr).getJSONObject("alipay_trade_query_response");
         Integer code = resultJson.getInteger("code");
         if(code != 10000){
+            if (code == 40004){
+                return R.error(40004 , "用户支付中..");
+            }
             return R.error(40000 , resultJson.getString("msg"));
         }
         //交易状态成功 修改
         String trade_status = resultJson.getString("trade_status");
         String out_trade_no = resultJson.getString("out_trade_no");
         if (trade_status.equals(AlipayTradeStatus.TRADE_SUCCESS.getStatus()) || trade_status.equals(AlipayTradeStatus.TRADE_FINISHED.getStatus())){
-            aliOrderService.updateTradeOrder(tradeQueryParam.getOrderId());
+            Map<String , Object> map = new HashMap<>();
+            map.put("orderId" , tradeQueryParam.getOrderId());
+            map.put("tradeNo" , resultJson.get("trade_no"));
+            aliOrderService.updateTradeOrder(map);
+//            aliOrderService.updateTradeOrder(tradeQueryParam.getOrderId());
         }
         Map<String , Object> map = new HashMap<>();
         map.put("trade_status" , trade_status);
@@ -276,11 +285,18 @@ public class AliPayController extends AbstractController {
         JSONObject resultJson = JSON.parseObject(returnStr).getJSONObject("alipay_trade_query_response");
         Integer code = resultJson.getInteger("code");
         if(code != 10000){
+            if (code == 40004){
+                return R.error(40004 , "用户支付中..");
+            }
             return R.error(40000 , resultJson.getString("msg"));
         }
         String trade_status = resultJson.getString("trade_status");
         if (trade_status.equals(AlipayTradeStatus.TRADE_SUCCESS.getStatus()) || trade_status.equals(AlipayTradeStatus.TRADE_FINISHED.getStatus())){
-            aliOrderService.updateTradeOrder(aliOrderEntity.getOrderId());
+            Map<String , Object> paramMap = new HashMap<>();
+            paramMap.put("orderId" , aliOrderEntity.getOrderId());
+            paramMap.put("tradeNo" , resultJson.get("trade_no"));
+            aliOrderService.updateTradeOrder(paramMap);
+//          aliOrderService.updateTradeOrder(aliOrderEntity.getOrderId());
             //客服人员主动查询 若已支付成功则主动发送通知
             String returnMsg = this.doNotify(aliOrderEntity.getNotifyUrl(),aliOrderEntity.getOrderId().toString(),AlipayTradeStatus.TRADE_SUCCESS.getStatus(),aliOrderEntity.getOrderAmount().toString(),aliOrderEntity.getPartner());
             if (returnMsg.equals("success")){
@@ -289,12 +305,12 @@ public class AliPayController extends AbstractController {
             }else{
                 logger.error("通知商户失败");
             }
-            return R.ok().put("data","交易已成功");
+            return R.ok("已支付");
         }else if (trade_status.equals(AlipayTradeStatus.TRADE_CLOSED.getStatus())){
             aliOrderService.updateTradeStatusClosed(aliOrderEntity.getOrderId());
             return R.error(60000,"订单失败");
         }else {
-            return R.ok().put("data" ,"订单处理中");
+            return R.ok("用户支付中..");
         }
     }
 

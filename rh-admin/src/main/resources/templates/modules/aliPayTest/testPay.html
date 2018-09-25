@@ -132,7 +132,8 @@
                     if (payType == "QrCode"){
                     $("#qrCode").attr('src', data.qr_code);
                     }else {
-                        window.location.href=data.qr_code;
+                        window.open(data.qr_code, "_blank");
+                        //window.location.href=data.qr_code;
                     }
                 } else {
                     alert(data.msg);

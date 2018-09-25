@@ -32,7 +32,6 @@ public class MerchantDeptController extends AbstractController {
      * 列表
      */
     @RequestMapping("/list")
-    @RequiresPermissions("sys:dept:list")
     public List<MerchantDept> list(){
         List<MerchantDept> deptList = merchantDeptService.queryList(new HashMap<String, Object>());
 
@@ -43,7 +42,6 @@ public class MerchantDeptController extends AbstractController {
      * 选择部门(添加、修改菜单)
      */
     @RequestMapping("/select")
-    @RequiresPermissions("sys:dept:select")
     public R select(){
         List<MerchantDept> deptList = merchantDeptService.queryList(new HashMap<String, Object>());
 
@@ -64,7 +62,6 @@ public class MerchantDeptController extends AbstractController {
      * 上级部门Id(管理员则为0)
      */
     @RequestMapping("/info")
-    @RequiresPermissions("sys:dept:list")
     public R info(){
         long deptId = 0;
         if(getUserId() != Constant.SUPER_ADMIN){
@@ -90,7 +87,6 @@ public class MerchantDeptController extends AbstractController {
      * 信息
      */
     @RequestMapping("/info/{deptId}")
-    @RequiresPermissions("sys:dept:info")
     public R info(@PathVariable("deptId") Long deptId){
         MerchantDept dept = merchantDeptService.selectById(deptId);
 
@@ -101,7 +97,6 @@ public class MerchantDeptController extends AbstractController {
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("sys:dept:save")
     public R save(@RequestBody MerchantDept dept){
         merchantDeptService.insert(dept);
         return R.ok();
@@ -111,7 +106,6 @@ public class MerchantDeptController extends AbstractController {
      * 修改
      */
     @RequestMapping("/update")
-    @RequiresPermissions("sys:dept:update")
     public R update(@RequestBody MerchantDept dept){
         merchantDeptService.updateById(dept);
 
@@ -122,7 +116,6 @@ public class MerchantDeptController extends AbstractController {
      * 删除
      */
     @RequestMapping("/delete")
-    @RequiresPermissions("sys:dept:delete")
     public R delete(long deptId){
         //判断是否有子部门
         List<Long> deptList = merchantDeptService.queryDetpIdList(deptId);
