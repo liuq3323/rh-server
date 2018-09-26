@@ -13,7 +13,17 @@ public class TradeQueryParam implements Serializable {
 
     private String sign;
 
+    private Long merchantId;
+
     private String partner;
+
+    public Long getMerchantId() {
+        return merchantId;
+    }
+
+    public void setMerchantId(Long merchantId) {
+        this.merchantId = merchantId;
+    }
 
     public Long getOrderId() {
         return orderId;

@@ -22,5 +22,7 @@ public interface MerchantService extends IService<MerchantEntity> {
     void save(MerchantEntity merchantEntity);
 
     MerchantEntity findByPriKey(String priKey);
+
+    MerchantEntity queryById(Long merchantId);
 }
 

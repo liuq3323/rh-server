@@ -68,11 +68,16 @@ public class AliPayController extends AbstractController {
         if (!AliOrderEntity.checkParam(aliOrderEntity)){
             return R.error(403000 , "缺少参数");
         }
+        MerchantEntity merchant = merchantService.queryById(aliOrderEntity.getMerchantId());
+        if (merchant == null){
+            return  R.error(403001,"不存在的商户");
+        }
+        aliOrderEntity.setPartner(merchant.getMerchantKey());
         //2.校验签名
         String sign = aliOrderEntity.getSign();
-        String ParamStr = String.format("orderAmount=%s&orderId=%s&partner=%s&payMethod=%s&payType=%s&signType=%s&version=%s",SignUtil.doubleTrans(aliOrderEntity.getOrderAmount()),
-                aliOrderEntity.getOrderId(),aliOrderEntity.getPartner(),aliOrderEntity.getPayMethod(),aliOrderEntity.getPayType(),aliOrderEntity.getSignType(),
-                aliOrderEntity.getVersion());
+        String ParamStr = String.format("merchantId=%s&orderAmount=%s&orderId=%s&payMethod=%s&payType=%s&signType=%s&version=%s&priKey=%s",aliOrderEntity.getMerchantId(),SignUtil.doubleTrans(aliOrderEntity.getOrderAmount()),
+                aliOrderEntity.getOrderId(),aliOrderEntity.getPayMethod(),aliOrderEntity.getPayType(),aliOrderEntity.getSignType(),
+                aliOrderEntity.getVersion(), merchant.getMerchantKey());
         if (!SignUtil.checkSign(sign , ParamStr)){
             logger.error("验签失败, sign = {} , paramstr = {}" ,sign , ParamStr);
             return R.error(403013 , "验签失败");
@@ -97,7 +102,7 @@ public class AliPayController extends AbstractController {
         aliOrderService.save(aliOrderEntity);
         try {
             String result = AliPayRequest.doQrCodeAliRequest( aliOrderEntity.getOrderId() , aliOrderEntity.getOrderAmount() , aliOrderEntity.getProductName(),
-                                                                merchantEntity.getAppid().toString() , merchantEntity.getMerchantPriKey() , merchantEntity.getAliPubKey() , merchantEntity.getAuthCode());
+                                                                merchantEntity.getAppid().toString() , merchantEntity.getMerchantPriKey() , merchantEntity.getAliPubKey() , merchantEntity.getAuthCode() , merchantEntity.getPid().toString() , merchantEntity.getStoreNumber());
             JSONObject resultJson = JSON.parseObject(result).getJSONObject("alipay_trade_precreate_response");
             // TODO: 2018/9/14  请求支付宝预下单接口 最好异步保存返回信息
             runAsync(() -> {//异步保存
@@ -170,8 +175,18 @@ public class AliPayController extends AbstractController {
         String paramsJson = JSON.toJSONString(params);
         logger.info("支付宝回调，{}", paramsJson);
         logger.info("支付宝回调参数，{}" , request.getParameterMap());
+        // TODO: 2018/9/26 alipay_public_key 根据回调参数查询 非写死
+        Long tradeId = Long.parseLong(params.get("out_trade_no"));
+        AliOrderEntity aliOrderEntity = aliOrderService.queryTradeId(tradeId);
+        if (aliOrderEntity == null){//订单不存在
+            return "failure";
+        }
+        MerchantEntity merchantEntity = merchantService.findByPriKey(aliOrderEntity.getPartner());
+        if (merchantEntity == null){//商户不存在
+            return "failure";
+        }
         try {
-            boolean signVerified = AlipaySignature.rsaCheckV1(params, AlipayConfig.alipay_public_key,
+            boolean signVerified = AlipaySignature.rsaCheckV1(params, merchantEntity.getAliPubKey(),
                     AlipayConfig.input_charset_utf8 , AlipayConfig.sign_type_RSA2);
             if (signVerified){
                 logger.info("支付宝回调签名认证成功");
@@ -179,7 +194,7 @@ public class AliPayController extends AbstractController {
                 //验证有效
                 //异步处理业务数据
                 runAsync(() -> {
-                    Long tradeId = Long.parseLong(params.get("out_trade_no"));
+
                     String tradeStatus = params.get("trade_status");
                     if (tradeStatus.equals(AlipayTradeStatus.TRADE_SUCCESS.getStatus()) || tradeStatus.equals(AlipayTradeStatus.TRADE_FINISHED.getStatus())) {//支付完成 支付成功 处理订单状态 通知商户
                         Map<String , Object> map = new HashMap<>();
@@ -203,7 +218,6 @@ public class AliPayController extends AbstractController {
                         aliNotifyService.save(aliNotifyEntity);
                         //通知下游商户
                         // TODO: 2018/9/21
-                        AliOrderEntity aliOrderEntity = aliOrderService.queryTradeId(tradeId);
                         //测试回调暂时写死 后面修改 aliOrderEntity.getNotifyUrl()
                         String returnMsg = this.doNotify(aliOrderEntity.getNotifyUrl(),aliOrderEntity.getOrderId().toString(),AlipayTradeStatus.TRADE_SUCCESS.getStatus(),aliOrderEntity.getOrderAmount().toString(),aliOrderEntity.getPartner());
                         if (returnMsg.equals("success")){
@@ -241,8 +255,15 @@ public class AliPayController extends AbstractController {
 
         logger.info("进入queryOrder ------------------------------------------------------------------");
         //1.校验签名
+        MerchantEntity merchantEntity = merchantService.queryById(tradeQueryParam.getMerchantId());
+        if (merchantEntity == null){
+            return R.error(403015, "商户不存在");
+        }
+        if (merchantEntity.getTradeStatus() == 1){
+            return R.error(403016, "该商户已关闭交易权限，请联系客服人员");
+        }
         String sign = tradeQueryParam.getSign();
-        String checkSignStr = String.format("orderId=%s&partner=%s",tradeQueryParam.getOrderId(),tradeQueryParam.getPartner());
+        String checkSignStr = String.format("merchantId=%s&orderId=%s&priKey=%s",tradeQueryParam.getMerchantId(),tradeQueryParam.getOrderId(),merchantEntity.getMerchantKey());
         if (!SignUtil.checkSign(sign , checkSignStr)){
             logger.error("验签失败, sign = {} , paramstr = {}" ,sign , checkSignStr);
             return R.error(403013 , "验签失败");
@@ -250,13 +271,7 @@ public class AliPayController extends AbstractController {
         logger.info("验签通过--------------------------");
         //2.校验商户权限
         //校验商户时候有权限操作
-        MerchantEntity merchantEntity = merchantService.findByPriKey(tradeQueryParam.getPartner());
-        if (merchantEntity == null){
-            return R.error(403015, "商户不存在");
-        }
-        if (merchantEntity.getTradeStatus() == 1){
-            return R.error(403016, "该商户已关闭交易权限，请联系客服人员");
-        }
+
         //3.调用支付宝查询接口
         String returnStr = AliPayRequest.queryOrder(merchantEntity.getAppid().toString(),merchantEntity.getMerchantPriKey(),merchantEntity.getAliPubKey(),tradeQueryParam.getOrderId() , merchantEntity.getAuthCode());
         logger.info("支付宝返回msg : {}" , returnStr);
@@ -413,7 +428,7 @@ public class AliPayController extends AbstractController {
         params.put("out_trade_no" , out_trade_no);
         params.put("trade_status" , trade_status);
         params.put("totalAmount" , total_amount);
-        String signStr = "orderAmount="+total_amount+"&orderId="+out_trade_no+"&partner="+partner;
+        String signStr = "orderAmount="+total_amount+"&orderId="+out_trade_no+"&priKey="+partner;
         String sign = MD5Utils.encode(signStr).toUpperCase();
         params.put("sign",sign);
         return HttpClientUtil.doPost(url, params);

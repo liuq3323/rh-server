@@ -71,6 +71,7 @@ public class AliOrderEntity implements Serializable {
 
     private String tradeNo;
 
+
     public String getTradeNo() {
         return tradeNo;
     }
@@ -203,7 +204,7 @@ public class AliOrderEntity implements Serializable {
 
     public static boolean checkParam(AliOrderEntity aliOrderEntity){
         if (null == aliOrderEntity.getNotifyUrl() || null == aliOrderEntity.getOrderAmount() || null == aliOrderEntity.getOrderId()
-                || null == aliOrderEntity.getPartner() || null == aliOrderEntity.getPayType() || null == aliOrderEntity.getVersion()
+                || null == aliOrderEntity.getMerchantId() || null == aliOrderEntity.getPayType() || null == aliOrderEntity.getVersion()
                 || null == aliOrderEntity.getSign() || null == aliOrderEntity.getSignType() || null == aliOrderEntity.getProductName())
             return false;
         return true;

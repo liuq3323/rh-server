@@ -23,7 +23,7 @@ public class AliPayRequest {
     private static Logger logger = LoggerFactory.getLogger(AliPayRequest.class);
 
 
-    public static String  doQrCodeAliRequest(Long orderId ,Double orderAmount , String productName , String appId , String privateKey , String aliPubKey , String authToken)throws AlipayApiException{
+    public static String  doQrCodeAliRequest(Long orderId ,Double orderAmount , String productName , String appId , String privateKey , String aliPubKey , String authToken , String pid , String storeId)throws AlipayApiException{
         AlipayClient alipayClient = new DefaultAlipayClient("https://openapi.alipay.com/gateway.do", appId, privateKey, "json", AlipayConfig.input_charset, aliPubKey, AlipayConfig.sign_type_RSA2); //获得初始化的AlipayClient
         AlipayTradePrecreateRequest request = new AlipayTradePrecreateRequest();//创建API对应的request类
         request.setNotifyUrl("http://369pay.net/api/v1/AliNotify");
@@ -31,6 +31,7 @@ public class AliPayRequest {
                 "    \"out_trade_no\":\""+orderId+"\"," +
                 "    \"total_amount\":\""+orderAmount+"\"," +
                 "    \"subject\":\""+productName+"\"," +
+                "    \"store_id\":\""+storeId+"\"," +
                 "    \"timeout_express\":\"1c\"}");//该笔订单允许的最晚付款时间，逾期将关闭交易。取值范围：1m～15d。m-分钟，h-小时，d-天，1c-当天（1c-当天的情况下，无论交易何时创建，都在0点关闭）。 该参数数值不接受小数点， 如 1.5h，可转换为 90m
         //设置业务参数alipayClient.execute(precreateRequest, appAuthToken)
         AlipayTradePrecreateResponse response = alipayClient.execute(request ,"",authToken);

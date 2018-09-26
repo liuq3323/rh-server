@@ -14,19 +14,13 @@ $(function () {
             { label: '订单状态', name: 'status', index: 'status', width: 30  ,
                 formatter: function(value, options, row){
                     if (value === 0 ){
-                        return '<span class="label label-danger">处理中</span> <span class="label label-danger pointer" onclick="vm.queryOrderStatus(\''+value+'\',\''+row.id+'\');">查询</span>' ;
+                        return '<span class="label label-danger">下单未支付</span> <span class="label label-danger pointer" onclick="vm.queryOrderStatus(\''+value+'\',\''+row.id+'\');">查询</span>' ;
                     }else if(value === 1 ){
                         return '<span class="label label-success">交易成功</span>';
                     }else {
                         return '<span class="label label-danger">交易失败</span>';
                     }
 
-                }},
-            { label: '通知状态', name: 'notifyStatus', index: 'notifyStatus', width: 30 ,
-                formatter: function(value, options, row){
-                    return value === 0 ?
-                        '<span class="label label-danger">未通知</span>' :
-                        '<span class="label label-success">已通知</span>';
                 }},
             { label: '支付方式', name: 'payType', index: 'payType', width: 80 ,
                 formatter: function(value, options, row){
@@ -44,6 +38,12 @@ $(function () {
                 width: 80,
                 formatter: function (cellvalue, options, row) {
                     return new Date(cellvalue).toLocaleString()
+                }},
+            { label: '通知状态', name: 'notifyStatus', index: 'notifyStatus', width: 30 ,
+                formatter: function(value, options, row){
+                    return value === 0 ?
+                        '<span class="label label-danger">未通知</span>' :
+                        '<span class="label label-success">已通知</span>';
                 }}
         ],
         viewrecords: true,

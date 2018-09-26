@@ -60,4 +60,9 @@ public class MerchantServiceImpl extends ServiceImpl<MerchantDao, MerchantEntity
     public MerchantEntity findByPriKey(String priKey){
         return merchantDao.findByPriKey(priKey);
     }
+
+    @Override
+    public MerchantEntity queryById(Long merchantId) {
+        return merchantDao.findById(merchantId);
+    }
 }

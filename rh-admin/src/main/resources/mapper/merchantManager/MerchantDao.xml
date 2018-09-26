@@ -32,4 +32,8 @@
         merchant_key = #{priKey}
     </select>
 
+    <select id="findById" parameterType="java.lang.Long" resultType="com.ntnikka.modules.merchantManager.entity.MerchantEntity">
+        select * from merchant
+        where id = #{id}
+    </select>
 </mapper>
