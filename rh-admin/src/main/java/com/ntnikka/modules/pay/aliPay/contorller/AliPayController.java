@@ -109,7 +109,7 @@ public class AliPayController extends AbstractController {
             });
             if (resultJson.getInteger("code") != 10000){
                 aliOrderService.updateTradeStatusClosed(aliOrderEntity.getOrderId());
-                return R.error().put("sub_code",resultJson.getString("sub_code")).put("sub_msg",resultJson.getString("sub_msg"));
+                return R.error(403017,"下单失败").put("sub_code",resultJson.getString("sub_code")).put("sub_msg",resultJson.getString("sub_msg"));
             }
             //4.调起支付宝下单接口 根据不同的payType处理不同下单方式
             //wap支付
@@ -119,14 +119,14 @@ public class AliPayController extends AbstractController {
                 //预下单成功 返回预下单信息
                 resultMap.put("out_trade_no",resultJson.getString("out_trade_no"));
                 resultMap.put("qr_code",resultJson.getString("qr_code"));
-                return  R.ok(resultMap);
+                return  R.ok().put("data" , resultMap);
             }else {
                 //二维码支付
                 //返回处理过的图片base64码 前端页面直接用img标签的src接受
                 String imgStr = ImageToBase64Util.createQRCode(resultJson.getString("qr_code"));
                 resultMap.put("out_trade_no",resultJson.getString("out_trade_no"));
                 resultMap.put("qr_code",imgStr);
-                return  R.ok(resultMap);
+                return  R.ok().put("data" , resultMap);
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -281,7 +281,7 @@ public class AliPayController extends AbstractController {
         Map<String , Object> map = new HashMap<>();
         map.put("trade_status" , trade_status);
         map.put("orderId" , out_trade_no);
-        return R.ok(map);
+        return R.ok().put("data" , map);
     }
 
     @RequestMapping(value = "/queryOrderByAdmin")
