@@ -8,10 +8,11 @@ $(function () {
         type: 'post',
         colModel: [
             { label: '商户ID', name: 'merchantId', index: 'merchantId', width: 20 },
-            { label: '序号', name: 'id', index: 'id', width: 20 },
-            { label: '订单号', name: 'orderId', index: 'orderId', width: 50 },
-            { label: '订单金额', name: 'orderAmount', index: 'orderAmount', width: 70 },
-            { label: '订单状态', name: 'status', index: 'status', width: 30  ,
+            { label: '系统订单号', name: 'id', index: 'id', width: 20 },
+            { label: '商户订单号', name: 'orderId', index: 'orderId', width: 70 },
+            { label: '银行流水号', name: 'tradeNo', index: 'tradeNo', width: 70 },
+            { label: '订单金额', name: 'orderAmount', index: 'orderAmount', width: 30 },
+            { label: '订单状态', name: 'status', index: 'status', width: 50  ,
                 formatter: function(value, options, row){
                     if (value === 0 ){
                         return '<span class="label label-danger">下单未支付</span> <span class="label label-danger pointer" onclick="vm.queryOrderStatus(\''+value+'\',\''+row.id+'\');">查询</span>' ;
@@ -22,7 +23,7 @@ $(function () {
                     }
 
                 }},
-            { label: '支付方式', name: 'payType', index: 'payType', width: 80 ,
+            { label: '支付方式', name: 'payType', index: 'payType', width: 40 ,
                 formatter: function(value, options, row){
                     if(value === "QrCode")  {
                         return  '<span>二维码支付</span>' ;
@@ -31,14 +32,26 @@ $(function () {
                     }
                 }},
             // { label: '创建时间', name: 'createTime', index: 'createTime', width: 80 },
-            { label: '订单生成日期',
+            {
+                label: '订单生成日期',
                 name: 'createTime',
                 // sortorder: 'desc',
                 index: 'createTime',
-                width: 80,
-                formatter: function (cellvalue, options, row) {
-                    return new Date(cellvalue).toLocaleString()
-                }},
+                width: 50
+                // formatter: function (cellvalue, options, row) {
+                //     return new Date(cellvalue).toLocaleString()
+                // }},
+            },
+            {
+                label: '订单支付时间',
+                name: 'payTime',
+                // sortorder: 'desc',
+                index: 'payTime',
+                width: 50
+                // formatter: function (cellvalue, options, row) {
+                //     return new Date(cellvalue).toLocaleString()
+                // }},
+            },
             { label: '通知状态', name: 'notifyStatus', index: 'notifyStatus', width: 30 ,
                 formatter: function(value, options, row){
                     return value === 0 ?

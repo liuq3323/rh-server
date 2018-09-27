@@ -26,12 +26,12 @@ public class AliOrderServiceImpl extends ServiceImpl<AliOrderDao , AliOrderEntit
     }
 
     @Override
-    public int checkRepeatId(Long orderId) {
+    public int checkRepeatId(String orderId) {
         return aliOrderDao.checkRepeatId(orderId);
     }
 
     @Override
-    public AliOrderEntity queryTradeId(Long orderId) {
+    public AliOrderEntity queryTradeId(String orderId) {
         return aliOrderDao.queryByTradeId(orderId);
     }
 
@@ -41,16 +41,22 @@ public class AliOrderServiceImpl extends ServiceImpl<AliOrderDao , AliOrderEntit
     }
 
     @Override
-    public void updateTradeStatusClosed(Long orderId) {
+    public void updateTradeStatusClosed(String orderId) {
         aliOrderDao.updateTradeStatusClosed(orderId);
     }
 
-    public void updateNotifyStatus(Long orderId){
+    @Override
+    public void updateNotifyStatus(String orderId){
         aliOrderDao.updateNotifyStatus(orderId);
     }
 
     @Override
     public AliOrderEntity queryById(Long id) {
         return this.selectOne(new EntityWrapper<AliOrderEntity>().eq("id" , id));
+    }
+
+    @Override
+    public AliOrderEntity queryBySysTradeNo(String sysTradeNo) {
+        return null;
     }
 }

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -18,7 +19,7 @@ public class TradeOrder implements Serializable {
     @TableId
     private Long id;
     //商户订单id(唯一)
-    private Long orderId;
+    private String orderId;
     //支付方式：0-wap ,1-qrCode
     private String payType;
 //版本号
@@ -26,7 +27,7 @@ public class TradeOrder implements Serializable {
 //加密方式(MD5)
     private String signType;
 //订单金额
-    private Double orderAmount;
+    private BigDecimal orderAmount;
 //商户密钥(商户注册时平台生成)
     private String partner;
 //签名
@@ -52,6 +53,36 @@ public class TradeOrder implements Serializable {
 //是否已通知商户(默认0)0-未通知，1-已通知
     private int notifyStatus;
 
+    private String tradeNo;
+
+    private Date payTime;
+
+    private String sysTradeNo;
+
+    public String getSysTradeNo() {
+        return sysTradeNo;
+    }
+
+    public void setSysTradeNo(String sysTradeNo) {
+        this.sysTradeNo = sysTradeNo;
+    }
+
+    public Date getPayTime() {
+        return payTime;
+    }
+
+    public void setPayTime(Date payTime) {
+        this.payTime = payTime;
+    }
+
+    public String getTradeNo() {
+        return tradeNo;
+    }
+
+    public void setTradeNo(String tradeNo) {
+        this.tradeNo = tradeNo;
+    }
+
     public Long getId() {
         return id;
     }
@@ -60,11 +91,11 @@ public class TradeOrder implements Serializable {
         this.id = id;
     }
 
-    public Long getOrderId() {
+    public String getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Long orderId) {
+    public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
 
@@ -92,11 +123,11 @@ public class TradeOrder implements Serializable {
         this.signType = signType;
     }
 
-    public Double getOrderAmount() {
+    public BigDecimal getOrderAmount() {
         return orderAmount;
     }
 
-    public void setOrderAmount(Double orderAmount) {
+    public void setOrderAmount(BigDecimal orderAmount) {
         this.orderAmount = orderAmount;
     }
 

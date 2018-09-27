@@ -12,15 +12,17 @@ import java.util.Map;
  */
 @Repository
 public interface AliOrderDao extends BaseMapper<AliOrderEntity>{
-    int checkRepeatId(Long orderId);
+    int checkRepeatId(String orderId);
 
     void saveTradePrecreateMsg(TradePrecreateMsg tradePrecreateMsg);
 
-    AliOrderEntity queryByTradeId(Long orderId);
+    AliOrderEntity queryByTradeId(String orderId);
 
     void updateTradeStatus(Map<String, Object> map);
 
-    void updateTradeStatusClosed(Long orderId);
+    void updateTradeStatusClosed(String orderId);
 
-    void updateNotifyStatus(Long orderId);
+    void updateNotifyStatus(String orderId);
+
+    AliOrderEntity queryBySysTradeNo(String sysTradeNo);
 }

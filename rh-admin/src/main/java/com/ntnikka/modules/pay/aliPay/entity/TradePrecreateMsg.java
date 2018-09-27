@@ -13,7 +13,7 @@ import java.io.Serializable;
 @TableName("trade_precreate_msg")
 public class TradePrecreateMsg implements Serializable {
 
-    private Long orderId;
+    private String orderId;
 
     private Integer code ;
 
@@ -21,11 +21,11 @@ public class TradePrecreateMsg implements Serializable {
 
 
 
-    public Long getOrderId() {
+    public String getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Long orderId) {
+    public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
 

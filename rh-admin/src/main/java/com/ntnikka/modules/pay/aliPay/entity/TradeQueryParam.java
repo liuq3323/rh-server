@@ -9,7 +9,7 @@ import java.io.Serializable;
  * @Date 2018/9/25 10:09
  **/
 public class TradeQueryParam implements Serializable {
-    private Long orderId;
+    private String orderId;
 
     private String sign;
 
@@ -25,11 +25,11 @@ public class TradeQueryParam implements Serializable {
         this.merchantId = merchantId;
     }
 
-    public Long getOrderId() {
+    public String getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Long orderId) {
+    public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
 

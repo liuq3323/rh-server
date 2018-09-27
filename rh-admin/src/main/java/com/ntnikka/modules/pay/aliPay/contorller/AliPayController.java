@@ -9,9 +9,9 @@ import com.ntnikka.common.Enum.AlipayTradeStatus;
 import com.ntnikka.common.Enum.PayTypeEnum;
 import com.ntnikka.common.utils.AliPayRequest;
 import com.ntnikka.common.utils.HttpClientUtil;
+import com.ntnikka.common.utils.IdWorker;
 import com.ntnikka.modules.merchantManager.entity.MerchantEntity;
 import com.ntnikka.modules.merchantManager.service.MerchantService;
-import com.ntnikka.modules.orderManager.entity.TradeOrder;
 import com.ntnikka.modules.pay.aliPay.config.AlipayConfig;
 import com.ntnikka.modules.pay.aliPay.entity.AliNotifyEntity;
 import com.ntnikka.modules.pay.aliPay.entity.AliOrderEntity;
@@ -75,7 +75,7 @@ public class AliPayController extends AbstractController {
         aliOrderEntity.setPartner(merchant.getMerchantKey());
         //2.校验签名
         String sign = aliOrderEntity.getSign();
-        String ParamStr = String.format("merchantId=%s&orderAmount=%s&orderId=%s&payMethod=%s&payType=%s&signType=%s&version=%s&priKey=%s",aliOrderEntity.getMerchantId(),SignUtil.doubleTrans(aliOrderEntity.getOrderAmount()),
+        String ParamStr = String.format("merchantId=%s&orderAmount=%s&orderId=%s&payMethod=%s&payType=%s&signType=%s&version=%s&priKey=%s",aliOrderEntity.getMerchantId(),aliOrderEntity.getOrderAmount(),
                 aliOrderEntity.getOrderId(),aliOrderEntity.getPayMethod(),aliOrderEntity.getPayType(),aliOrderEntity.getSignType(),
                 aliOrderEntity.getVersion(), merchant.getMerchantKey());
         if (!SignUtil.checkSign(sign , ParamStr)){
@@ -96,12 +96,13 @@ public class AliPayController extends AbstractController {
             return R.error(403014, "订单流水号重复");
         }
         //3.订单信息入库
+        aliOrderEntity.setSysTradeNo(IdWorker.getSysTradeNum());//生成系统唯一订单号
         aliOrderEntity.setMerchantId(merchantEntity.getId());
         aliOrderEntity.setCreateTime(new Date());
         aliOrderEntity.setUpdateTime(new Date());
         aliOrderService.save(aliOrderEntity);
         try {
-            String result = AliPayRequest.doQrCodeAliRequest( aliOrderEntity.getOrderId() , aliOrderEntity.getOrderAmount() , aliOrderEntity.getProductName(),
+            String result = AliPayRequest.doQrCodeAliRequest( aliOrderEntity.getSysTradeNo() , aliOrderEntity.getOrderAmount() , aliOrderEntity.getProductName(),
                                                                 merchantEntity.getAppid().toString() , merchantEntity.getMerchantPriKey() , merchantEntity.getAliPubKey() , merchantEntity.getAuthCode() , merchantEntity.getPid().toString() , merchantEntity.getStoreNumber());
             JSONObject resultJson = JSON.parseObject(result).getJSONObject("alipay_trade_precreate_response");
             // TODO: 2018/9/14  请求支付宝预下单接口 最好异步保存返回信息
@@ -176,8 +177,8 @@ public class AliPayController extends AbstractController {
         logger.info("支付宝回调，{}", paramsJson);
         logger.info("支付宝回调参数，{}" , request.getParameterMap());
         // TODO: 2018/9/26 alipay_public_key 根据回调参数查询 非写死
-        Long tradeId = Long.parseLong(params.get("out_trade_no"));
-        AliOrderEntity aliOrderEntity = aliOrderService.queryTradeId(tradeId);
+        String tradeId = params.get("out_trade_no");//此处返回的为本系统的sysTradeNo
+        AliOrderEntity aliOrderEntity = aliOrderService.queryBySysTradeNo(tradeId);
         if (aliOrderEntity == null){//订单不存在
             return "failure";
         }
@@ -200,6 +201,8 @@ public class AliPayController extends AbstractController {
                         Map<String , Object> map = new HashMap<>();
                         map.put("orderId" , tradeId);
                         map.put("tradeNo" , params.get("trade_no"));
+                        logger.info("支付成功，支付时间 : {}" , params.get("gmt_payment"));
+                        map.put("payTime" , DateUtil.string2Date(params.get("gmt_payment")));
                         aliOrderService.updateTradeOrder(map);
                         //回调入库
                         AliNotifyEntity aliNotifyEntity = new AliNotifyEntity();
@@ -263,6 +266,10 @@ public class AliPayController extends AbstractController {
             return R.error(403016, "该商户已关闭交易权限，请联系客服人员");
         }
         String sign = tradeQueryParam.getSign();
+        AliOrderEntity aliOrderEntity = aliOrderService.queryTradeId(tradeQueryParam.getOrderId());
+        if (aliOrderEntity == null){
+            return R.error(403017, "订单不存在");
+        }
         String checkSignStr = String.format("merchantId=%s&orderId=%s&priKey=%s",tradeQueryParam.getMerchantId(),tradeQueryParam.getOrderId(),merchantEntity.getMerchantKey());
         if (!SignUtil.checkSign(sign , checkSignStr)){
             logger.error("验签失败, sign = {} , paramstr = {}" ,sign , checkSignStr);
@@ -273,7 +280,7 @@ public class AliPayController extends AbstractController {
         //校验商户时候有权限操作
 
         //3.调用支付宝查询接口
-        String returnStr = AliPayRequest.queryOrder(merchantEntity.getAppid().toString(),merchantEntity.getMerchantPriKey(),merchantEntity.getAliPubKey(),tradeQueryParam.getOrderId() , merchantEntity.getAuthCode());
+        String returnStr = AliPayRequest.queryOrder(merchantEntity.getAppid().toString(),merchantEntity.getMerchantPriKey(),merchantEntity.getAliPubKey(),aliOrderEntity.getSysTradeNo() , merchantEntity.getAuthCode());
         logger.info("支付宝返回msg : {}" , returnStr);
         JSONObject resultJson = JSON.parseObject(returnStr).getJSONObject("alipay_trade_query_response");
         Integer code = resultJson.getInteger("code");
@@ -312,7 +319,7 @@ public class AliPayController extends AbstractController {
         if (merchantEntity == null){
             return R.error(50001,"商户不存在");
         }
-        String returnStr = AliPayRequest.queryOrder(merchantEntity.getAppid().toString(),merchantEntity.getMerchantPriKey(),merchantEntity.getAliPubKey() , aliOrderEntity.getOrderId() , merchantEntity.getAuthCode());
+        String returnStr = AliPayRequest.queryOrder(merchantEntity.getAppid().toString(),merchantEntity.getMerchantPriKey(),merchantEntity.getAliPubKey() , aliOrderEntity.getSysTradeNo() , merchantEntity.getAuthCode());
         logger.info("支付宝返回msg : {}" , returnStr);
         JSONObject resultJson = JSON.parseObject(returnStr).getJSONObject("alipay_trade_query_response");
         Integer code = resultJson.getInteger("code");
@@ -362,7 +369,7 @@ public class AliPayController extends AbstractController {
 
         // 1、商户需要验证该通知数据中的out_trade_no是否为商户系统中创建的订单号，
         // TODO: 2018/9/19 根据out_trade_no查询订单是否存在
-        AliOrderEntity order = aliOrderService.queryTradeId(Long.parseLong(outTradeNo));
+        AliOrderEntity order = aliOrderService.queryTradeId(outTradeNo);
         if (order == null) {
             throw new AlipayApiException("out_trade_no错误");
         }

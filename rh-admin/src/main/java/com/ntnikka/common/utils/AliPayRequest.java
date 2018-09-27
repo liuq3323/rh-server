@@ -17,13 +17,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigDecimal;
 
 public class AliPayRequest {
 
     private static Logger logger = LoggerFactory.getLogger(AliPayRequest.class);
 
 
-    public static String  doQrCodeAliRequest(Long orderId ,Double orderAmount , String productName , String appId , String privateKey , String aliPubKey , String authToken , String pid , String storeId)throws AlipayApiException{
+    public static String  doQrCodeAliRequest(String orderId , BigDecimal orderAmount , String productName , String appId , String privateKey , String aliPubKey , String authToken , String pid , String storeId)throws AlipayApiException{
         AlipayClient alipayClient = new DefaultAlipayClient("https://openapi.alipay.com/gateway.do", appId, privateKey, "json", AlipayConfig.input_charset, aliPubKey, AlipayConfig.sign_type_RSA2); //获得初始化的AlipayClient
         AlipayTradePrecreateRequest request = new AlipayTradePrecreateRequest();//创建API对应的request类
         request.setNotifyUrl("http://369pay.net/api/v1/AliNotify");
@@ -58,7 +59,7 @@ public class AliPayRequest {
         return response.getBody();
     }
 
-    public static String queryOrder(String appId , String privateKey , String aliPubKey , Long out_trade_no , String authCode) throws AlipayApiException{
+    public static String queryOrder(String appId , String privateKey , String aliPubKey , String out_trade_no , String authCode) throws AlipayApiException{
         AlipayClient alipayClient = new DefaultAlipayClient("https://openapi.alipay.com/gateway.do",appId,privateKey,"json",AlipayConfig.input_charset,aliPubKey,AlipayConfig.sign_type_RSA2);
         AlipayTradeQueryRequest request = new AlipayTradeQueryRequest();
         request.setBizContent("{" +

@@ -12,15 +12,17 @@ import java.util.Map;
 public interface AliOrderService extends IService<AliOrderEntity> {
     void save(AliOrderEntity aliOrderEntity);
 
-    int checkRepeatId(Long orderId);
+    int checkRepeatId(String orderId);
 
-    AliOrderEntity queryTradeId(Long orderId);
+    AliOrderEntity queryTradeId(String orderId);
 
     void updateTradeOrder(Map<String, Object> map);
 
-    void updateTradeStatusClosed(Long orderId);
+    void updateTradeStatusClosed(String orderId);
 
-    void updateNotifyStatus(Long orderId);
+    void updateNotifyStatus(String orderId);
 
     AliOrderEntity queryById(Long id);
+
+    AliOrderEntity queryBySysTradeNo(String sysTradeNo);
 }
