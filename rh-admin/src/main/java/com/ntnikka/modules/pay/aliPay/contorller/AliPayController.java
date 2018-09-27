@@ -98,6 +98,7 @@ public class AliPayController extends AbstractController {
         //3.订单信息入库
         aliOrderEntity.setSysTradeNo(IdWorker.getSysTradeNum());//生成系统唯一订单号
         aliOrderEntity.setMerchantId(merchantEntity.getId());
+        aliOrderEntity.setMerchantName(merchantEntity.getMerchantName());
         aliOrderEntity.setCreateTime(new Date());
         aliOrderEntity.setUpdateTime(new Date());
         aliOrderService.save(aliOrderEntity);
@@ -369,7 +370,7 @@ public class AliPayController extends AbstractController {
 
         // 1、商户需要验证该通知数据中的out_trade_no是否为商户系统中创建的订单号，
         // TODO: 2018/9/19 根据out_trade_no查询订单是否存在
-        AliOrderEntity order = aliOrderService.queryTradeId(outTradeNo);
+        AliOrderEntity order = aliOrderService.queryBySysTradeNo(outTradeNo);
         if (order == null) {
             throw new AlipayApiException("out_trade_no错误");
         }

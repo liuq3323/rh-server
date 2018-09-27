@@ -17,6 +17,7 @@ public class AliOrderEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+
     private String sysTradeNo;
 
     /*
@@ -75,6 +76,16 @@ public class AliOrderEntity implements Serializable {
     private String tradeNo;
 
     private Date payTime;
+
+    private String merchantName;
+
+    public String getMerchantName() {
+        return merchantName;
+    }
+
+    public void setMerchantName(String merchantName) {
+        this.merchantName = merchantName;
+    }
 
     public String getSysTradeNo() {
         return sysTradeNo;

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.service.IService;
 import com.ntnikka.modules.orderManager.entity.TradeOrder;
 import com.ntnikka.utils.PageUtils;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -14,4 +15,6 @@ import java.util.Map;
  **/
 public interface TradeOrderService extends IService<TradeOrder> {
     PageUtils queryPage(Map<String, Object> params);
+
+    List<TradeOrder> queryList(Map<String, Object> params);
 }

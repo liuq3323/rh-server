@@ -32,7 +32,7 @@
 		where  order_id = #{orderId}
 	</update>
 
-	<select id="queryBySysTradeNo" parameterType="java.lang.String">
+	<select id="queryBySysTradeNo" parameterType="java.lang.String" resultType="com.ntnikka.modules.pay.aliPay.entity.AliOrderEntity">
 		select  *  from  trade_order
 		WHERE  sys_trade_no = #{sysTradeNo}
 	</select>

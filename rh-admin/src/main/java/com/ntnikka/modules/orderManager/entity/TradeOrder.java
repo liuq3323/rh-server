@@ -16,7 +16,6 @@ import java.util.Date;
 @TableName("trade_order")
 public class TradeOrder implements Serializable {
 
-    @TableId
     private Long id;
     //商户订单id(唯一)
     private String orderId;
@@ -58,6 +57,17 @@ public class TradeOrder implements Serializable {
     private Date payTime;
 
     private String sysTradeNo;
+
+    private String merchantName;
+
+
+    public String getMerchantName() {
+        return merchantName;
+    }
+
+    public void setMerchantName(String merchantName) {
+        this.merchantName = merchantName;
+    }
 
     public String getSysTradeNo() {
         return sysTradeNo;

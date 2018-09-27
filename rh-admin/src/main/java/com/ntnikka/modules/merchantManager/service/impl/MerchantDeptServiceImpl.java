@@ -23,7 +23,6 @@ import java.util.Map;
 @Service("MerchantDeptService")
 public class MerchantDeptServiceImpl extends ServiceImpl<MerchantDeptDao , MerchantDept> implements MerchantDeptService {
     @Override
-    @DataFilter(subDept = true, user = false)
     public List<MerchantDept> queryList(Map<String, Object> params){
         List<MerchantDept> deptList =
                 this.selectList(new EntityWrapper<MerchantDept>()

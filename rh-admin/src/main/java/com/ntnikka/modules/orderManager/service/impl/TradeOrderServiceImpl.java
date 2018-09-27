@@ -57,4 +57,29 @@ public class TradeOrderServiceImpl extends ServiceImpl<TradeOrderDao , TradeOrde
                                                     .le(EmptyUtil.isNotEmpty(end), "create_time",end));
          return new PageUtils(page);
     }
+
+    @Override
+    public List<TradeOrder> queryList(Map<String, Object> params) {
+        String tradeId = params.get("tradeid") == null ? "" : params.get("tradeid").toString();
+        String orderId =  params.get("orderid") == null ? "" : params.get("orderid").toString();
+        String merchantId =  params.get("merchantid") == null ? "" : params.get("merchantid").toString();
+        String status = params.get("status") == null ? "" : params.get("status").toString();
+        String star =  params.get("starttime") == null ? "" : params.get("starttime").toString();
+        String end =  params.get("endtime") == null ? "" : params.get("endtime").toString();
+        String merchantdept = params.get("merchantdept") == null ? "" : params.get("merchantdept").toString();
+        List<Long> idList = new ArrayList<>();
+        if (!merchantdept.isEmpty()){
+            idList = merchantDeptService.queryMerchantDeptIdList(Long.parseLong(merchantdept));
+        }
+
+        List<TradeOrder> orderList = this.selectList(new EntityWrapper<TradeOrder>()
+                .eq(EmptyUtil.isNotEmpty(tradeId) , "sys_trade_no" , tradeId)
+                .eq(EmptyUtil.isNotEmpty(orderId) , "order_id" , orderId)
+                .eq(EmptyUtil.isNotEmpty(merchantId),"merchant_id", merchantId)
+                .eq(EmptyUtil.isNotEmpty(status), "status", 1)
+                .in(EmptyUtil.isNotEmpty(idList) , "merchant_id" ,idList)
+                .ge(EmptyUtil.isNotEmpty(star), "create_time",star)
+                .le(EmptyUtil.isNotEmpty(end), "create_time",end));
+        return orderList;
+    }
 }

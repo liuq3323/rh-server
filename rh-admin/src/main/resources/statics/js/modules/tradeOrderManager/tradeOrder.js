@@ -313,6 +313,9 @@ var vm = new Vue({
                 }
             });
         },
+        exportExcel: function(){
+            window.location.href= baseURL + "/tradeOrder/export";
+        },
         reload: function (event) {
             vm.showList = true;
             $("#jqGrid").jqGrid('clearGridData');
