@@ -1,5 +1,7 @@
 package com.ntnikka.modules.orderManager.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.ntnikka.common.utils.ExcelUtil;
 import com.ntnikka.modules.orderManager.entity.TradeOrder;
 import com.ntnikka.modules.orderManager.service.TradeOrderService;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
@@ -55,12 +58,22 @@ public class TradeOrderController extends AbstractController {
      * @return
      */
     @RequestMapping(value = "/export")
-    public void export(@RequestParam Map<String, Object> params , HttpServletResponse response) throws Exception {
+    public void export(HttpServletRequest request , HttpServletResponse response) throws Exception {
 
         //excel文件名
         String fileName = "订单信息"+System.currentTimeMillis()+".xls";
         //sheet名
         String sheetName = "订单信息";
+
+        Map<String , Object> params = new HashMap();
+
+        params.put("tradeid" , request.getParameter("tradeid"));
+        params.put("orderid" , request.getParameter("orderid"));
+        params.put("starttime" , request.getParameter("starttime"));
+        params.put("endtime" , request.getParameter("endtime"));
+        params.put("merchantid" , request.getParameter("merchantid"));
+        params.put("status" , request.getParameter("status"));
+        params.put("merchantdept" , request.getParameter("merchantdept"));
         //orderList
         List<TradeOrder> orderList = tradeOrderService.queryList(params);
 
@@ -77,7 +90,7 @@ public class TradeOrderController extends AbstractController {
             content[i][5] = order.getSysTradeNo() == null ? "" : order.getSysTradeNo();
             content[i][6] = order.getTradeNo() == null ? "" : order.getTradeNo();
             content[i][7] = order.getOrderAmount().toString();
-            content[i][8] = order.getPayTime() == null ? "" : order.getPayTime().toString();
+            content[i][8] = order.getPayTime() == null ? "" : DateUtil.Date2Str(order.getPayTime());
             content[i][9] = order.getNotifyStatus() == 0 ? "未通知" : "已通知";
         }
 
@@ -101,12 +114,12 @@ public class TradeOrderController extends AbstractController {
     public void setResponseHeader(HttpServletResponse response, String fileName) {
         try {
             try {
-                fileName = new String(fileName.getBytes(),"utf-8");
+                fileName = new String(fileName.getBytes(),"ISO8859-1");
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
-            response.setContentType("application/vnd.ms-excel;charset=utf-8");
-            response.setHeader("Content-Disposition", "attachment;filename="+ new String(fileName.getBytes()));
+            response.setContentType("application/vnd.ms-excel;charset=ISO8859-1");
+            response.setHeader("Content-Disposition", "attachment;filename="+ fileName);
             response.addHeader("Pargam", "no-cache");
             response.addHeader("Cache-Control", "no-cache");
         } catch (Exception ex) {

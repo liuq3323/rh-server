@@ -200,7 +200,7 @@ public class AliPayController extends AbstractController {
                     String tradeStatus = params.get("trade_status");
                     if (tradeStatus.equals(AlipayTradeStatus.TRADE_SUCCESS.getStatus()) || tradeStatus.equals(AlipayTradeStatus.TRADE_FINISHED.getStatus())) {//支付完成 支付成功 处理订单状态 通知商户
                         Map<String , Object> map = new HashMap<>();
-                        map.put("orderId" , tradeId);
+                        map.put("orderId" , aliOrderEntity.getOrderId());
                         map.put("tradeNo" , params.get("trade_no"));
                         logger.info("支付成功，支付时间 : {}" , params.get("gmt_payment"));
                         map.put("payTime" , DateUtil.string2Date(params.get("gmt_payment")));
@@ -226,13 +226,13 @@ public class AliPayController extends AbstractController {
                         String returnMsg = this.doNotify(aliOrderEntity.getNotifyUrl(),aliOrderEntity.getOrderId().toString(),AlipayTradeStatus.TRADE_SUCCESS.getStatus(),aliOrderEntity.getOrderAmount().toString(),aliOrderEntity.getPartner());
                         if (returnMsg.equals("success")){
                             logger.info("通知商户成功，修改通知状态");
-                            aliOrderService.updateNotifyStatus(tradeId);
+                            aliOrderService.updateNotifyStatus(aliOrderEntity.getOrderId());
                         }else{
                             logger.error("通知商户失败");
                         }
 
                     }else if (tradeStatus.equals(AlipayTradeStatus.TRADE_CLOSED.getStatus())){
-                            aliOrderService.updateTradeStatusClosed(tradeId);
+                            aliOrderService.updateTradeStatusClosed(aliOrderEntity.getOrderId());
                     }else {
                         logger.error("没有处理支付宝回调业务，支付宝交易状态: {} ", tradeStatus);
                     }

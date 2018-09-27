@@ -314,20 +314,50 @@ var vm = new Vue({
             });
         },
         exportExcel: function(){
-            window.location.href= baseURL + "/tradeOrder/export";
+
+
+            window.location.href= baseURL + "/tradeOrder/export"+"?tradeid="+$("#tradeid").val() +
+                                    "&orderid=" + $("#orderid").val() +
+                                    "&starttime=" + $("#starttime").val() +
+                                    "&endtime=" + $("#endtime").val() +
+                                    "&merchantid=" + $("#merchantid").val() +
+                                    "&status=" + $("#status").val() +
+                                    "&merchantdept=" + $("#merchantNum").val();
+            // var postData = {'tradeid': $("#tradeid").val(),
+            //     'orderid':$("#orderid").val(),
+            //     'starttime' : $("#starttime").val(),
+            //     'endtime' : $("#endtime").val(),
+            //     'merchantid' : $("#merchantid").val(),
+            //     'status' : $("#status").val() ,
+            //     'merchantdept' : $("#merchantNum").val()};
+            // $.ajax({
+            //             //     type: "POST",
+            //             //     url: baseURL + "/tradeOrder/export",
+            //             //     data: {jstr : JSON.stringify(postData)},
+            //             //     success: function(r){
+            //             //         debugger;
+            //             //         if(r.code === 0){
+            //             //             alert(r.msg);
+            //             //         }else{
+            //             //             alert(r.msg);
+            //             //         }
+            //             //     }
+            //             // });
         },
         reload: function (event) {
             vm.showList = true;
             $("#jqGrid").jqGrid('clearGridData');
             var page = $("#jqGrid").jqGrid('getGridParam','page');
             $("#jqGrid").jqGrid('setGridParam',{
-                postData:{'tradeid': $("#tradeid").val(),
-                    'orderid':$("#orderid").val(),
-                    'starttime' : $("#starttime").val(),
-                    'endtime' : $("#endtime").val(),
-                    'merchantid' : $("#merchantid").val(),
-                    'status' : $("#status").val() ,
-                    'merchantdept' : $("#merchantNum").val()},
+                postData:{
+                    "tradeid": $("#tradeid").val(),
+                    "orderid":$("#orderid").val(),
+                    "starttime" : $("#starttime").val(),
+                    "endtime" : $("#endtime").val(),
+                    "merchantid" : $("#merchantid").val(),
+                    "status" : $("#status").val() ,
+                    "merchantdept" : $("#merchantNum").val()
+                },
                 page:page
             }).trigger("reloadGrid");
             vm.getDept();

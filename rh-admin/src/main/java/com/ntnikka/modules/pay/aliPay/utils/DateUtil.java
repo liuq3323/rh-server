@@ -560,5 +560,9 @@ public class DateUtil {
     }
 
 
-
+    public static String Date2Str(Date date) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String str = format.format(date);
+        return str;
+    }
 }
