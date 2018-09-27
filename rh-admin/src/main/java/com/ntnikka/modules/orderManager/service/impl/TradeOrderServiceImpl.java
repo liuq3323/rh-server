@@ -48,7 +48,7 @@ public class TradeOrderServiceImpl extends ServiceImpl<TradeOrderDao , TradeOrde
         }
         Page<TradeOrder> page = this.selectPage(new Query<TradeOrder>(params).getPage() ,
                                                     new EntityWrapper<TradeOrder>()
-                                                    .eq(EmptyUtil.isNotEmpty(tradeId) , "id" , tradeId)
+                                                    .eq(EmptyUtil.isNotEmpty(tradeId) , "sys_trade_no" , tradeId)
                                                     .eq(EmptyUtil.isNotEmpty(orderId) , "order_id" , orderId)
                                                     .eq(EmptyUtil.isNotEmpty(merchantId),"merchant_id", merchantId)
                                                     .eq(EmptyUtil.isNotEmpty(status), "status", status)

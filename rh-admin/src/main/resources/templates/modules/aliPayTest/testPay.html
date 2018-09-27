@@ -62,14 +62,13 @@
 </div>
 <script>
     function ld() {
-        var sign = hex_md5("orderId=2018092509050001&partner=9897629AB169CF59326301BFBA839FAE").toUpperCase();
+        //var sign = hex_md5("orderId=2018092509050001&partner=9897629AB169CF59326301BFBA839FAE").toUpperCase();
         var data = {
-            "orderId": 2018092509050001,
-            "partner" : "9897629AB169CF59326301BFBA839FAE",
-            "sign" : sign
+            "sysTradeNo": "36900020180927111709000588468456"
+            //"sign" : sign
         };
         $.ajax({
-            url : baseURL + "/api/v1/queryOrder" ,
+            url : baseURL + "/api/v1/testQueryBySysTradeNo" ,
             type: 'post',
             data: JSON.stringify(data),//一同上传的数据
             dataType: 'json', //返回值类型一般设置为json
@@ -78,7 +77,7 @@
             {
                 debugger;
                 if (status == "success") {
-                    $("#qrCode").attr('src', data.qr_code);
+                    alert(data.msg)
                 } else {
                     alert(data.msg);
                 }

@@ -8,9 +8,9 @@ $(function () {
         type: 'post',
         colModel: [
             { label: '商户ID', name: 'merchantId', index: 'merchantId', width: 20 },
-            { label: '系统订单号', name: 'id', index: 'id', width: 20 },
+            { label: '系统订单号', name: 'sysTradeNo', index: 'sysTradeNo', width: 90 },
             { label: '商户订单号', name: 'orderId', index: 'orderId', width: 70 },
-            { label: '银行流水号', name: 'tradeNo', index: 'tradeNo', width: 70 },
+            { label: '银行流水号', name: 'tradeNo', index: 'tradeNo', width: 80 },
             { label: '订单金额', name: 'orderAmount', index: 'orderAmount', width: 30 },
             { label: '订单状态', name: 'status', index: 'status', width: 50  ,
                 formatter: function(value, options, row){

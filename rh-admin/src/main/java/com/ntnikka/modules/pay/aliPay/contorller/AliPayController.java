@@ -441,4 +441,12 @@ public class AliPayController extends AbstractController {
         return HttpClientUtil.doPost(url, params);
     }
 
+    @RequestMapping(value = "testQueryBySysTradeNo" ,method = RequestMethod.POST)
+    public R testQueryBySysTradeNo(@RequestBody Map<String , String> map){
+
+        AliOrderEntity aliOrderEntity = aliOrderService.queryBySysTradeNo(map.get("sysTradeNo"));
+        return R.ok().put("data" , aliOrderEntity);
+
+    }
+
 }

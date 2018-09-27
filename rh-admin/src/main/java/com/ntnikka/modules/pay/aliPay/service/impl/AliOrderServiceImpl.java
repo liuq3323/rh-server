@@ -57,6 +57,6 @@ public class AliOrderServiceImpl extends ServiceImpl<AliOrderDao , AliOrderEntit
 
     @Override
     public AliOrderEntity queryBySysTradeNo(String sysTradeNo) {
-        return null;
+        return aliOrderDao.queryBySysTradeNo(sysTradeNo);
     }
 }
