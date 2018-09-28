@@ -3,6 +3,7 @@ package com.ntnikka.modules.orderManager.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.ntnikka.common.utils.ExcelUtil;
+import com.ntnikka.modules.orderManager.entity.TradeBarChartEntity;
 import com.ntnikka.modules.orderManager.entity.TradeOrder;
 import com.ntnikka.modules.orderManager.service.TradeOrderService;
 import com.ntnikka.modules.pay.aliPay.utils.DateUtil;
@@ -21,9 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -125,6 +124,33 @@ public class TradeOrderController extends AbstractController {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    @RequestMapping(value = "testCount")
+    public R testCount(){
+        List<String> nameList = new ArrayList<>();
+        List<Double> amountList = new ArrayList<>();
+        nameList.add("test1");
+        nameList.add("test2");
+        nameList.add("test3");
+        nameList.add("test4");
+        amountList.add(100D);
+        amountList.add(1000.5D);
+        amountList.add(256.7D);
+        amountList.add(695.4D);
+        Map map = new HashMap();
+        Date da = new Date();
+        Calendar calendar = Calendar.getInstance();
+        //得到日历
+        calendar.setTime(da);
+        // 把当前时间赋给日历
+        calendar.add(Calendar.DAY_OF_MONTH,-3);
+        // 设置为前一天
+        Date end = calendar.getTime();//获取2个月前的时间
+        map.put("start" , da);
+        map.put("end" , end);
+        List<TradeOrder> tradeBarChart = tradeOrderService.queryOrderDataForBarChart(map);
+        return R.ok().put("nameList", nameList).put("amountList",amountList);
     }
 
 }

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>订单统计</title>
+    <#include "/header.html">
+</head>
+<body>
+<form class="form-horizontal">
+    <div class="grid-btn">
+        <div class="form-group col-sm-2">
+            <input class="form-control" type="text" id="starttime"  style="width:100%"  value="" placeholder="开始时间">
+        </div>
+        <div class="form-group col-sm-2">
+            <input class="form-control" type="text" id="endtime"  style="width:100%"  value="" placeholder="结束时间">
+        </div>
+        <a class="btn btn-default">查询</a>
+    </div>
+</form>
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div id="main" style="width: 600px;height:400px;"></div>
+
+</body>
+<script>
+    var myChart = echarts.init(document.getElementById('main'));
+    $.post( baseURL + "/tradeOrder/testCount", { name: "John", time: "2pm" },
+        function(data){
+            debugger;
+            myChart.setOption({
+                title: {
+                    text: '销售额'
+                },
+                tooltip: {},
+                legend: {
+                    data:['销量']
+                },
+                xAxis: {
+                    data: data.nameList
+                },
+                yAxis: {},
+                series: [{
+                    name: '销量',
+                    type: 'bar',
+                    data: data.amountList
+                }]
+            });
+        });
+</script>
+</html>

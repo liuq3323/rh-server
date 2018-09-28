@@ -1,6 +1,7 @@
 package com.ntnikka.modules.orderManager.service;
 
 import com.baomidou.mybatisplus.service.IService;
+import com.ntnikka.modules.orderManager.entity.TradeBarChartEntity;
 import com.ntnikka.modules.orderManager.entity.TradeOrder;
 import com.ntnikka.utils.PageUtils;
 
@@ -17,4 +18,6 @@ public interface TradeOrderService extends IService<TradeOrder> {
     PageUtils queryPage(Map<String, Object> params);
 
     List<TradeOrder> queryList(Map<String, Object> params);
+
+    List<TradeOrder> queryOrderDataForBarChart(Map map);
 }

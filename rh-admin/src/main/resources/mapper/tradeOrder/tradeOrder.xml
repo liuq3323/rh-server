@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ntnikka.modules.orderManager.dao.TradeOrderDao">
+	
+	<select id="queryOrderDataForBarChart" parameterType="map" resultType="com.ntnikka.modules.orderManager.entity.TradeOrder">
+		SELECT SUM(order_amount) as total_count , DATE_FORMAT(create_time,'%Y-%m-%d') as date_time
+		from trade_order
+		where status = 1
+		and create_time
+		between #{start}
+		and #{end}
+		GROUP BY date_time
+	</select>
+
+</mapper>

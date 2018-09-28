@@ -78,4 +78,5 @@ mybatis-plus:
     call-setters-on-nulls: true
 #logging
 logging:
-  level: debug
+  level:
+    com.ntnikka.modules.*.dao : debug

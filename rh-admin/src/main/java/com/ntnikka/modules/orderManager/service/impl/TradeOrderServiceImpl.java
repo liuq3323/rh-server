@@ -7,6 +7,7 @@ import com.ntnikka.common.utils.EmptyUtil;
 import com.ntnikka.common.utils.Query;
 import com.ntnikka.modules.merchantManager.service.MerchantDeptService;
 import com.ntnikka.modules.orderManager.dao.TradeOrderDao;
+import com.ntnikka.modules.orderManager.entity.TradeBarChartEntity;
 import com.ntnikka.modules.orderManager.entity.TradeOrder;
 import com.ntnikka.modules.orderManager.service.TradeOrderService;
 import com.ntnikka.utils.PageUtils;
@@ -81,5 +82,10 @@ public class TradeOrderServiceImpl extends ServiceImpl<TradeOrderDao , TradeOrde
                 .ge(EmptyUtil.isNotEmpty(star), "create_time",star)
                 .le(EmptyUtil.isNotEmpty(end), "create_time",end));
         return orderList;
+    }
+
+    @Override
+    public List<TradeOrder> queryOrderDataForBarChart(Map map) {
+        return tradeOrderDao.queryOrderDataForBarChart(map);
     }
 }
