@@ -17,5 +17,15 @@ import java.util.Map;
  **/
 @Repository
 public interface TradeOrderDao extends BaseMapper<TradeOrder> {
-    List<TradeOrder> queryOrderDataForBarChart(Map map);
+    List<Map<String , String>> queryOrderDataForBarChart(Map map);
+
+    Map<String , String> queryTotalOrderCount(Map map);
+
+    Map<String , String> queryToPayOrderCount(Map map);
+
+    Map<String , String> queryFailOrderCount(Map map);
+
+    Map<String , String> queryAllCountAndSum(Map map);
+
+    Map<String , String> querySuccessCountAndSum(Map map);
 }

@@ -19,5 +19,15 @@ public interface TradeOrderService extends IService<TradeOrder> {
 
     List<TradeOrder> queryList(Map<String, Object> params);
 
-    List<TradeOrder> queryOrderDataForBarChart(Map map);
+    List<Map<String, String>> queryOrderDataForBarChart(Map map);
+
+    Map<String , String> queryTotalOrderCount(Map map);
+
+    Map<String , String> queryToPayOrderCount(Map map);
+
+    Map<String , String> queryFailOrderCount(Map map);
+
+    Map<String , String> queryAllCountAndSum(Map map);
+
+    Map<String , String> querySuccessCountAndSum(Map map);
 }

@@ -3,14 +3,95 @@
 
 <mapper namespace="com.ntnikka.modules.orderManager.dao.TradeOrderDao">
 	
-	<select id="queryOrderDataForBarChart" parameterType="map" resultType="com.ntnikka.modules.orderManager.entity.TradeOrder">
-		SELECT SUM(order_amount) as total_count , DATE_FORMAT(create_time,'%Y-%m-%d') as date_time
+	<select id="queryOrderDataForBarChart" parameterType="map" resultType="java.util.HashMap">
+		SELECT SUM(order_amount) as total_count , DATE_FORMAT(create_time,'%y-%m-%d') as dt
 		from trade_order
 		where status = 1
-		and create_time
-		between #{start}
-		and #{end}
-		GROUP BY date_time
+		<choose>
+			<when test="starttime == '' and  endtime == ''">
+				and TO_DAYS(create_time) = TO_DAYS(NOW())
+			</when>
+			<otherwise>
+				and  DATE_FORMAT(create_time,'%y-%m-%d')
+				between  DATE_FORMAT(#{starttime},'%y-%m-%d') and DATE_FORMAT(#{endtime},'%y-%m-%d')
+			</otherwise>
+		</choose>
+	    GROUP BY dt
+	</select>
+
+	<select id="queryTotalOrderCount" resultType="java.util.HashMap">
+		select  count(1) as totalCount
+		from trade_order
+		where status = 1
+		<choose>
+			<when test="starttime == '' and  endtime == ''">
+				and TO_DAYS(create_time) = TO_DAYS(NOW())
+			</when>
+			<otherwise>
+				and  DATE_FORMAT(create_time,'%y-%m-%d')
+				between  DATE_FORMAT(#{starttime},'%y-%m-%d') and DATE_FORMAT(#{endtime},'%y-%m-%d')
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="queryToPayOrderCount" resultType="java.util.HashMap">
+		select count(1) as toPayCount
+		from trade_order
+		where status = 0
+		<choose>
+			<when test="starttime == '' and  endtime == ''">
+				and TO_DAYS(create_time) = TO_DAYS(NOW())
+			</when>
+			<otherwise>
+				and  DATE_FORMAT(create_time,'%y-%m-%d')
+				between  DATE_FORMAT(#{starttime},'%y-%m-%d') and DATE_FORMAT(#{endtime},'%y-%m-%d')
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="queryFailOrderCount" resultType="java.util.HashMap">
+		select count(1) as failCount
+		from trade_order
+		where status = 2
+		<choose>
+			<when test="starttime == '' and  endtime == ''">
+				and TO_DAYS(create_time) = TO_DAYS(NOW())
+			</when>
+			<otherwise>
+				and  DATE_FORMAT(create_time,'%y-%m-%d')
+				between  DATE_FORMAT(#{starttime},'%y-%m-%d') and DATE_FORMAT(#{endtime},'%y-%m-%d')
+			</otherwise>
+		</choose>
+	</select>
+
+
+	<select id="queryAllCountAndSum" resultType="java.util.HashMap">
+		select  count(1) as totalCount , SUM(order_amount) as totalAmount
+		from  trade_order
+		<choose>
+			<when test="starttime == '' and  endtime == ''">
+				where TO_DAYS(create_time) = TO_DAYS(NOW())
+			</when>
+			<otherwise>
+				where  DATE_FORMAT(create_time,'%y-%m-%d')
+				between  DATE_FORMAT(#{starttime},'%y-%m-%d') and DATE_FORMAT(#{endtime},'%y-%m-%d')
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="querySuccessCountAndSum" resultType="java.util.HashMap">
+		select  count(1) as totalCount , SUM(order_amount) as totalAmount
+		from  trade_order
+		where status = 1
+		<choose>
+			<when test="starttime == '' and  endtime == ''">
+				and TO_DAYS(create_time) = TO_DAYS(NOW())
+			</when>
+			<otherwise>
+				and  DATE_FORMAT(create_time,'%y-%m-%d')
+				between  DATE_FORMAT(#{starttime},'%y-%m-%d') and DATE_FORMAT(#{endtime},'%y-%m-%d')
+			</otherwise>
+		</choose>
 	</select>
 
 </mapper>

@@ -60,26 +60,6 @@ public class TradeOrder implements Serializable {
 
     private String merchantName;
 
-    private String totalCount;
-
-    private String dateTime;
-
-    public String getTotalCount() {
-        return totalCount;
-    }
-
-    public void setTotalCount(String totalCount) {
-        this.totalCount = totalCount;
-    }
-
-    public String getDateTime() {
-        return dateTime;
-    }
-
-    public void setDateTime(String dateTime) {
-        this.dateTime = dateTime;
-    }
-
     public String getMerchantName() {
         return merchantName;
     }

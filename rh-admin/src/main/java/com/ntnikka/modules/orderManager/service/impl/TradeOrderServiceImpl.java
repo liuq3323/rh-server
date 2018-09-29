@@ -85,7 +85,32 @@ public class TradeOrderServiceImpl extends ServiceImpl<TradeOrderDao , TradeOrde
     }
 
     @Override
-    public List<TradeOrder> queryOrderDataForBarChart(Map map) {
+    public List<Map<String , String>> queryOrderDataForBarChart(Map map) {
         return tradeOrderDao.queryOrderDataForBarChart(map);
+    }
+
+    @Override
+    public Map<String, String> queryTotalOrderCount(Map map) {
+        return tradeOrderDao.queryTotalOrderCount(map);
+    }
+
+    @Override
+    public Map<String, String> queryAllCountAndSum(Map map) {
+        return tradeOrderDao.queryAllCountAndSum(map);
+    }
+
+    @Override
+    public Map<String, String> querySuccessCountAndSum(Map map) {
+        return tradeOrderDao.querySuccessCountAndSum(map);
+    }
+
+    @Override
+    public Map<String, String> queryToPayOrderCount(Map map) {
+        return tradeOrderDao.queryToPayOrderCount(map);
+    }
+
+    @Override
+    public Map<String, String> queryFailOrderCount(Map map) {
+        return tradeOrderDao.queryFailOrderCount(map);
     }
 }
