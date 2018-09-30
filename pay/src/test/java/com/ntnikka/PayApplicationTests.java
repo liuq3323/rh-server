@@ -1,4 +1,4 @@
-package com.example.pay;
+package com.ntnikka;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
