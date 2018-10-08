@@ -57,7 +57,7 @@ $(function () {
                     //console.log("=============>" + row.status);
                     if (value === 0){//未通知
                         if (row.status === 1){//已支付，未通知
-                            return '<span class="label label-danger">未通知</span><span class="label label-danger pointer" onclick="vm.queryOrderStatus(\'\'+value+\'\',\'\'+row.id+\'\');">补发通知</span>';
+                            return '<span class="label label-danger">未通知</span><span class="label label-danger pointer" onclick="vm.queryOrderStatus(\''+value+'\',\''+row.id+'\');">补发通知</span>';
                         }
                         return  '<span class="label label-danger">未通知</span>' ;
                     } else{//已通知
@@ -299,8 +299,8 @@ var vm = new Vue({
             });
         },
         queryOrderStatus : function(value , id){
-            console.log(value);
-            console.log(id);
+            // console.log(value);
+            //             // console.log(id);
             var data = {"id" : id};
             $.ajax({
                 type: "POST",

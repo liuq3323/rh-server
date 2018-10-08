@@ -342,10 +342,11 @@ public class AliPayController extends AbstractController {
             if (returnMsg.equals("success")){
                 logger.info("通知商户成功，修改通知状态");
                 aliOrderService.updateNotifyStatus(aliOrderEntity.getOrderId());
+                return R.ok("用户已支付,已通知商户");
             }else{
                 logger.error("通知商户失败");
+                return R.ok("用户已支付,通知商户失败");
             }
-            return R.ok("已支付");
         }else if (trade_status.equals(AlipayTradeStatus.TRADE_CLOSED.getStatus())){
             aliOrderService.updateTradeStatusClosed(aliOrderEntity.getOrderId());
             return R.error(60000,"订单失败");
