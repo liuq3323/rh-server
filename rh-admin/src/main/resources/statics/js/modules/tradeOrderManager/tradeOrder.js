@@ -54,9 +54,15 @@ $(function () {
             },
             { label: '通知状态', name: 'notifyStatus', index: 'notifyStatus', width: 30 ,
                 formatter: function(value, options, row){
-                    return value === 0 ?
-                        '<span class="label label-danger">未通知</span>' :
-                        '<span class="label label-success">已通知</span>';
+                    //console.log("=============>" + row.status);
+                    if (value === 0){//未通知
+                        if (row.status === 1){//已支付，未通知
+                            return '<span class="label label-danger">未通知</span><span class="label label-danger pointer" onclick="vm.queryOrderStatus(\'\'+value+\'\',\'\'+row.id+\'\');">补发通知</span>';
+                        }
+                        return  '<span class="label label-danger">未通知</span>' ;
+                    } else{//已通知
+                        return '<span class="label label-success">已通知</span>';
+                    }
                 }}
         ],
         viewrecords: true,
