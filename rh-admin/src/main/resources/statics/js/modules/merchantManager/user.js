@@ -28,13 +28,13 @@ $(function () {
             }
         ],
 		viewrecords: true,
-        height: 385,
+        height: 600,
         rowNum: 10,
 		rowList : [10,30,50],
         rownumbers: true, 
         rownumWidth: 25, 
         autowidth:true,
-        multiselect: true,
+        multiselect: false,
         pager: "#jqGridPager",
         jsonReader : {
             root: "page.list",

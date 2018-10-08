@@ -67,7 +67,7 @@ $(function () {
         ],
         viewrecords: true,
         height: 600,
-        rowNum: 25,
+        rowNum: 30,
         rowList : [30,50,80],
         rownumbers: true,
         rownumWidth: 25,
