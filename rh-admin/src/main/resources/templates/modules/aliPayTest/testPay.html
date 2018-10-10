@@ -62,27 +62,28 @@
 </div>
 <script>
     function ld() {
+        console.log(baseURL);
         //var sign = hex_md5("orderId=2018092509050001&partner=9897629AB169CF59326301BFBA839FAE").toUpperCase();
-        var data = {
-            "sysTradeNo": "36900020180927111709000588468456"
-            //"sign" : sign
-        };
-        $.ajax({
-            url : baseURL + "/api/v1/testQueryBySysTradeNo" ,
-            type: 'post',
-            data: JSON.stringify(data),//一同上传的数据
-            dataType: 'json', //返回值类型一般设置为json
-            contentType:'application/json;charset=utf-8',
-            success: function (data, status)  //服务器成功响应处理函数
-            {
-                debugger;
-                if (status == "success") {
-                    alert(data.msg)
-                } else {
-                    alert(data.msg);
-                }
-            }
-        })
+        // var data = {
+        //     "sysTradeNo": "36900020180927111709000588468456"
+        //     //"sign" : sign
+        // };
+        // $.ajax({
+        //     url : baseURL + "/api/v1/testQueryBySysTradeNo" ,
+        //     type: 'post',
+        //     data: JSON.stringify(data),//一同上传的数据
+        //     dataType: 'json', //返回值类型一般设置为json
+        //     contentType:'application/json;charset=utf-8',
+        //     success: function (data, status)  //服务器成功响应处理函数
+        //     {
+        //         debugger;
+        //         if (status == "success") {
+        //             alert(data.msg)
+        //         } else {
+        //             alert(data.msg);
+        //         }
+        //     }
+        // })
     }
 </script>
 <script>
@@ -143,7 +144,7 @@
                     if (payType == "QrCode"){
                     $("#qrCode").attr('src', data.data.qr_code);
                     }else {
-                        window.open(data.qr_code, "_blank");
+                        window.open(data.data.qr_code, "_blank");
                         //window.location.href=data.qr_code;
                     }
                 } else {
