@@ -362,7 +362,8 @@ var vm = new Vue({
                     "endtime" : $("#endtime").val(),
                     "merchantid" : $("#merchantid").val(),
                     "status" : $("#status").val() ,
-                    "merchantdept" : $("#merchantNum").val()
+                    "merchantdept" : $("#merchantNum").val(),
+                    "tradeno" : $("#tradeno").val()
                 },
                 page:page
             }).trigger("reloadGrid");
@@ -378,7 +379,8 @@ var vm = new Vue({
                 'endtime' : $("#endtime").val(),
                 'merchantid' : $("#merchantid").val(),
                 'status' : $("#status").val(),
-                'merchantdept' : $("#merchantNum").val()
+                'merchantdept' : $("#merchantNum").val(),
+                'tradeno' : $("#tradeno").val()
                 },
                 page:page
             }).trigger("reloadGrid");

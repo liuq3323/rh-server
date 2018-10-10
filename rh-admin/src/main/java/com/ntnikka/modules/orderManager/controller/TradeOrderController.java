@@ -41,12 +41,7 @@ public class TradeOrderController extends AbstractController {
     public R queryOrderList(@RequestParam Map<String, Object> params){
         System.out.println("params = [" + params + "]");
         PageUtils page = tradeOrderService.queryPage(params);
-        Map<String , Object> map = new HashMap<>();
-        map.put("totalCount" , 100);
-        map.put("totalSuccessCount" , 65);
-        map.put("totalAmount" , 500000);
-        map.put("totalSuccessAmount" , 320000);
-        return R.ok().put("page", page).put("countDate",map);
+        return R.ok().put("page", page);
     }
 
     /**

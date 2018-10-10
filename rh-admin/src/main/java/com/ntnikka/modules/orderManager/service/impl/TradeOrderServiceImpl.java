@@ -43,6 +43,7 @@ public class TradeOrderServiceImpl extends ServiceImpl<TradeOrderDao , TradeOrde
         String star =  params.get("starttime") == null ? "" : params.get("starttime").toString();
         String end =  params.get("endtime") == null ? "" : params.get("endtime").toString();
         String merchantdept = params.get("merchantdept") == null ? "" : params.get("merchantdept").toString();
+        String tradeno = params.get("tradeno") == null ? "" : params.get("tradeno").toString();
         List<Long> idList = new ArrayList<>();
         if (!merchantdept.isEmpty()){
             idList = merchantDeptService.queryMerchantDeptIdList(Long.parseLong(merchantdept));
@@ -53,6 +54,7 @@ public class TradeOrderServiceImpl extends ServiceImpl<TradeOrderDao , TradeOrde
                                                     .eq(EmptyUtil.isNotEmpty(orderId) , "order_id" , orderId)
                                                     .eq(EmptyUtil.isNotEmpty(merchantId),"merchant_id", merchantId)
                                                     .eq(EmptyUtil.isNotEmpty(status), "status", status)
+                                                    .eq(EmptyUtil.isNotEmpty(tradeno), "trade_no" , tradeno)
                                                     .in(EmptyUtil.isNotEmpty(idList) , "merchant_id" ,idList)
                                                     .ge(EmptyUtil.isNotEmpty(star), "create_time",star)
                                                     .le(EmptyUtil.isNotEmpty(end), "create_time",end));

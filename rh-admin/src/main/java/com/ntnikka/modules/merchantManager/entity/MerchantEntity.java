@@ -9,9 +9,9 @@ import java.util.Date;
 /**
  * 
  * 
- * @author chenshun
- * @email sunlightcs@gmail.com
- * @date 2018-09-18 16:41:11
+ * @author Liuq
+ * @email
+ * @date 2018-09-15 16:41:11
  */
 @TableName("merchant")
 public class MerchantEntity implements Serializable {
