@@ -1,5 +1,6 @@
 package com.ntnikka.modules.merchantManager.service.impl;
 
+import com.ntnikka.common.utils.EmptyUtil;
 import com.ntnikka.common.utils.PageUtils;
 import com.ntnikka.common.utils.Query;
 import com.ntnikka.modules.merchantManager.dao.AppIdDao;
@@ -18,9 +19,10 @@ public class AppIdServiceImpl extends ServiceImpl<AppIdDao, AppIdEntity> impleme
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
+        String appid = params.get("appid") == null ? "" : params.get("appid").toString();
         Page<AppIdEntity> page = this.selectPage(
                 new Query<AppIdEntity>(params).getPage(),
-                new EntityWrapper<AppIdEntity>()
+                new EntityWrapper<AppIdEntity>().eq(EmptyUtil.isNotEmpty(appid) , "appid" , appid)
         );
 
         return new PageUtils(page);

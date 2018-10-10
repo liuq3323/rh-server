@@ -265,6 +265,7 @@ var vm = new Vue({
             vm.showList3 = false;
             var page = $("#jqGrid").jqGrid('getGridParam','page');
             $("#jqGrid").jqGrid('setGridParam',{
+                postData:{'appid': vm.merchant.appid},
                 page:page
             }).trigger("reloadGrid");
         }
