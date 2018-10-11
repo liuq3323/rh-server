@@ -19,6 +19,28 @@
 	    GROUP BY dt
 	</select>
 
+	<select id="queryOrderDataForBarChartByMerchant" parameterType="map" resultType="java.util.HashMap">
+		SELECT SUM(order_amount) as total_count , DATE_FORMAT(create_time,'%y-%m-%d') as dt
+		from trade_order
+		where status = 1
+		<if test="ids != null and ids.size() > 0 ">
+			and merchant_id in
+			<foreach collection="ids" item= "item" index ="index" open= "(" close =")" separator=",">
+				${item}
+			</foreach >
+		</if>
+		<choose>
+			<when test="starttime == '' and  endtime == ''">
+				and TO_DAYS(create_time) = TO_DAYS(NOW())
+			</when>
+			<otherwise>
+				and  DATE_FORMAT(create_time,'%y-%m-%d')
+				between  DATE_FORMAT(#{starttime},'%y-%m-%d') and DATE_FORMAT(#{endtime},'%y-%m-%d')
+			</otherwise>
+		</choose>
+		GROUP BY dt
+	</select>
+
 	<select id="queryTotalOrderCount" resultType="java.util.HashMap">
 		select  count(1) as totalCount
 		from trade_order
@@ -92,6 +114,47 @@
 				between  DATE_FORMAT(#{starttime},'%y-%m-%d') and DATE_FORMAT(#{endtime},'%y-%m-%d')
 			</otherwise>
 		</choose>
+	</select>
+
+	<select id="queryAllCountAndSumByMerchant" resultType="java.util.HashMap">
+		select  count(1) as totalCount , SUM(order_amount) as totalAmount
+		from  trade_order
+		<choose>
+			<when test="starttime == '' and  endtime == ''">
+				where TO_DAYS(create_time) = TO_DAYS(NOW())
+			</when>
+			<otherwise>
+				where  DATE_FORMAT(create_time,'%y-%m-%d')
+				between  DATE_FORMAT(#{starttime},'%y-%m-%d') and DATE_FORMAT(#{endtime},'%y-%m-%d')
+			</otherwise>
+		</choose>
+		<if test="ids != null and ids.size() > 0 ">
+			and merchant_id in
+			<foreach collection="ids" item= "item" index ="index" open= "(" close =")" separator=",">
+				${item}
+			</foreach >
+		</if>
+	</select>
+
+	<select id="querySuccessCountAndSumByMerchant" resultType="java.util.HashMap">
+		select  count(1) as totalCount , SUM(order_amount) as totalAmount
+		from  trade_order
+		where status = 1
+		<choose>
+			<when test="starttime == '' and  endtime == ''">
+				and TO_DAYS(create_time) = TO_DAYS(NOW())
+			</when>
+			<otherwise>
+				and  DATE_FORMAT(create_time,'%y-%m-%d')
+				between  DATE_FORMAT(#{starttime},'%y-%m-%d') and DATE_FORMAT(#{endtime},'%y-%m-%d')
+			</otherwise>
+		</choose>
+		<if test="ids != null and ids.size() > 0 ">
+			and merchant_id in
+			<foreach collection="ids" item= "item" index ="index" open= "(" close =")" separator=",">
+				${item}
+			</foreach >
+		</if>
 	</select>
 
 </mapper>

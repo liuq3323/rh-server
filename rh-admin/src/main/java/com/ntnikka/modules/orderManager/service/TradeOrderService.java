@@ -30,4 +30,10 @@ public interface TradeOrderService extends IService<TradeOrder> {
     Map<String , String> queryAllCountAndSum(Map map);
 
     Map<String , String> querySuccessCountAndSum(Map map);
+
+    List<Map<String , String>> queryOrderDataForBarChartByMerchant(Map map);
+
+    Map<String , String> queryAllCountAndSumByMerchant(Map map);
+
+    Map<String , String> querySuccessCountAndSumByMerchant(Map map);
 }

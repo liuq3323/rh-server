@@ -155,4 +155,20 @@ public class TradeOrderController extends AbstractController {
                 .put("failCount" , failCount);
     }
 
+    @RequestMapping(value = "merchantCount")
+    public R merchantCount(@RequestBody Map paramMap){
+        List<Map<String , String>> tradeBarChart = tradeOrderService.queryOrderDataForBarChartByMerchant(paramMap);
+        List<String> listDate = new ArrayList<>();
+        List<Double> listAmount = new ArrayList<>();
+        tradeBarChart.stream().forEach(stringMap ->{
+            listDate.add(stringMap.get("dt"));
+            listAmount.add(Double.parseDouble(String.valueOf(stringMap.get("total_count"))));
+        });
+        //总订单
+        Map<String, String> totalMap = tradeOrderService.queryAllCountAndSumByMerchant(paramMap);
+        Map<String, String> successMap = tradeOrderService.querySuccessCountAndSumByMerchant(paramMap);
+        return R.ok().put("nameList", listDate).put("amountList",listAmount)
+                .put("totalMap",totalMap).put("successMap",successMap);
+    }
+
 }

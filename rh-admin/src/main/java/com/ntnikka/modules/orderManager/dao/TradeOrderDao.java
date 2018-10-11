@@ -28,4 +28,10 @@ public interface TradeOrderDao extends BaseMapper<TradeOrder> {
     Map<String , String> queryAllCountAndSum(Map map);
 
     Map<String , String> querySuccessCountAndSum(Map map);
+
+    List<Map<String , String>> queryOrderDataForBarChartByMerchant(Map map);
+
+    Map<String , String> queryAllCountAndSumByMerchant(Map map);
+
+    Map<String , String> querySuccessCountAndSumByMerchant(Map map);
 }

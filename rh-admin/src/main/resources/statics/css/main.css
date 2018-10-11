@@ -38,6 +38,7 @@ html { overflow-x:hidden; }
 	.col-sm-10 {width: 70%;padding-left: 0px;}
 	.col-sm-2 {width: 24%;}
     .col-sm-4 {width: 11%;}
+    .col-sm-5 {width: 25%;}
 }
 tbody > tr > th {font-weight: normal; }
 .panel .table { margin:0 0; }

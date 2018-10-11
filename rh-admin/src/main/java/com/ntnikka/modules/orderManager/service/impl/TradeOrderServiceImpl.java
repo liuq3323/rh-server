@@ -115,4 +115,37 @@ public class TradeOrderServiceImpl extends ServiceImpl<TradeOrderDao , TradeOrde
     public Map<String, String> queryFailOrderCount(Map map) {
         return tradeOrderDao.queryFailOrderCount(map);
     }
+
+    @Override
+    public List<Map<String, String>> queryOrderDataForBarChartByMerchant(Map map) {
+        String merchantdept = map.get("merchantdept") == null ? "" : map.get("merchantdept").toString();
+        List<Long> idList = new ArrayList();
+        if (!merchantdept.isEmpty()) {
+            idList = merchantDeptService.queryMerchantDeptIdList(Long.parseLong(merchantdept));
+        }
+        map.put("ids", idList);
+        return tradeOrderDao.queryOrderDataForBarChartByMerchant(map);
+    }
+
+    @Override
+    public Map<String, String> queryAllCountAndSumByMerchant(Map map) {
+        String merchantdept = map.get("merchantdept") == null ? "" : map.get("merchantdept").toString();
+        List<Long> idList = new ArrayList();
+        if (!merchantdept.isEmpty()) {
+            idList = merchantDeptService.queryMerchantDeptIdList(Long.parseLong(merchantdept));
+        }
+        map.put("ids", idList);
+        return tradeOrderDao.queryAllCountAndSumByMerchant(map);
+    }
+
+    @Override
+    public Map<String, String> querySuccessCountAndSumByMerchant(Map map) {
+        String merchantdept = map.get("merchantdept") == null ? "" : map.get("merchantdept").toString();
+        List<Long> idList = new ArrayList();
+        if (!merchantdept.isEmpty()) {
+            idList = merchantDeptService.queryMerchantDeptIdList(Long.parseLong(merchantdept));
+        }
+        map.put("ids", idList);
+        return tradeOrderDao.querySuccessCountAndSumByMerchant(map);
+    }
 }
