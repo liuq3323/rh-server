@@ -71,7 +71,9 @@ public class ShiroConfig {
         filterMap.put("/sys/login", "anon");
         filterMap.put("/favicon.ico", "anon");
         filterMap.put("/captcha.jpg", "anon");
+        filterMap.put("/tradeOrder/**","anon");
         filterMap.put("/modules/aliPayTest/**","anon");
+        filterMap.put("/modules/tradeOrder/tradeOrderCheck.html","anon");
         filterMap.put("/**", "authc");
         shiroFilter.setFilterChainDefinitionMap(filterMap);
 

@@ -2,6 +2,7 @@ package com.ntnikka.modules.orderManager.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.ntnikka.common.utils.EmptyUtil;
 import com.ntnikka.common.utils.ExcelUtil;
 import com.ntnikka.modules.orderManager.entity.TradeBarChartEntity;
 import com.ntnikka.modules.orderManager.entity.TradeOrder;
@@ -40,6 +41,18 @@ public class TradeOrderController extends AbstractController {
     @RequestMapping(value = "list")
     public R queryOrderList(@RequestParam Map<String, Object> params){
         System.out.println("params = [" + params + "]");
+        PageUtils page = tradeOrderService.queryPage(params);
+        return R.ok().put("page", page);
+    }
+
+    @RequestMapping(value = "listCheck")
+    public R queryOrderListCheck(@RequestParam Map<String, Object> params){
+        System.out.println("params = [" + params + "]");
+        String tradeId = params.get("tradeid") == null ? "" : params.get("tradeid").toString();
+        if (EmptyUtil.isEmpty(tradeId)){
+            PageUtils pg = null;
+            return R.ok().put("page",pg);
+        }
         PageUtils page = tradeOrderService.queryPage(params);
         return R.ok().put("page", page);
     }
