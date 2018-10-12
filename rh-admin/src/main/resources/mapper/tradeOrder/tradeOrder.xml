@@ -157,4 +157,67 @@
 		</if>
 	</select>
 
+	<select id="queryTotalOrderCountByMerchant" resultType="java.util.HashMap">
+		select  count(1) as totalCount
+		from trade_order
+		where status = 1
+		<if test="ids != null and ids.size() > 0 ">
+			and merchant_id in
+			<foreach collection="ids" item= "item" index ="index" open= "(" close =")" separator=",">
+				${item}
+			</foreach >
+		</if>
+		<choose>
+			<when test="starttime == '' and  endtime == ''">
+				and TO_DAYS(create_time) = TO_DAYS(NOW())
+			</when>
+			<otherwise>
+				and  DATE_FORMAT(create_time,'%y-%m-%d')
+				between  DATE_FORMAT(#{starttime},'%y-%m-%d') and DATE_FORMAT(#{endtime},'%y-%m-%d')
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="queryToPayOrderCountByMerchant" resultType="java.util.HashMap">
+		select count(1) as toPayCount
+		from trade_order
+		where status = 0
+		<if test="ids != null and ids.size() > 0 ">
+			and merchant_id in
+			<foreach collection="ids" item= "item" index ="index" open= "(" close =")" separator=",">
+				${item}
+			</foreach >
+		</if>
+		<choose>
+			<when test="starttime == '' and  endtime == ''">
+				and TO_DAYS(create_time) = TO_DAYS(NOW())
+			</when>
+			<otherwise>
+				and  DATE_FORMAT(create_time,'%y-%m-%d')
+				between  DATE_FORMAT(#{starttime},'%y-%m-%d') and DATE_FORMAT(#{endtime},'%y-%m-%d')
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="queryFailOrderCountByMerchant" resultType="java.util.HashMap">
+		select count(1) as failCount
+		from trade_order
+		where status = 2
+		<if test="ids != null and ids.size() > 0 ">
+			and merchant_id in
+			<foreach collection="ids" item= "item" index ="index" open= "(" close =")" separator=",">
+				${item}
+			</foreach >
+		</if>
+		<choose>
+			<when test="starttime == '' and  endtime == ''">
+				and TO_DAYS(create_time) = TO_DAYS(NOW())
+			</when>
+			<otherwise>
+				and  DATE_FORMAT(create_time,'%y-%m-%d')
+				between  DATE_FORMAT(#{starttime},'%y-%m-%d') and DATE_FORMAT(#{endtime},'%y-%m-%d')
+			</otherwise>
+		</choose>
+	</select>
+
 </mapper>

@@ -167,8 +167,15 @@ public class TradeOrderController extends AbstractController {
         //总订单
         Map<String, String> totalMap = tradeOrderService.queryAllCountAndSumByMerchant(paramMap);
         Map<String, String> successMap = tradeOrderService.querySuccessCountAndSumByMerchant(paramMap);
+        //饼图数据 查询 成功支付count 支付中count 失败count
+        Map<String, String> totalCount = tradeOrderService.queryTotalOrderCountByMerchant(paramMap);
+        Map<String, String> toPayCount = tradeOrderService.queryToPayOrderCountByMerchant(paramMap);
+        Map<String, String> failCount = tradeOrderService.queryFailOrderCountByMerchant(paramMap);
         return R.ok().put("nameList", listDate).put("amountList",listAmount)
-                .put("totalMap",totalMap).put("successMap",successMap);
+                .put("totalMap",totalMap).put("successMap",successMap)
+                .put("totalCount" , totalCount)
+                .put("toPayCount" , toPayCount)
+                .put("failCount" , failCount);
     }
 
 }

@@ -35,7 +35,7 @@
 <!-- barChart-->
 <div id="main" style="width: 1000px;height:400px;"></div>
 <!--<div id="main2" style="width: 1000px;height:400px;"></div>-->
-<!--<div id="main3" style="width: 1000px;height:400px;"></div>-->
+<div id="main3" style="width: 1000px;height:400px;"></div>
 <!-- 选择部门 -->
 <div id="deptLayer" style="display: none;padding:10px;">
     <ul id="deptTree" class="ztree"></ul>
@@ -185,7 +185,7 @@
     var barQuery = function () {
         var myChart = echarts.init(document.getElementById('main'));
         // var myChart2 = echarts.init(document.getElementById('main2'));
-        // var myChart3 = echarts.init(document.getElementById('main3'));
+        var myChart3 = echarts.init(document.getElementById('main3'));
         var merchantNum = $("#merchantNum").val();
         if (merchantNum == "" || merchantNum.trim().length == 0 ){
             alert("请先选择合作商户");
@@ -288,83 +288,83 @@
                     //     ]
                     // });
                     //饼图
-                    // myChart3.setOption({
-                    //     backgroundColor: '#C6C6CC',
-                    //
-                    //     title: {
-                    //         text: '订单成功率',
-                    //         left: 'center',
-                    //         top: 20,
-                    //         textStyle: {
-                    //             color: '#090909'
-                    //         }
-                    //     },
-                    //
-                    //     tooltip : {
-                    //         trigger: 'item',
-                    //         formatter: "{a} <br/>{b} : {c} ({d}%)"
-                    //     },
-                    //
-                    //     // visualMap: {
-                    //     //     show: false,
-                    //     //     min: 80,
-                    //     //     max: 600,
-                    //     //     inRange: {
-                    //     //         colorLightness: [0, 1]
-                    //     //     }
-                    //     // },
-                    //     series : [
-                    //         {
-                    //             name:'123',
-                    //             type:'pie',
-                    //             radius : '55%',
-                    //             center: ['50%', '50%'],
-                    //             data:[
-                    //                 {value:data.totalCount.totalCount, name:'支付成功' ,itemStyle: {
-                    //                         color: '#2ec22d'
-                    //                     }},
-                    //                 {value:data.toPayCount.toPayCount, name:'下单未支付',itemStyle: {
-                    //                         color: '#17bec2'
-                    //                     }},
-                    //                 {value:data.failCount.failCount, name:'支付失败',
-                    //                     itemStyle: {
-                    //                         color: '#1856cc'
-                    //                     }}
-                    //             ].sort(function (a, b) { return a.value - b.value; }),
-                    //             roseType: 'angle',
-                    //             label: {
-                    //                 normal: {
-                    //                     textStyle: {
-                    //                         color: 'rgba(255, 255, 255, 0.3)'
-                    //                     }
-                    //                 }
-                    //             },
-                    //             labelLine: {
-                    //                 normal: {
-                    //                     lineStyle: {
-                    //                         color: 'rgba(255, 255, 255, 0.3)'
-                    //                     },
-                    //                     smooth: 0.2,
-                    //                     length: 10,
-                    //                     length2: 20
-                    //                 }
-                    //             },
-                    //             itemStyle: {
-                    //                 normal: {
-                    //                     color: '#c21821',
-                    //                     shadowBlur: 200,
-                    //                     shadowColor: 'rgba(0, 0, 0, 0.5)'
-                    //                 }
-                    //             },
-                    //             // color:['#3fb0c2', 'green','yellow'],
-                    //             animationType: 'scale',
-                    //             animationEasing: 'elasticOut',
-                    //             animationDelay: function (idx) {
-                    //                 return Math.random() * 200;
-                    //             }
-                    //         }
-                    //     ]
-                    // });
+                    myChart3.setOption({
+                        backgroundColor: '#C6C6CC',
+
+                        title: {
+                            text: '订单成功率',
+                            left: 'center',
+                            top: 20,
+                            textStyle: {
+                                color: '#090909'
+                            }
+                        },
+
+                        tooltip : {
+                            trigger: 'item',
+                            formatter: "{a} <br/>{b} : {c} ({d}%)"
+                        },
+
+                        // visualMap: {
+                        //     show: false,
+                        //     min: 80,
+                        //     max: 600,
+                        //     inRange: {
+                        //         colorLightness: [0, 1]
+                        //     }
+                        // },
+                        series : [
+                            {
+                                name:'123',
+                                type:'pie',
+                                radius : '55%',
+                                center: ['50%', '50%'],
+                                data:[
+                                    {value:data.totalCount.totalCount, name:'支付成功' ,itemStyle: {
+                                            color: '#2ec22d'
+                                        }},
+                                    {value:data.toPayCount.toPayCount, name:'下单未支付',itemStyle: {
+                                            color: '#17bec2'
+                                        }},
+                                    {value:data.failCount.failCount, name:'支付失败',
+                                        itemStyle: {
+                                            color: '#1856cc'
+                                        }}
+                                ].sort(function (a, b) { return a.value - b.value; }),
+                                roseType: 'angle',
+                                label: {
+                                    normal: {
+                                        textStyle: {
+                                            color: 'rgba(255, 255, 255, 0.3)'
+                                        }
+                                    }
+                                },
+                                labelLine: {
+                                    normal: {
+                                        lineStyle: {
+                                            color: 'rgba(255, 255, 255, 0.3)'
+                                        },
+                                        smooth: 0.2,
+                                        length: 10,
+                                        length2: 20
+                                    }
+                                },
+                                itemStyle: {
+                                    normal: {
+                                        color: '#c21821',
+                                        shadowBlur: 200,
+                                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                    }
+                                },
+                                // color:['#3fb0c2', 'green','yellow'],
+                                animationType: 'scale',
+                                animationEasing: 'elasticOut',
+                                animationDelay: function (idx) {
+                                    return Math.random() * 200;
+                                }
+                            }
+                        ]
+                    });
                 } else {
                     alert(data.msg);
                 }
