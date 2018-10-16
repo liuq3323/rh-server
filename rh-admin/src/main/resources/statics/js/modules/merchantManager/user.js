@@ -53,6 +53,7 @@ $(function () {
         	$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" }); 
         }
     });
+    vm.loadAppIdSelect();
 });
 var setting = {
     data: {
@@ -104,7 +105,47 @@ var vm = new Vue({
         query: function () {
             vm.reload();
         },
-
+        loadAppIdSelect: function() {
+            $("select[name='appidSelect']").empty();
+            $.ajax({
+                type: "POST",
+                url: baseURL + "merchant/appid/queryAppid",
+                contentType: "application/json",
+                success: function(r){
+                    if(r.code == 0){
+                        console.log(r.appId);
+                        for (var i =0 ; i<r.appId.length ; i ++){
+                            $("select[name='appidSelect']").append("<option value='"+r.appId[i]+"'>"+r.appId[i]+"</option>");
+                        }
+                    }else{
+                        alert(r.msg);
+                    }
+                }
+            });
+        },
+        changeType: function(ele) {
+            console.log("---->select onchange function");
+            var optionTxt = $(ele.target).find("option:selected").text();
+            var optionVal = ele.target.value;
+            var param = {"appid" : optionVal};
+            $.ajax({
+                type: "POST",
+                url: baseURL + "merchant/appid/queryInfoByAppid",
+                contentType: "application/json",
+                data: JSON.stringify(param),
+                success: function(r){
+                    if(r.code == 0){
+                        console.log(r.appId);
+                        vm.merchant.aliPubKey=r.appId.aliPubKey;
+                        vm.merchant.merchantPubKey = r.appId.merchantPubKey;
+                        vm.merchant.merchantPriKey = r.appId.merchantPriKey;
+                        vm.merchant.appid = optionVal;
+                    }else{
+                        alert(r.msg);
+                    }
+                }
+            });
+        },
         audit:function (value) {
             var id = value;
             if(id == null){
@@ -118,6 +159,8 @@ var vm = new Vue({
             vm.getInfo(id);
             //获取角色信息
             this.getRoleList();
+            //下拉列表选中改选项的appid
+            $("select[name='appidSelect']").find("option[value = '"+yue+"']").attr("selected","selected");
         },
 
         add: function(){
@@ -125,6 +168,17 @@ var vm = new Vue({
             vm.showList3=true;
             vm.title = "新增";
             vm.roleList = {};
+            vm.merchant = {merchantName : null,
+                merchantDeptId : null,
+                merchantPhone : null,
+                pid : null ,
+                storeNumber : null,
+                authCode : null,
+                appid : null,
+                aliPubKey : null,
+                merchantPubKey : null,
+                merchantPriKey : null,
+                merchantDeptName : null};
             vm.user = {deptName:null, deptId:null, status:1, roleIdList:[]};
 
             //获取角色信息
@@ -211,6 +265,8 @@ var vm = new Vue({
         getInfo: function(id) {
             $.get(baseURL + "merchant/mgr/info/"+id, function(r){
                 vm.merchant = r.merchant;
+                //下拉列表选中改选项的appid
+                $("select[name='appidSelect']").find("option[value = '"+r.merchant.appid+"']").attr("selected","selected");
                 vm.getDept();
             });
         },
@@ -271,6 +327,7 @@ var vm = new Vue({
                 postData:{'merchantName': vm.merchant.merchantName},
                 page:page
             }).trigger("reloadGrid");
+            vm.loadAppIdSelect();
         }
     }
 });

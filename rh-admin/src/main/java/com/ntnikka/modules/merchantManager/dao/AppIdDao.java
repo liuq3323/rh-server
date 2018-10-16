@@ -6,6 +6,9 @@ import com.ntnikka.modules.merchantManager.entity.AppIdEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * 
  * 
@@ -15,5 +18,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface AppIdDao extends BaseMapper<AppIdEntity> {
-	
+	List<Long> queryAppid();
+
+	AppIdEntity queryInfoByAppid(Map map);
 }

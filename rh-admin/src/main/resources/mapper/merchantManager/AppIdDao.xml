@@ -12,5 +12,13 @@
         <result property="id" column="id"/>
     </resultMap>
 
-
+    <select id="queryAppid" resultType="java.lang.Long">
+        select appid
+        from app_id
+    </select>
+    <select id="queryInfoByAppid" resultType="com.ntnikka.modules.merchantManager.entity.AppIdEntity" parameterType="map">
+        select *
+        from app_id
+        where appid = #{appid}
+    </select>
 </mapper>

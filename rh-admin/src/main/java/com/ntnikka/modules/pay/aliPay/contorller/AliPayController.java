@@ -136,13 +136,12 @@ public class AliPayController extends AbstractController {
                 return  R.ok().put("data" , resultMap);
             }
         }catch (Exception e){
+            aliOrderService.updateTradeStatusClosed(aliOrderEntity.getOrderId());
             e.printStackTrace();
+            return R.error(405000,"下单失败");
         }
 
         //二维码支付
-
-        //5.返回
-        return null;
     }
 
     @RequestMapping(value = "/QrCodeTest" , method = RequestMethod.POST)

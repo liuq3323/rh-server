@@ -1,6 +1,7 @@
 package com.ntnikka.modules.merchantManager.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import com.ntnikka.common.utils.PageUtils;
@@ -79,6 +80,18 @@ public class AppIdController {
         String idListStr = ids.get("ids").toString();
         appIdService.deleteBatchIds(Arrays.asList(idListStr));
         return R.ok();
+    }
+
+    @RequestMapping("/queryAppid")
+    public R queryAppidList(){
+        List<Long> appidList = appIdService.queryAppid();
+        return R.ok().put("appId" , appidList);
+    }
+
+    @RequestMapping("/queryInfoByAppid")
+    public R queryAppidInfo(@RequestBody Map map){
+        AppIdEntity appIdEntity = appIdService.queryInfoByAppid(map);
+        return R.ok().put("appId" , appIdEntity);
     }
 
 }

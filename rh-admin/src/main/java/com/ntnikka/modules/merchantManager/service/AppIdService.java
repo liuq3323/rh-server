@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.service.IService;
 import com.ntnikka.common.utils.PageUtils;
 import com.ntnikka.modules.merchantManager.entity.AppIdEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,5 +17,9 @@ import java.util.Map;
 public interface AppIdService extends IService<AppIdEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    List<Long> queryAppid();
+
+    AppIdEntity queryInfoByAppid(Map map);
 }
 
