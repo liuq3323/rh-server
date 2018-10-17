@@ -30,10 +30,11 @@ public class MerchantServiceImpl extends ServiceImpl<MerchantDao, MerchantEntity
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
-        String merchantName = (String) params.get("merchantName");
+        //String merchantName = (String) params.get("merchantName");
+        String merchantId = (String) params.get("id");
         Page<MerchantEntity> page = this.selectPage(
                 new Query<MerchantEntity>(params).getPage(),
-                new EntityWrapper<MerchantEntity>().like(EmptyUtil.isNotEmpty(merchantName),"merchant_name",merchantName)
+                new EntityWrapper<MerchantEntity>().eq(EmptyUtil.isNotEmpty(merchantId),"id",EmptyUtil.isNotEmpty(merchantId) ? Long.parseLong(merchantId) : "" )
         );
 
         return new PageUtils(page);

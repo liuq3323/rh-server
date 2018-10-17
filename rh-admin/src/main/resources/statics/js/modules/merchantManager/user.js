@@ -88,6 +88,7 @@ var vm = new Vue({
             roleIdList:[]
         },
         merchant : {
+            id : null,
             merchantName : null,
             merchantDeptId : null,
             merchantPhone : null,
@@ -324,7 +325,7 @@ var vm = new Vue({
             vm.showList3 = false;
             var page = $("#jqGrid").jqGrid('getGridParam','page');
             $("#jqGrid").jqGrid('setGridParam',{
-                postData:{'merchantName': vm.merchant.merchantName},
+                postData:{'id': vm.merchant.id},
                 page:page
             }).trigger("reloadGrid");
             vm.loadAppIdSelect();
