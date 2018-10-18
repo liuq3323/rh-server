@@ -115,7 +115,7 @@ public class AliPayController extends AbstractController {
                 tradePrecreateMsgService.save(tradePrecreateMsg);
             });
             if (resultJson.getInteger("code") != 10000){
-                aliOrderService.updateTradeStatusClosed(aliOrderEntity.getOrderId());
+                aliOrderService.updateTradeStatusClosed(aliOrderEntity.getSysTradeNo());
                 return R.error(403017,"下单失败").put("sub_code",resultJson.getString("sub_code")).put("sub_msg",resultJson.getString("sub_msg"));
             }
             //4.调起支付宝下单接口 根据不同的payType处理不同下单方式

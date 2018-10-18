@@ -76,6 +76,19 @@ public class MerchantEntity implements Serializable {
 	private Long merchantDeptId;
 
 	/**
+	 * 上级合作商名称
+	 */
+	private String merchantDeptName;
+
+	public String getMerchantDeptName() {
+		return merchantDeptName;
+	}
+
+	public void setMerchantDeptName(String merchantDeptName) {
+		this.merchantDeptName = merchantDeptName;
+	}
+
+	/**
 	 * 设置：
 	 */
 	public void setId(Long id) {

@@ -5,6 +5,7 @@ $(function () {
         colModel: [
 			{ label: '商户ID', name: 'id', index: "id", width: 45, key: true },
 			{ label: '商户名称', name: 'merchantName', sortable: false,width: 75 },
+            { label: '上级商户', name: 'merchantDeptName', sortable: false,width: 75 },
             { label: '联系方式', name: 'merchantPhone', sortable: false, width: 75 },
 			{ label: '商户密钥', name: 'merchantKey', width: 90 },
 			// { label: '手机号', name: 'mobile', width: 100 },
