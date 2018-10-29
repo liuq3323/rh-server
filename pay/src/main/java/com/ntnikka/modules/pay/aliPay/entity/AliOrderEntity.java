@@ -79,6 +79,16 @@ public class AliOrderEntity implements Serializable {
 
     private String merchantName;
 
+    private int status;
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
     public String getMerchantName() {
         return merchantName;
     }

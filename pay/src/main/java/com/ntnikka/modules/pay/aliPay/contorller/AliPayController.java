@@ -116,7 +116,7 @@ public class AliPayController extends AbstractController {
                 tradePrecreateMsgService.save(tradePrecreateMsg);
             });
             if (resultJson.getInteger("code") != 10000){
-                aliOrderService.updateTradeStatusClosed(aliOrderEntity.getOrderId());
+                aliOrderService.updateTradeStatusClosed(aliOrderEntity.getSysTradeNo());
                 return R.error(403017,"下单失败").put("sub_code",resultJson.getString("sub_code")).put("sub_msg",resultJson.getString("sub_msg"));
             }
             //4.调起支付宝下单接口 根据不同的payType处理不同下单方式
@@ -137,13 +137,11 @@ public class AliPayController extends AbstractController {
                 return  R.ok().put("data" , resultMap);
             }
         }catch (Exception e){
+            aliOrderService.updateTradeStatusClosed(aliOrderEntity.getSysTradeNo());
             e.printStackTrace();
+            return R.error(405000,"下单失败");
         }
-
         //二维码支付
-
-        //5.返回
-        return null;
     }
 
     @RequestMapping(value = "/QrCodeTest" , method = RequestMethod.POST)
@@ -188,12 +186,16 @@ public class AliPayController extends AbstractController {
         if (merchantEntity == null){//商户不存在
             return "failure";
         }
+        if (aliOrderEntity.getStatus() == 1){
+            logger.info("订单状态已支付,已获取回调通知或者已手动查询,订单系统id : {}" , tradeId);
+            return "success";
+        }
         try {
             boolean signVerified = AlipaySignature.rsaCheckV1(params, merchantEntity.getAliPubKey(),
                     AlipayConfig.input_charset_utf8 , AlipayConfig.sign_type_RSA2);
             if (signVerified){
                 logger.info("支付宝回调签名认证成功");
-                this.check(params);//验证业务参数
+                this.check(params , aliOrderEntity , merchantEntity);//验证业务参数 app_id (订单号已在前面验证,不存在则直接返回failure给支付宝网关了 不需要再重复验证)
                 //验证有效
                 //异步处理业务数据
                 runAsync(() -> {
@@ -222,8 +224,6 @@ public class AliPayController extends AbstractController {
                         aliNotifyEntity.setUpdatedAt(new Date());
                         aliNotifyService.save(aliNotifyEntity);
                         //通知下游商户
-                        // TODO: 2018/9/21
-                        //测试回调暂时写死 后面修改 aliOrderEntity.getNotifyUrl()
                         String returnMsg = this.doNotify(aliOrderEntity.getNotifyUrl(),aliOrderEntity.getOrderId().toString(),AlipayTradeStatus.TRADE_SUCCESS.getStatus(),aliOrderEntity.getOrderAmount().toString(),aliOrderEntity.getPartner());
                         if (returnMsg.equals("success")){
                             logger.info("通知商户成功，修改通知状态");
@@ -366,15 +366,15 @@ public class AliPayController extends AbstractController {
      * @param params
      * @throws AlipayApiException
      */
-    private void check(Map<String, String> params) throws AlipayApiException {
+    private void check(Map<String, String> params , AliOrderEntity order , MerchantEntity merchantEntity) throws AlipayApiException {
         String outTradeNo = params.get("out_trade_no");
-
+        //此块逻辑已在之前验证 无需再次验证 增加开销
         // 1、商户需要验证该通知数据中的out_trade_no是否为商户系统中创建的订单号，
         // TODO: 2018/9/19 根据out_trade_no查询订单是否存在
-        AliOrderEntity order = aliOrderService.queryBySysTradeNo(outTradeNo);
-        if (order == null) {
-            throw new AlipayApiException("out_trade_no错误");
-        }
+//        AliOrderEntity order = aliOrderService.queryBySysTradeNo(outTradeNo);
+//        if (order == null) {
+//            throw new AlipayApiException("out_trade_no错误");
+//        }
 
         // 2、判断total_amount是否确实为该订单的实际金额（即商户订单创建时的金额），
         logger.info("支付宝返回total_amount : {}" , params.get("total_amount"));
@@ -388,10 +388,10 @@ public class AliPayController extends AbstractController {
         // 第三步可根据实际情况省略
 
         // 4、验证app_id是否为该商户本身。
-        MerchantEntity merchantEntity = merchantService.findByPriKey(order.getPartner());
-        if (merchantEntity == null) {
-            throw new AlipayApiException("app_id不存在");
-        }
+//        MerchantEntity merchantEntity = merchantService.findByPriKey(order.getPartner());
+//        if (merchantEntity == null) {
+//            throw new AlipayApiException("app_id不存在");
+//        }
         if (!params.get("app_id").equals(merchantEntity.getAppid().toString())) {
             throw new AlipayApiException("app_id不一致");
         }
@@ -458,5 +458,13 @@ public class AliPayController extends AbstractController {
         map.put("merchantId" , merchantId);
         List<AliOrderEntity> list = aliOrderService.testOrderList(map);
         return R.ok().put("data" , list);
+    }
+
+    @RequestMapping(value = "testNotify" , method = RequestMethod.POST)
+    public R testNotify(){
+        String tradeId = "36900020181012132738000284961108";
+        AliOrderEntity aliOrderEntity = aliOrderService.queryBySysTradeNo(tradeId);
+        String returnMsg = this.doNotify(aliOrderEntity.getNotifyUrl(),aliOrderEntity.getOrderId().toString(),AlipayTradeStatus.TRADE_SUCCESS.getStatus(),aliOrderEntity.getOrderAmount().toString(),aliOrderEntity.getPartner());
+        return R.ok(returnMsg);
     }
 }
