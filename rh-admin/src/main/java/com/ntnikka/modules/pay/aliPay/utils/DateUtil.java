@@ -565,4 +565,26 @@ public class DateUtil {
         String str = format.format(date);
         return str;
     }
+
+    public static String dtToStr(String dt){
+        Date date = new Date(Long.parseLong(dt));
+        return Date2Str(date);
+    }
+
+    public static void main(String[] args) {
+        String a = "3";
+        switch (a){
+            case "1" :
+                String aa = "1";
+                break;
+            case "2" :
+                aa = "2";
+            case "3" :
+                aa = "3";
+            case "4" :
+                aa = "4";
+                System.out.println("args = [" + aa + "]");
+                break;
+        }
+    }
 }

@@ -80,6 +80,19 @@ public class MerchantEntity implements Serializable {
 	 */
 	private String merchantDeptName;
 
+	/**
+	 * 个人码绑定手机外网地址
+	 */
+	private String mobileUrl;
+
+	public String getMobileUrl() {
+		return mobileUrl;
+	}
+
+	public void setMobileUrl(String mobileUrl) {
+		this.mobileUrl = mobileUrl;
+	}
+
 	public String getMerchantDeptName() {
 		return merchantDeptName;
 	}

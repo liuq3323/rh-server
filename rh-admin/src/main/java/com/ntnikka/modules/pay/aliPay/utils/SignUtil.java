@@ -26,10 +26,7 @@ public class SignUtil {
     }
 
     public static void main(String[] args) {
-        String total_amount = "2.00";
-        Double amount = 2D;
-        System.out.println(Double.parseDouble(total_amount));
-        System.out.println(doubleTrans(amount));
-        System.out.println(amount == Double.parseDouble(total_amount));
+        String sign = "12e6a9e761fcdddb8fbd4401ec44b572";
+        String checkSign = "12e6a9e761fcdddb8fbd4401ec44b572";
     }
 }

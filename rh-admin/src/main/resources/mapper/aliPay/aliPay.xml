@@ -16,20 +16,26 @@
 
 	<update id="updateTradeStatus" parameterType="map">
 		update trade_order set
-		status = 1 , trade_no = #{tradeNo} , pay_time = #{payTime}
-		where  order_id = #{orderId}
+		status = 1
+		<if test="tradeNo !=null and tradeNo != ''">
+			, trade_no = #{tradeNo}
+		</if>
+		<if test="payTime != '' and payTime != null ">
+			, pay_time = #{payTime}
+		</if>
+		where  sys_trade_no = #{orderId}
 	</update>
 
 	<update id="updateTradeStatusClosed" parameterType="java.lang.String">
 		update trade_order set
 		status = 2
-		where  order_id = #{orderId}
+		where  sys_trade_no = #{orderId}
 	</update>
 
 	<update id="updateNotifyStatus" parameterType="java.lang.String">
 		update trade_order set
 		notify_status = 1
-		where  order_id = #{orderId}
+		where  sys_trade_no = #{orderId}
 	</update>
 
 	<select id="queryBySysTradeNo" parameterType="java.lang.String" resultType="com.ntnikka.modules.pay.aliPay.entity.AliOrderEntity">

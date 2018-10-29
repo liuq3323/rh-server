@@ -100,7 +100,8 @@ var vm = new Vue({
             aliPubKey : null,
             merchantPubKey : null,
             merchantPriKey : null,
-            merchantDeptName : null
+            merchantDeptName : null,
+            mobileUrl: null
         }
     },
     methods: {
@@ -180,7 +181,8 @@ var vm = new Vue({
                 aliPubKey : null,
                 merchantPubKey : null,
                 merchantPriKey : null,
-                merchantDeptName : null};
+                merchantDeptName : null ,
+                mobileUrl : null };
             vm.user = {deptName:null, deptId:null, status:1, roleIdList:[]};
 
             //获取角色信息
