@@ -7,10 +7,7 @@ import com.alipay.api.AlipayApiException;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.ntnikka.common.Enum.AlipayTradeStatus;
 import com.ntnikka.common.Enum.PayTypeEnum;
-import com.ntnikka.common.utils.AliPayRequest;
-import com.ntnikka.common.utils.HttpClientUtil;
-import com.ntnikka.common.utils.IdWorker;
-import com.ntnikka.common.utils.MobileRequest;
+import com.ntnikka.common.utils.*;
 import com.ntnikka.modules.merchantManager.entity.MerchantEntity;
 import com.ntnikka.modules.merchantManager.service.MerchantService;
 import com.ntnikka.modules.pay.aliPay.config.AlipayConfig;
@@ -112,7 +109,7 @@ public class AliPayController extends AbstractController {
         aliOrderEntity.setCreateTime(new Date());
         aliOrderEntity.setUpdateTime(new Date());
         aliOrderService.save(aliOrderEntity);
-        //4.判断payMethod 22-支付宝 221-支付包免签 321-微信面前 421-QQ免签
+        //4.判断payMethod 22-支付宝 221-支付包免签 32-微信支付(第三方) 321-微信面前 421-QQ免签
         if (aliOrderEntity.getPayMethod() == "22" || aliOrderEntity.getPayMethod().equals("22")) {
             //todo 支付宝原逻辑
             try {
@@ -153,7 +150,10 @@ public class AliPayController extends AbstractController {
                 e.printStackTrace();
                 return R.error(405000, "下单失败");
             }
-        }else {
+        }else if (aliOrderEntity.getPayMethod().equals("32") || aliOrderEntity.getPayMethod() == "32"){//微信
+
+            return null;
+        } else {
             String payType = "";
             switch (aliOrderEntity.getPayMethod()){
                 case "221" :
@@ -598,14 +598,27 @@ public class AliPayController extends AbstractController {
         return null;
     }
 
-    public static void main(String[] args) {
-        String str = "http://mobile.qq.com/qrcode?url=";
-        String add = "https://i.qianbao.qq.com/wallet/sqrcode.htm?m=tenpay&f=wallet&u=1491522516&a=1&n=L。&ac=2674F0DA92BE37A0D55FE71D840858951AC1FA7D439779F34D8A45280D16170C058209CECBF0B0067AE8FDB11292117295A1F43D903F0EFF89CC95EB5B238A9A";
-        String qrcodeUrl = add ;
-        String imgStr = ImageToBase64Util.createQRCode(qrcodeUrl);
-        System.out.println("args = [" + imgStr + "]");
+    @RequestMapping(value = "wechatNotify")
+    public String wechatNotify(HttpServletRequest request){
+        logger.info("==================进入wechant Notify===================");
+        return "success";
     }
 
+    public static void main(String[] args) {
+//        String str = "http://mobile.qq.com/qrcode?url=";
+//        String add = "https://i.qianbao.qq.com/wallet/sqrcode.htm?m=tenpay&f=wallet&u=1491522516&a=1&n=L。&ac=2674F0DA92BE37A0D55FE71D840858951AC1FA7D439779F34D8A45280D16170C058209CECBF0B0067AE8FDB11292117295A1F43D903F0EFF89CC95EB5B238A9A";
+//        String qrcodeUrl = add ;
+//        String imgStr = ImageToBase64Util.createQRCode(qrcodeUrl);
+//        System.out.println(0 == false ? 1 : 2);
+    }
+
+    @RequestMapping(value = "wechat")
+    public R testWechat(){
+        logger.info("==================进入wechant===================");
+        String msg = WechatRequest.doWechatOrderCreate("10000","MD5","http://9jiqzs.natappfree.cc/api/v1/wechatNotify",
+                "2018103112460020","100","MWEB","c6e285907444ace4568ae3dfaaac78da","123");
+        return R.ok();
+    }
 
 
 }
