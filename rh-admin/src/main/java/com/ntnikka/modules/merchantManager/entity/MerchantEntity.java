@@ -85,6 +85,26 @@ public class MerchantEntity implements Serializable {
 	 */
 	private String mobileUrl;
 
+	private String wechatNum;
+
+	private String wechatKey;
+
+	public String getWechatNum() {
+		return wechatNum;
+	}
+
+	public void setWechatNum(String wechatNum) {
+		this.wechatNum = wechatNum;
+	}
+
+	public String getWechatKey() {
+		return wechatKey;
+	}
+
+	public void setWechatKey(String wechatKey) {
+		this.wechatKey = wechatKey;
+	}
+
 	public String getMobileUrl() {
 		return mobileUrl;
 	}

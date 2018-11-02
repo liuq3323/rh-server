@@ -32,28 +32,39 @@ public class WechatRequest {
      * @param payType 支付方式 wap or 二维码
      * @return
      */
-    public static String doWechatOrderCreate (String merchantNo , String signType , String notifyUrl , String outTradeNo , String totalAmount , String payType , String prikey ,String body){
+    public static String doWechatOrderCreate (String merchantNo , String ip,String signType , String notifyUrl , String outTradeNo , String totalAmount , String payType , String prikey ,String body){
         Map<String, String> map=new HashMap<>();
         map.put("inst_id",merchantNo);
         map.put("total_fee",totalAmount);
         map.put("out_trade_no",outTradeNo);
         map.put("sign_type",signType);
 //        map.put("device_info", "1222211111");
-        String ip = IPUtils.getServerIp();
         map.put("spbill_create_ip",ip);
-        map.put("notify_url","http://9jiqzs.natappfree.cc/api/v1/wechatNotify");
+        map.put("notify_url",notifyUrl);
         map.put("body",body);
         map.put("trade_type",payType);
         //body inst_id  notify_url   out_trade_no  sign_type  spbill_create_ip    total_fee    trade_type
         String paramStr = String.format("body=%s&inst_id=%s&notify_url=%s&out_trade_no=%s&sign_type=%s&spbill_create_ip=%s&total_fee=%s&trade_type=%s&key=%s",
-                body,merchantNo,notifyUrl,outTradeNo,"MD5",ip,totalAmount,payType,prikey);
+                body,merchantNo,notifyUrl,outTradeNo,signType,ip,totalAmount,payType,prikey);
         String sign = MD5Utils.encode(paramStr);
         map.put("sign" , sign.toUpperCase());
         JSONObject json=JSONObject.fromObject(map);
-        System.out.println("请求报文:"+json.toString());
+//        System.out.println("请求报文:"+json.toString());
         String resultMsg = HttpClientUtil.doPost(wxpay_Create,map);
         //String resultMsg = HttpUtil.doPost(wxpay_Create , json.toString());
         logger.info("接口返回: {}",resultMsg);
+        return resultMsg;
+    }
+
+    public static String doWechatOrderQuery(String merchantNum ,String outTradeNo , String signType , String wechatKey){
+        Map<String, String> map=new HashMap<>();
+        map.put("inst_id",merchantNum);
+        map.put("out_trade_no",outTradeNo);
+        map.put("sign_type",signType);
+        String paramStr = String.format("inst_id=%s&out_trade_no=%s&sign_type=%s&key=%s",merchantNum,outTradeNo,signType,wechatKey);
+        String sign = MD5Utils.encode(paramStr);
+        map.put("sign" , sign.toUpperCase());
+        String resultMsg = HttpClientUtil.doPost(wxpay_Query,map);
         return resultMsg;
     }
 

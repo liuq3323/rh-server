@@ -101,7 +101,9 @@ var vm = new Vue({
             merchantPubKey : null,
             merchantPriKey : null,
             merchantDeptName : null,
-            mobileUrl: null
+            mobileUrl: null ,
+            wechantNum : null,
+            wechantKey : null
         }
     },
     methods: {
@@ -182,7 +184,9 @@ var vm = new Vue({
                 merchantPubKey : null,
                 merchantPriKey : null,
                 merchantDeptName : null ,
-                mobileUrl : null };
+                mobileUrl : null ,
+                wechatNum : null,
+                wechatKey : null};
             vm.user = {deptName:null, deptId:null, status:1, roleIdList:[]};
 
             //获取角色信息

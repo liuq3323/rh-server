@@ -50,6 +50,7 @@
             <select class='form-control' id="payMethod">
                 <option value="22" selected>支付宝</option>
                 <option value="221">支付宝免签</option>
+                <option value="32">微信</option>
                 <option value="321">微信免签</option>
                 <option value="421">QQ免签</option>
             </select>
@@ -148,8 +149,8 @@
                     if (payType == "QrCode"){
                     $("#qrCode").attr('src', data.data.qr_code);
                     }else {
-                        window.open(data.data.qr_code, "_blank");
-                        //window.location.href=data.qr_code;
+                        //window.open(data.data.qr_code, "_blank");
+                        window.location.href=data.data.qr_code;
                     }
                 } else {
                     alert(data.msg);
