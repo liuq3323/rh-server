@@ -13,7 +13,6 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * shiro session dao
- *
  */
 @Component
 public class RedisShiroSessionDAO extends EnterpriseCacheSessionDAO {
@@ -33,7 +32,7 @@ public class RedisShiroSessionDAO extends EnterpriseCacheSessionDAO {
     @Override
     protected Session doReadSession(Serializable sessionId) {
         Session session = super.doReadSession(sessionId);
-        if(session == null){
+        if (session == null) {
             final String key = RedisKeys.getShiroSessionKey(sessionId.toString());
             session = getShiroSession(key);
         }
@@ -57,10 +56,10 @@ public class RedisShiroSessionDAO extends EnterpriseCacheSessionDAO {
     }
 
     private Session getShiroSession(String key) {
-        return (Session)redisTemplate.opsForValue().get(key);
+        return (Session) redisTemplate.opsForValue().get(key);
     }
 
-    private void setShiroSession(String key, Session session){
+    private void setShiroSession(String key, Session session) {
         redisTemplate.opsForValue().set(key, session);
         //60分钟过期
         redisTemplate.expire(key, 60, TimeUnit.MINUTES);

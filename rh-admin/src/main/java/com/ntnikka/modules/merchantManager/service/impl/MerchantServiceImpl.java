@@ -34,7 +34,7 @@ public class MerchantServiceImpl extends ServiceImpl<MerchantDao, MerchantEntity
         String merchantId = (String) params.get("id");
         Page<MerchantEntity> page = this.selectPage(
                 new Query<MerchantEntity>(params).getPage(),
-                new EntityWrapper<MerchantEntity>().eq(EmptyUtil.isNotEmpty(merchantId),"id",EmptyUtil.isNotEmpty(merchantId) ? Long.parseLong(merchantId) : "" )
+                new EntityWrapper<MerchantEntity>().eq(EmptyUtil.isNotEmpty(merchantId), "id", EmptyUtil.isNotEmpty(merchantId) ? Long.parseLong(merchantId) : "")
         );
 
         return new PageUtils(page);
@@ -57,8 +57,9 @@ public class MerchantServiceImpl extends ServiceImpl<MerchantDao, MerchantEntity
         merchantDept.setMerchantId(merchantEntity.getId());
         merchantDeptService.insert(merchantDept);
     }
+
     @Override
-    public MerchantEntity findByPriKey(String priKey){
+    public MerchantEntity findByPriKey(String priKey) {
         return merchantDao.findByPriKey(priKey);
     }
 

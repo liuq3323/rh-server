@@ -7,7 +7,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 /**
  * 资源
- *
  */
 @Configuration
 public class ResourcesConfig extends WebMvcConfigurerAdapter {

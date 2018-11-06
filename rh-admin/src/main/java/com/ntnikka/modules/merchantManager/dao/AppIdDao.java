@@ -10,15 +10,13 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 
- * 
  * @author Liuq
  * @email 530775870@qq.com
  * @date 2018-10-10 11:56:51
  */
 @Repository
 public interface AppIdDao extends BaseMapper<AppIdEntity> {
-	List<Long> queryAppid();
+    List<Long> queryAppid();
 
-	AppIdEntity queryInfoByAppid(Map map);
+    AppIdEntity queryInfoByAppid(Map map);
 }

@@ -21,35 +21,35 @@ public class TradeOrder implements Serializable {
     private String orderId;
     //支付方式：0-wap ,1-qrCode
     private String payType;
-//版本号
+    //版本号
     private String version;
-//加密方式(MD5)
+    //加密方式(MD5)
     private String signType;
-//订单金额
+    //订单金额
     private BigDecimal orderAmount;
-//商户密钥(商户注册时平台生成)
+    //商户密钥(商户注册时平台生成)
     private String partner;
-//签名
+    //签名
     private String sign;
-//回调地址
+    //回调地址
     private String notifyUrl;
-//商品id
+    //商品id
     private int productId;
-//商品名字
+    //商品名字
     private String productName;
-//商品描述
+    //商品描述
     private String productDesc;
-//支付方式(目前仅支持支付宝):22-支付宝
+    //支付方式(目前仅支持支付宝):22-支付宝
     private String payMethod;
-//创建时间
+    //创建时间
     private Date createTime;
-//更新时间
+    //更新时间
     private Date updateTime;
-//商户id
+    //商户id
     private Long merchantId;
-//订单状态：交易成功 处理中 交易失败
+    //订单状态：交易成功 处理中 交易失败
     private int status;
-//是否已通知商户(默认0)0-未通知，1-已通知
+    //是否已通知商户(默认0)0-未通知，1-已通知
     private int notifyStatus;
 
     private String tradeNo;

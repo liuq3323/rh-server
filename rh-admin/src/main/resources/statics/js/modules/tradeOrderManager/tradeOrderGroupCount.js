@@ -11,28 +11,28 @@ var setting = {
             rootPId: -1
         },
         key: {
-            url:"nourl"
+            url: "nourl"
         }
     }
 };
 var ztree;
 
 var vm = new Vue({
-    el:'#rrapp',
-    data:{
-        q:{
-            tradeid:null,
+    el: '#rrapp',
+    data: {
+        q: {
+            tradeid: null,
             orderid: null,
-            merchantid:null,
-            starttime:null,
-            endtime:null,
-            tradestatus:null
+            merchantid: null,
+            starttime: null,
+            endtime: null,
+            tradestatus: null
         },
-        dept:{
-            parentName:null,
-            deptId : null,
-            parentId:0,
-            orderNum:0
+        dept: {
+            parentName: null,
+            deptId: null,
+            parentId: 0,
+            orderNum: 0
         },
         showList: true,
         title: null,
@@ -42,20 +42,20 @@ var vm = new Vue({
         query: function () {
             vm.reload();
         },
-        getDept: function(){
+        getDept: function () {
             console.log("============>>加载部门树");
             //加载部门树
-            $.get(baseURL + "merchant/dept/list", function(r){
+            $.get(baseURL + "merchant/dept/list", function (r) {
                 ztree = $.fn.zTree.init($("#deptTree"), setting, r);
                 var node = ztree.getNodeByParam("deptId", vm.dept.deptId);
-                if(node != null){
+                if (node != null) {
                     ztree.selectNode(node);
                     vm.dept.parentName = node.name;
                     // vm.merchant.merchantdeptid = node.id;
                 }
             })
         },
-        deptTree: function(){
+        deptTree: function () {
             layer.open({
                 type: 1,
                 offset: '50px',

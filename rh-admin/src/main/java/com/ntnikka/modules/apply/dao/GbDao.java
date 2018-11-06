@@ -15,12 +15,12 @@ import java.util.Map;
 @Repository
 public interface GbDao extends BaseMapper<GbEntity> {
 
-    List<Map<String,Object>> getCids();
+    List<Map<String, Object>> getCids();
 
-    List<Map<String,Object>> getBids();
+    List<Map<String, Object>> getBids();
 
-    List<Map<String,Object>> getMids();
+    List<Map<String, Object>> getMids();
 
-    List<Map<String,Object>> getLids();
+    List<Map<String, Object>> getLids();
 
 }

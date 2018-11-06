@@ -25,34 +25,34 @@ public class AliPayRequest {
     private static Logger logger = LoggerFactory.getLogger(AliPayRequest.class);
 
 
-    public static String  doQrCodeAliRequest(String orderId , BigDecimal orderAmount , String productName , String appId , String privateKey , String aliPubKey , String authToken , String pid , String storeId)throws AlipayApiException{
+    public static String doQrCodeAliRequest(String orderId, BigDecimal orderAmount, String productName, String appId, String privateKey, String aliPubKey, String authToken, String pid, String storeId) throws AlipayApiException {
         AlipayClient alipayClient = new DefaultAlipayClient("https://openapi.alipay.com/gateway.do", appId, privateKey, "json", AlipayConfig.input_charset, aliPubKey, AlipayConfig.sign_type_RSA2); //获得初始化的AlipayClient
         AlipayTradePrecreateRequest request = new AlipayTradePrecreateRequest();//创建API对应的request类
         request.setNotifyUrl("http://369pay.net/api/v1/AliNotify");
-        if (StringUtils.isEmpty(storeId)){//没有商户id
+        if (StringUtils.isEmpty(storeId)) {//没有商户id
             request.setBizContent("{" +
-                    "    \"out_trade_no\":\""+orderId+"\"," +
-                    "    \"total_amount\":\""+orderAmount+"\"," +
-                    "    \"subject\":\""+productName+"\"," +
+                    "    \"out_trade_no\":\"" + orderId + "\"," +
+                    "    \"total_amount\":\"" + orderAmount + "\"," +
+                    "    \"subject\":\"" + productName + "\"," +
                     "    \"timeout_express\":\"1c\"}");
-        }else {
+        } else {
             request.setBizContent("{" +
-                    "    \"out_trade_no\":\""+orderId+"\"," +
-                    "    \"total_amount\":\""+orderAmount+"\"," +
-                    "    \"subject\":\""+productName+"\"," +
-                    "    \"store_id\":\""+storeId+"\"," +
+                    "    \"out_trade_no\":\"" + orderId + "\"," +
+                    "    \"total_amount\":\"" + orderAmount + "\"," +
+                    "    \"subject\":\"" + productName + "\"," +
+                    "    \"store_id\":\"" + storeId + "\"," +
                     "    \"timeout_express\":\"1c\"}");//该笔订单允许的最晚付款时间，逾期将关闭交易。取值范围：1m～15d。m-分钟，h-小时，d-天，1c-当天（1c-当天的情况下，无论交易何时创建，都在0点关闭）。 该参数数值不接受小数点， 如 1.5h，可转换为 90m
         }
         //设置业务参数alipayClient.execute(precreateRequest, appAuthToken)
-        AlipayTradePrecreateResponse response = alipayClient.execute(request ,"",authToken);
+        AlipayTradePrecreateResponse response = alipayClient.execute(request, "", authToken);
         System.out.print(response.getBody());
         //根据response中的结果继续业务逻辑处理
-        logger.info("支付宝返回结果 ， {}" ,response.getBody());
+        logger.info("支付宝返回结果 ， {}", response.getBody());
         return response.getBody();
     }
 
-    public static String getAuthToken(String appId , String privateKey , String aliPubKey ,String authCode) throws AlipayApiException{
-        AlipayClient alipayClient = new DefaultAlipayClient("https://openapi.alipay.com/gateway.do" , appId , privateKey , "json" , AlipayConfig.input_charset , aliPubKey ,  AlipayConfig.sign_type_RSA2);
+    public static String getAuthToken(String appId, String privateKey, String aliPubKey, String authCode) throws AlipayApiException {
+        AlipayClient alipayClient = new DefaultAlipayClient("https://openapi.alipay.com/gateway.do", appId, privateKey, "json", AlipayConfig.input_charset, aliPubKey, AlipayConfig.sign_type_RSA2);
 //        AlipaySystemOauthTokenRequest request = new AlipaySystemOauthTokenRequest();
 //        request.setGrantType("authorization_code");
 //        request.setCode(authCode);
@@ -61,24 +61,24 @@ public class AliPayRequest {
         AlipayOpenAuthTokenAppRequest request = new AlipayOpenAuthTokenAppRequest();
         request.setBizContent("{" +
                 "\"grant_type\":\"authorization_code\"," +
-                "\"code\":\""+authCode+"\"" +
+                "\"code\":\"" + authCode + "\"" +
                 "  }");
         AlipayOpenAuthTokenAppResponse response = alipayClient.execute(request);
-        logger.info("auth_token : {}" , response.getBody());
+        logger.info("auth_token : {}", response.getBody());
         return response.getBody();
     }
 
-    public static String queryOrder(String appId , String privateKey , String aliPubKey , String out_trade_no , String authCode) throws AlipayApiException{
-        AlipayClient alipayClient = new DefaultAlipayClient("https://openapi.alipay.com/gateway.do",appId,privateKey,"json",AlipayConfig.input_charset,aliPubKey,AlipayConfig.sign_type_RSA2);
+    public static String queryOrder(String appId, String privateKey, String aliPubKey, String out_trade_no, String authCode) throws AlipayApiException {
+        AlipayClient alipayClient = new DefaultAlipayClient("https://openapi.alipay.com/gateway.do", appId, privateKey, "json", AlipayConfig.input_charset, aliPubKey, AlipayConfig.sign_type_RSA2);
         AlipayTradeQueryRequest request = new AlipayTradeQueryRequest();
         request.setBizContent("{" +
-                "\"out_trade_no\":\""+out_trade_no+"\"" +
+                "\"out_trade_no\":\"" + out_trade_no + "\"" +
                 "  }");
-        AlipayTradeQueryResponse response = alipayClient.execute(request , "" , authCode);
-        if(response.isSuccess()){
-            logger.info("查询订单状态成功 ：{}" , response.getBody());
+        AlipayTradeQueryResponse response = alipayClient.execute(request, "", authCode);
+        if (response.isSuccess()) {
+            logger.info("查询订单状态成功 ：{}", response.getBody());
         } else {
-            logger.info("查询订单状态失败 ：{}" , response.getBody());
+            logger.info("查询订单状态失败 ：{}", response.getBody());
         }
         return response.getBody();
     }

@@ -15,10 +15,9 @@ public class TradePrecreateMsg implements Serializable {
 
     private String orderId;
 
-    private Integer code ;
+    private Integer code;
 
-    private String msg ;
-
+    private String msg;
 
 
     public String getOrderId() {

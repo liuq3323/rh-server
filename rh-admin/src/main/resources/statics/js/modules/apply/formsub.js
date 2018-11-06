@@ -11,22 +11,22 @@ var setting = {
             rootPId: 0
         },
         key: {
-            url:"nourl"
+            url: "nourl"
         }
     }
 };
 var ztree;
 
 var vm = new Vue({
-    el:'#rrapp',
-    data:{
+    el: '#rrapp',
+    data: {
         showList: true,
         title: "XX省企业技术中心评定表",
-        gb:{
-            id:null,
-            pid:null,
-            code:null,
-            name:null
+        gb: {
+            id: null,
+            pid: null,
+            code: null,
+            name: null
         }
     },
     methods: {
@@ -34,20 +34,20 @@ var vm = new Vue({
             vm.reload();
         },
 
-        getgbTree: function(){
+        getgbTree: function () {
             //加载Gb编码树
-            $.get(baseURL + "apply/mygb/list", function(r){
+            $.get(baseURL + "apply/mygb/list", function (r) {
                 ztree = $.fn.zTree.init($("#gbTree"), setting, r);
                 // alert(ztree)
                 var node = ztree.getNodeByParam("id", vm.gb.id);
-                if(node != null){
+                if (node != null) {
                     ztree.selectNode(node);
                     vm.gb.name = node.name;
                 }
             })
         },
 
-        gbTree: function(){
+        gbTree: function () {
             vm.getgbTree();
             layer.open({
                 type: 1,

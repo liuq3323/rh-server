@@ -26,7 +26,7 @@ import java.util.Map;
  * @Date 2018/9/17 15:02
  **/
 @Service("TradeOrderService")
-public class TradeOrderServiceImpl extends ServiceImpl<TradeOrderDao , TradeOrder> implements TradeOrderService {
+public class TradeOrderServiceImpl extends ServiceImpl<TradeOrderDao, TradeOrder> implements TradeOrderService {
 
     @Autowired
     TradeOrderDao tradeOrderDao;
@@ -37,38 +37,38 @@ public class TradeOrderServiceImpl extends ServiceImpl<TradeOrderDao , TradeOrde
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         String tradeId = params.get("tradeid") == null ? "" : params.get("tradeid").toString();
-        String orderId =  params.get("orderid") == null ? "" : params.get("orderid").toString();
-        String merchantId =  params.get("merchantid") == null ? "" : params.get("merchantid").toString();
+        String orderId = params.get("orderid") == null ? "" : params.get("orderid").toString();
+        String merchantId = params.get("merchantid") == null ? "" : params.get("merchantid").toString();
         String status = params.get("status") == null ? "" : params.get("status").toString();
-        String star =  params.get("starttime") == null ? "" : params.get("starttime").toString();
-        String end =  params.get("endtime") == null ? "" : params.get("endtime").toString();
+        String star = params.get("starttime") == null ? "" : params.get("starttime").toString();
+        String end = params.get("endtime") == null ? "" : params.get("endtime").toString();
         String merchantdept = params.get("merchantdept") == null ? "" : params.get("merchantdept").toString();
         String tradeno = params.get("tradeno") == null ? "" : params.get("tradeno").toString();
         List<Long> idList = new ArrayList<>();
-        if (!merchantdept.isEmpty()){
+        if (!merchantdept.isEmpty()) {
             idList = merchantDeptService.queryMerchantDeptIdList(Long.parseLong(merchantdept));
         }
-        Page<TradeOrder> page = this.selectPage(new Query<TradeOrder>(params).getPage() ,
-                                                    new EntityWrapper<TradeOrder>()
-                                                    .eq(EmptyUtil.isNotEmpty(tradeId) , "sys_trade_no" , tradeId)
-                                                    .eq(EmptyUtil.isNotEmpty(orderId) , "order_id" , orderId)
-                                                    .eq(EmptyUtil.isNotEmpty(merchantId),"merchant_id", merchantId)
-                                                    .eq(EmptyUtil.isNotEmpty(status), "status", status)
-                                                    .eq(EmptyUtil.isNotEmpty(tradeno), "trade_no" , tradeno)
-                                                    .in(EmptyUtil.isNotEmpty(idList) , "merchant_id" ,idList)
-                                                    .ge(EmptyUtil.isNotEmpty(star), "create_time",star)
-                                                    .le(EmptyUtil.isNotEmpty(end), "create_time",end));
-         return new PageUtils(page);
+        Page<TradeOrder> page = this.selectPage(new Query<TradeOrder>(params).getPage(),
+                new EntityWrapper<TradeOrder>()
+                        .eq(EmptyUtil.isNotEmpty(tradeId), "sys_trade_no", tradeId)
+                        .eq(EmptyUtil.isNotEmpty(orderId), "order_id", orderId)
+                        .eq(EmptyUtil.isNotEmpty(merchantId), "merchant_id", merchantId)
+                        .eq(EmptyUtil.isNotEmpty(status), "status", status)
+                        .eq(EmptyUtil.isNotEmpty(tradeno), "trade_no", tradeno)
+                        .in(EmptyUtil.isNotEmpty(idList), "merchant_id", idList)
+                        .ge(EmptyUtil.isNotEmpty(star), "create_time", star)
+                        .le(EmptyUtil.isNotEmpty(end), "create_time", end));
+        return new PageUtils(page);
     }
 
     @Override
     public List<TradeOrder> queryList(Map<String, Object> params) {
         String tradeId = params.get("tradeid") == null ? "" : params.get("tradeid").toString();
-        String orderId =  params.get("orderid") == null ? "" : params.get("orderid").toString();
-        String merchantId =  params.get("merchantid") == null ? "" : params.get("merchantid").toString();
+        String orderId = params.get("orderid") == null ? "" : params.get("orderid").toString();
+        String merchantId = params.get("merchantid") == null ? "" : params.get("merchantid").toString();
         String status = params.get("status") == null ? "" : params.get("status").toString();
-        String star =  params.get("starttime") == null ? "" : params.get("starttime").toString();
-        String end =  params.get("endtime") == null ? "" : params.get("endtime").toString();
+        String star = params.get("starttime") == null ? "" : params.get("starttime").toString();
+        String end = params.get("endtime") == null ? "" : params.get("endtime").toString();
         String merchantdept = params.get("merchantdept") == null ? "" : params.get("merchantdept").toString();
 //        List<Long> idList = new ArrayList<>();
 //        if (!merchantdept.isEmpty()){
@@ -88,7 +88,7 @@ public class TradeOrderServiceImpl extends ServiceImpl<TradeOrderDao , TradeOrde
     }
 
     @Override
-    public List<Map<String , String>> queryOrderDataForBarChart(Map map) {
+    public List<Map<String, String>> queryOrderDataForBarChart(Map map) {
         return tradeOrderDao.queryOrderDataForBarChart(map);
     }
 

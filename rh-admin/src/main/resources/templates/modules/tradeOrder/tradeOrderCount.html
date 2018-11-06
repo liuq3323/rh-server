@@ -9,20 +9,20 @@
 <form class="form-horizontal">
     <div class="grid-btn">
         <div class="form-group col-sm-2">
-            <input class="form-control" type="text" id="starttime"  style="width:100%"  value="" placeholder="开始时间">
+            <input class="form-control" type="text" id="starttime" style="width:100%" value="" placeholder="开始时间">
         </div>
         <div class="form-group col-sm-2">
-            <input class="form-control" type="text" id="endtime"  style="width:100%"  value="" placeholder="结束时间">
+            <input class="form-control" type="text" id="endtime" style="width:100%" value="" placeholder="结束时间">
         </div>
         <a class="btn btn-default" onclick="barQuery();">查询</a>
     </div>
 </form>
 <div>
     <div>
-        总查询统计:<label>订单提交金额 : <label id="totalAmount"></label>  订单成功金额 : <label id ="successAmount"></label></label>
+        总查询统计:<label>订单提交金额 : <label id="totalAmount"></label> 订单成功金额 : <label id="successAmount"></label></label>
     </div>
     <div>
-        <label>订单提交总量 : <label id="totalCount"></label>   订单成功量 : <label id ="successCount"></label></label>
+        <label>订单提交总量 : <label id="totalCount"></label> 订单成功量 : <label id="successCount"></label></label>
     </div>
 </div>
 <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
@@ -37,13 +37,13 @@
         elem: '#starttime',
         type: 'datetime',
         format: 'yyyy-MM-dd',
-        change : function (value, date) {
+        change: function (value, date) {
             console.log(value);
             end.min = value;
         },
         done: function (value, date, endDate) {
 
-            if(date!=''){
+            if (date != '') {
 
                 end.config.min = {
 
@@ -95,7 +95,7 @@
 
             }
 
-            else{
+            else {
 
                 end.config.min = {
 
@@ -176,11 +176,11 @@
         // var myChart2 = echarts.init(document.getElementById('main2'));
         var myChart3 = echarts.init(document.getElementById('main3'));
         $.ajax({
-            url : baseURL + "/tradeOrder/testCount" ,
+            url: baseURL + "/tradeOrder/testCount",
             type: 'post',
-            data: JSON.stringify({ "starttime": $("#starttime").val(), "endtime": $("#endtime").val() }),//一同上传的数据
-            dataType : 'json', //返回值类型一般设置为json
-            contentType : 'application/json;charset=utf-8',
+            data: JSON.stringify({"starttime": $("#starttime").val(), "endtime": $("#endtime").val()}),//一同上传的数据
+            dataType: 'json', //返回值类型一般设置为json
+            contentType: 'application/json;charset=utf-8',
             success: function (data, status)  //服务器成功响应处理函数
             {
                 debugger;
@@ -194,10 +194,10 @@
                         title: {
                             text: '销售额'
                         },
-                        color : '#4b47cc',
+                        color: '#4b47cc',
                         tooltip: {},
                         legend: {
-                            data:['销量']
+                            data: ['销量']
                         },
                         xAxis: {
                             data: data.nameList
@@ -285,7 +285,7 @@
                             }
                         },
 
-                        tooltip : {
+                        tooltip: {
                             trigger: 'item',
                             formatter: "{a} <br/>{b} : {c} ({d}%)"
                         },
@@ -298,24 +298,32 @@
                         //         colorLightness: [0, 1]
                         //     }
                         // },
-                        series : [
+                        series: [
                             {
-                                name:'123',
-                                type:'pie',
-                                radius : '55%',
+                                name: '123',
+                                type: 'pie',
+                                radius: '55%',
                                 center: ['50%', '50%'],
-                                data:[
-                                    {value:data.totalCount.totalCount, name:'支付成功' ,itemStyle: {
+                                data: [
+                                    {
+                                        value: data.totalCount.totalCount, name: '支付成功', itemStyle: {
                                             color: '#2ec22d'
-                                        }},
-                                    {value:data.toPayCount.toPayCount, name:'下单未支付',itemStyle: {
+                                        }
+                                    },
+                                    {
+                                        value: data.toPayCount.toPayCount, name: '下单未支付', itemStyle: {
                                             color: '#17bec2'
-                                        }},
-                                    {value:data.failCount.failCount, name:'支付失败',
+                                        }
+                                    },
+                                    {
+                                        value: data.failCount.failCount, name: '支付失败',
                                         itemStyle: {
                                             color: '#1856cc'
-                                        }}
-                                ].sort(function (a, b) { return a.value - b.value; }),
+                                        }
+                                    }
+                                ].sort(function (a, b) {
+                                    return a.value - b.value;
+                                }),
                                 roseType: 'angle',
                                 label: {
                                     normal: {

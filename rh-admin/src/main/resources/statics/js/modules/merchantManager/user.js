@@ -3,55 +3,59 @@ $(function () {
         url: baseURL + 'merchant/mgr/list',
         datatype: "json",
         colModel: [
-			{ label: '商户ID', name: 'id', index: "id", width: 45, key: true },
-			{ label: '商户名称', name: 'merchantName', sortable: false,width: 75 },
-            { label: '上级商户', name: 'merchantDeptName', sortable: false,width: 75 },
-            { label: '联系方式', name: 'merchantPhone', sortable: false, width: 75 },
-			{ label: '商户密钥', name: 'merchantKey', width: 90 },
-			// { label: '手机号', name: 'mobile', width: 100 },
-			{ label: '状态', name: 'status', width: 60, formatter: function(value, options, row){
-				return value === 0 ? 
-					'<span class="label label-success">通过验证</span>' :
-					'<span class="label label-danger">其他</span>';
-			}},
-			// { label: '创建时间', name: 'createTime', index: "create_time", width: 85},
-            { label: '商户交易权限', name: 'tradeStatus', width: 65,
-                formatter: function (value,options,row) {
+            {label: '商户ID', name: 'id', index: "id", width: 45, key: true},
+            {label: '商户名称', name: 'merchantName', sortable: false, width: 75},
+            {label: '上级商户', name: 'merchantDeptName', sortable: false, width: 75},
+            {label: '联系方式', name: 'merchantPhone', sortable: false, width: 75},
+            {label: '商户密钥', name: 'merchantKey', width: 90},
+            // { label: '手机号', name: 'mobile', width: 100 },
+            {
+                label: '状态', name: 'status', width: 60, formatter: function (value, options, row) {
                     return value === 0 ?
-                        '<span class="label label-success pointer" onclick="vm.updateTradeStatus(\''+value+'\',\''+row.id+'\')">关闭交易</span>' :
-                        '<span class="label label-danger pointer" onclick="vm.updateTradeStatus(\''+value+'\',\''+row.id+'\')">开启交易</span>';
+                        '<span class="label label-success">通过验证</span>' :
+                        '<span class="label label-danger">其他</span>';
                 }
             },
-            { label: '通道配置', name: 'id', width: 65,
-                formatter: function (value,options,row) {
-                    return '<span class="label label-success pointer" onclick="vm.audit(\''+value+'\')">详情</span>'
+            // { label: '创建时间', name: 'createTime', index: "create_time", width: 85},
+            {
+                label: '商户交易权限', name: 'tradeStatus', width: 65,
+                formatter: function (value, options, row) {
+                    return value === 0 ?
+                        '<span class="label label-success pointer" onclick="vm.updateTradeStatus(\'' + value + '\',\'' + row.id + '\')">关闭交易</span>' :
+                        '<span class="label label-danger pointer" onclick="vm.updateTradeStatus(\'' + value + '\',\'' + row.id + '\')">开启交易</span>';
+                }
+            },
+            {
+                label: '通道配置', name: 'id', width: 65,
+                formatter: function (value, options, row) {
+                    return '<span class="label label-success pointer" onclick="vm.audit(\'' + value + '\')">详情</span>'
                 }
             }
         ],
-		viewrecords: true,
+        viewrecords: true,
         height: 600,
         rowNum: 10,
-		rowList : [10,30,50],
-        rownumbers: true, 
-        rownumWidth: 25, 
-        autowidth:true,
+        rowList: [10, 30, 50],
+        rownumbers: true,
+        rownumWidth: 25,
+        autowidth: true,
         multiselect: false,
         pager: "#jqGridPager",
-        jsonReader : {
+        jsonReader: {
             root: "page.list",
             page: "page.currPage",
             total: "page.totalPage",
             records: "page.totalCount"
         },
-        prmNames : {
-            page:"page", 
-            rows:"limit", 
+        prmNames: {
+            page: "page",
+            rows: "limit",
             order: "order"
         },
-        gridComplete:function(){
+        gridComplete: function () {
             // var ids=$("#jqGrid").jqGrid('getDataIDs');
-        	//隐藏grid底部滚动条
-        	$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" }); 
+            //隐藏grid底部滚动条
+            $("#jqGrid").closest(".ui-jqgrid-bdiv").css({"overflow-x": "hidden"});
         }
     });
     vm.loadAppIdSelect();
@@ -65,141 +69,143 @@ var setting = {
             rootPId: -1
         },
         key: {
-            url:"nourl"
+            url: "nourl"
         }
     }
 };
 var ztree;
 
 var vm = new Vue({
-    el:'#rrapp',
-    data:{
-        q:{
+    el: '#rrapp',
+    data: {
+        q: {
             username: null
         },
         showList: true,
-        showList2:false,
-        showList3:false,
-        title:null,
-        roleList:{},
-        user:{
-            status:1,
-            deptId:null,
-            deptName:null,
-            roleIdList:[]
+        showList2: false,
+        showList3: false,
+        title: null,
+        roleList: {},
+        user: {
+            status: 1,
+            deptId: null,
+            deptName: null,
+            roleIdList: []
         },
-        merchant : {
-            id : null,
-            merchantName : null,
-            merchantDeptId : null,
-            merchantPhone : null,
-            pid : null ,
-            storeNumber : null,
-            authCode : null,
-            appid : null,
-            aliPubKey : null,
-            merchantPubKey : null,
-            merchantPriKey : null,
-            merchantDeptName : null,
-            mobileUrl: null ,
-            wechantNum : null,
-            wechantKey : null
+        merchant: {
+            id: null,
+            merchantName: null,
+            merchantDeptId: null,
+            merchantPhone: null,
+            pid: null,
+            storeNumber: null,
+            authCode: null,
+            appid: null,
+            aliPubKey: null,
+            merchantPubKey: null,
+            merchantPriKey: null,
+            merchantDeptName: null,
+            mobileUrl: null,
+            wechantNum: null,
+            wechantKey: null
         }
     },
     methods: {
         query: function () {
             vm.reload();
         },
-        loadAppIdSelect: function() {
+        loadAppIdSelect: function () {
             $("select[name='appidSelect']").empty();
             $.ajax({
                 type: "POST",
                 url: baseURL + "merchant/appid/queryAppid",
                 contentType: "application/json",
-                success: function(r){
-                    if(r.code == 0){
+                success: function (r) {
+                    if (r.code == 0) {
                         console.log(r.appId);
-                        for (var i =0 ; i<r.appId.length ; i ++){
-                            $("select[name='appidSelect']").append("<option value='"+r.appId[i]+"'>"+r.appId[i]+"</option>");
+                        for (var i = 0; i < r.appId.length; i++) {
+                            $("select[name='appidSelect']").append("<option value='" + r.appId[i] + "'>" + r.appId[i] + "</option>");
                         }
-                    }else{
+                    } else {
                         alert(r.msg);
                     }
                 }
             });
         },
-        changeType: function(ele) {
+        changeType: function (ele) {
             console.log("---->select onchange function");
             var optionTxt = $(ele.target).find("option:selected").text();
             var optionVal = ele.target.value;
-            var param = {"appid" : optionVal};
+            var param = {"appid": optionVal};
             $.ajax({
                 type: "POST",
                 url: baseURL + "merchant/appid/queryInfoByAppid",
                 contentType: "application/json",
                 data: JSON.stringify(param),
-                success: function(r){
-                    if(r.code == 0){
+                success: function (r) {
+                    if (r.code == 0) {
                         console.log(r.appId);
-                        vm.merchant.aliPubKey=r.appId.aliPubKey;
+                        vm.merchant.aliPubKey = r.appId.aliPubKey;
                         vm.merchant.merchantPubKey = r.appId.merchantPubKey;
                         vm.merchant.merchantPriKey = r.appId.merchantPriKey;
                         vm.merchant.appid = optionVal;
-                    }else{
+                    } else {
                         alert(r.msg);
                     }
                 }
             });
         },
-        audit:function (value) {
+        audit: function (value) {
             var id = value;
-            if(id == null){
-                return ;
+            if (id == null) {
+                return;
             }
 
             vm.showList = false;
-            vm.showList2=true;
+            vm.showList2 = true;
             vm.title = "详情";
 
             vm.getInfo(id);
             //获取角色信息
             this.getRoleList();
             //下拉列表选中改选项的appid
-            $("select[name='appidSelect']").find("option[value = '"+yue+"']").attr("selected","selected");
+            $("select[name='appidSelect']").find("option[value = '" + yue + "']").attr("selected", "selected");
         },
 
-        add: function(){
+        add: function () {
             vm.showList = false;
-            vm.showList3=true;
+            vm.showList3 = true;
             vm.title = "新增";
             vm.roleList = {};
-            vm.merchant = {merchantName : null,
-                merchantDeptId : null,
-                merchantPhone : null,
-                pid : null ,
-                storeNumber : null,
-                authCode : null,
-                appid : null,
-                aliPubKey : null,
-                merchantPubKey : null,
-                merchantPriKey : null,
-                merchantDeptName : null ,
-                mobileUrl : null ,
-                wechatNum : null,
-                wechatKey : null};
-            vm.user = {deptName:null, deptId:null, status:1, roleIdList:[]};
+            vm.merchant = {
+                merchantName: null,
+                merchantDeptId: null,
+                merchantPhone: null,
+                pid: null,
+                storeNumber: null,
+                authCode: null,
+                appid: null,
+                aliPubKey: null,
+                merchantPubKey: null,
+                merchantPriKey: null,
+                merchantDeptName: null,
+                mobileUrl: null,
+                wechatNum: null,
+                wechatKey: null
+            };
+            vm.user = {deptName: null, deptId: null, status: 1, roleIdList: []};
 
             //获取角色信息
             this.getRoleList();
 
             vm.getDept();
         },
-        getDept: function(){
+        getDept: function () {
             //加载部门树
-            $.get(baseURL + "merchant/dept/list", function(r){
+            $.get(baseURL + "merchant/dept/list", function (r) {
                 ztree = $.fn.zTree.init($("#deptTree"), setting, r);
                 var node = ztree.getNodeByParam("deptId", vm.user.deptId);
-                if(node != null){
+                if (node != null) {
                     ztree.selectNode(node);
                     vm.merchant.merchantDeptId = node.name;
                     // vm.merchant.merchantdeptid = node.id;
@@ -208,8 +214,8 @@ var vm = new Vue({
         },
         update: function () {
             var userId = getSelectedRow();
-            if(userId == null){
-                return ;
+            if (userId == null) {
+                return;
             }
 
             vm.showList = false;
@@ -222,22 +228,22 @@ var vm = new Vue({
         },
         del: function () {
             var userIds = getSelectedRows();
-            if(userIds == null){
-                return ;
+            if (userIds == null) {
+                return;
             }
 
-            confirm('确定要删除选中的记录？', function(){
+            confirm('确定要删除选中的记录？', function () {
                 $.ajax({
                     type: "POST",
                     url: baseURL + "sys/user/delete",
                     contentType: "application/json",
                     data: JSON.stringify(userIds),
-                    success: function(r){
-                        if(r.code == 0){
-                            alert('操作成功', function(){
+                    success: function (r) {
+                        if (r.code == 0) {
+                            alert('操作成功', function () {
                                 vm.reload();
                             });
-                        }else{
+                        } else {
                             alert(r.msg);
                         }
                     }
@@ -251,37 +257,37 @@ var vm = new Vue({
                 url: baseURL + url,
                 contentType: "application/json",
                 data: JSON.stringify(vm.merchant),
-                success: function(r){
-                    if(r.code === 0){
-                        alert('操作成功', function(){
+                success: function (r) {
+                    if (r.code === 0) {
+                        alert('操作成功', function () {
                             vm.reload();
                         });
-                    }else{
+                    } else {
                         alert(r.msg);
                     }
                 }
             });
         },
-        getUser: function(userId){
-            $.get(baseURL + "sys/user/info/"+userId, function(r){
+        getUser: function (userId) {
+            $.get(baseURL + "sys/user/info/" + userId, function (r) {
                 vm.user = r.user;
                 vm.user.password = null;
 
                 vm.getDept();
             });
         },
-        getInfo: function(id) {
-            $.get(baseURL + "merchant/mgr/info/"+id, function(r){
+        getInfo: function (id) {
+            $.get(baseURL + "merchant/mgr/info/" + id, function (r) {
                 vm.merchant = r.merchant;
                 //下拉列表选中改选项的appid
-                $("select[name='appidSelect']").find("option[value = '"+r.merchant.appid+"']").attr("selected","selected");
+                $("select[name='appidSelect']").find("option[value = '" + r.merchant.appid + "']").attr("selected", "selected");
                 vm.getDept();
             });
         },
-        updateTradeStatus: function(value , id) {
+        updateTradeStatus: function (value, id) {
             // console.log(value);//开启状态传来的value为0
             // console.log(id);
-            confirm('确定操作商户交易权限？', function() {
+            confirm('确定操作商户交易权限？', function () {
                 var dataMap = '{"merchantId":"' + id + '" , "tradeStatus":"' + value + '"}';
                 $.ajax({
                     type: "POST",
@@ -300,12 +306,12 @@ var vm = new Vue({
                 });
             });
         },
-        getRoleList: function(){
-            $.get(baseURL + "sys/role/select", function(r){
+        getRoleList: function () {
+            $.get(baseURL + "sys/role/select", function (r) {
                 vm.roleList = r.list;
             });
         },
-        deptTree: function(){
+        deptTree: function () {
             layer.open({
                 type: 1,
                 offset: '50px',
@@ -319,7 +325,7 @@ var vm = new Vue({
                 btn1: function (index) {
                     var node = ztree.getSelectedNodes();
                     //选择上级部门
-                     vm.merchant.merchantDeptName = node[0].name;
+                    vm.merchant.merchantDeptName = node[0].name;
                     vm.merchant.merchantDeptId = node[0].deptId;
 
                     layer.close(index);
@@ -330,10 +336,10 @@ var vm = new Vue({
             vm.showList = true;
             vm.showList2 = false;
             vm.showList3 = false;
-            var page = $("#jqGrid").jqGrid('getGridParam','page');
-            $("#jqGrid").jqGrid('setGridParam',{
-                postData:{'id': vm.merchant.id},
-                page:page
+            var page = $("#jqGrid").jqGrid('getGridParam', 'page');
+            $("#jqGrid").jqGrid('setGridParam', {
+                postData: {'id': vm.merchant.id},
+                page: page
             }).trigger("reloadGrid");
             vm.loadAppIdSelect();
         }

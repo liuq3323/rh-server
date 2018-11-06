@@ -42,7 +42,7 @@ public class GbServiceImpl extends ServiceImpl<GbDao, GbEntity> implements GbSer
     }
 
     @Override
-    public List<Map<String,Object>> getAllCids() {
+    public List<Map<String, Object>> getAllCids() {
         return gbDao.getCids();
     }
 

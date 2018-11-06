@@ -27,7 +27,6 @@ import org.springframework.stereotype.Component;
 
 /**
  * 认证
- * 
  */
 @Component
 public class UserRealm extends AuthorizingRealm {
@@ -35,72 +34,72 @@ public class UserRealm extends AuthorizingRealm {
     private SysUserDao sysUserDao;
     @Autowired
     private SysMenuDao sysMenuDao;
-    
+
     /**
      * 授权(验证权限时调用)
      */
-	@Override
-	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-		SysUserEntity user = (SysUserEntity)principals.getPrimaryPrincipal();
-		Long userId = user.getUserId();
-		
-		List<String> permsList;
-		
-		//系统管理员，拥有最高权限
-		if(userId == Constant.SUPER_ADMIN){
-			List<SysMenuEntity> menuList = sysMenuDao.selectList(null);
-			permsList = new ArrayList<>(menuList.size());
-			for(SysMenuEntity menu : menuList){
-				permsList.add(menu.getPerms());
-			}
-		}else{
-			permsList = sysUserDao.queryAllPerms(userId);
-		}
+    @Override
+    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+        SysUserEntity user = (SysUserEntity) principals.getPrimaryPrincipal();
+        Long userId = user.getUserId();
 
-		//用户权限列表
-		Set<String> permsSet = new HashSet<>();
-		for(String perms : permsList){
-			if(StringUtils.isBlank(perms)){
-				continue;
-			}
-			permsSet.addAll(Arrays.asList(perms.trim().split(",")));
-		}
-		
-		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-		info.setStringPermissions(permsSet);
-		return info;
-	}
+        List<String> permsList;
 
-	/**
-	 * 认证(登录时调用)
-	 */
-	@Override
-	protected AuthenticationInfo doGetAuthenticationInfo(
-			AuthenticationToken authcToken) throws AuthenticationException {
-		UsernamePasswordToken token = (UsernamePasswordToken)authcToken;
+        //系统管理员，拥有最高权限
+        if (userId == Constant.SUPER_ADMIN) {
+            List<SysMenuEntity> menuList = sysMenuDao.selectList(null);
+            permsList = new ArrayList<>(menuList.size());
+            for (SysMenuEntity menu : menuList) {
+                permsList.add(menu.getPerms());
+            }
+        } else {
+            permsList = sysUserDao.queryAllPerms(userId);
+        }
+
+        //用户权限列表
+        Set<String> permsSet = new HashSet<>();
+        for (String perms : permsList) {
+            if (StringUtils.isBlank(perms)) {
+                continue;
+            }
+            permsSet.addAll(Arrays.asList(perms.trim().split(",")));
+        }
+
+        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+        info.setStringPermissions(permsSet);
+        return info;
+    }
+
+    /**
+     * 认证(登录时调用)
+     */
+    @Override
+    protected AuthenticationInfo doGetAuthenticationInfo(
+            AuthenticationToken authcToken) throws AuthenticationException {
+        UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
 
         //查询用户信息
-		SysUserEntity user = new SysUserEntity();
-		user.setUsername(token.getUsername());
-		user = sysUserDao.selectOne(user);
-        
+        SysUserEntity user = new SysUserEntity();
+        user.setUsername(token.getUsername());
+        user = sysUserDao.selectOne(user);
+
         //账号不存在
-        if(user == null) {
+        if (user == null) {
             throw new UnknownAccountException("账号或密码不正确");
         }
 
         SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user, user.getPassword(), ByteSource.Util.bytes(user.getSalt()), getName());
         return info;
-	}
+    }
 
-	/*
-	 * Configure encryption matching mechanism
-	 */
-	@Override
-	public void setCredentialsMatcher(CredentialsMatcher credentialsMatcher) {
-		HashedCredentialsMatcher shaCredentialsMatcher = new HashedCredentialsMatcher();
-		shaCredentialsMatcher.setHashAlgorithmName(ShiroUtils.hashAlgorithmName);
-		shaCredentialsMatcher.setHashIterations(ShiroUtils.hashIterations);
-		super.setCredentialsMatcher(shaCredentialsMatcher);
-	}
+    /*
+     * Configure encryption matching mechanism
+     */
+    @Override
+    public void setCredentialsMatcher(CredentialsMatcher credentialsMatcher) {
+        HashedCredentialsMatcher shaCredentialsMatcher = new HashedCredentialsMatcher();
+        shaCredentialsMatcher.setHashAlgorithmName(ShiroUtils.hashAlgorithmName);
+        shaCredentialsMatcher.setHashIterations(ShiroUtils.hashIterations);
+        super.setCredentialsMatcher(shaCredentialsMatcher);
+    }
 }

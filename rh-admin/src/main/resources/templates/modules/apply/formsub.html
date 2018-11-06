@@ -9,7 +9,8 @@
 <div id="rrapp" v-cloak>
     <div v-show="showList" class="panel panel-default"><!--panel panel-default  bootstrap表单框 -->
         <div class="panel-heading">{{title}}</div>
-        <p style="text-align: center;font-size: 16px;border-bottom: 2px solid #ccc;padding:10px 0px;"><b>&nbsp;&nbsp;第一步：企业基本信息（共三步）</b></p>
+        <p style="text-align: center;font-size: 16px;border-bottom: 2px solid #ccc;padding:10px 0px;"><b>&nbsp;&nbsp;第一步：企业基本信息（共三步）</b>
+        </p>
 
         <form class="form-inline" role="form">
             <!--1.1申请基本信息-->
@@ -91,7 +92,8 @@
                     <div class="col-sm-10">
                         <label>国民经济行业代码：</label><span style="color:red">*</span>
                         <!--<input type="text" style="width:57%" class="form-control" placeholder="6530信息技术咨询服务">-->
-                        <input type="text" class="form-control" style="cursor:pointer;width:57%;" v-model="gb.name" @click="gbTree" readonly="readonly" placeholder="6530信息技术咨询服务"/>
+                        <input type="text" class="form-control" style="cursor:pointer;width:57%;" v-model="gb.name"
+                               @click="gbTree" readonly="readonly" placeholder="6530信息技术咨询服务"/>
                     </div>
                 </div>
                 <div class="col-xs-6">
@@ -100,7 +102,6 @@
             <br/>
             <!--1.2 END -->
         </form>
-
 
 
     </div>

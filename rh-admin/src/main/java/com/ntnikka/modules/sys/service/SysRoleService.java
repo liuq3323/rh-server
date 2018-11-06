@@ -11,16 +11,15 @@ import java.util.Map;
 
 /**
  * 角色
- * 
  */
 public interface SysRoleService extends IService<SysRoleEntity> {
 
-	PageUtils queryPage(Map<String, Object> params);
+    PageUtils queryPage(Map<String, Object> params);
 
-	void save(SysRoleEntity role);
+    void save(SysRoleEntity role);
 
-	void update(SysRoleEntity role);
-	
-	void deleteBatch(Long[] roleIds);
+    void update(SysRoleEntity role);
+
+    void deleteBatch(Long[] roleIds);
 
 }

@@ -20,8 +20,8 @@ public class BalanceUtil {
      * @param v1
      * @return
      */
-    public static int scale(double v1){
-        BigDecimal b1=new BigDecimal(String.valueOf(v1));
+    public static int scale(double v1) {
+        BigDecimal b1 = new BigDecimal(String.valueOf(v1));
         return b1.scale();
     }
 
@@ -32,12 +32,12 @@ public class BalanceUtil {
      * @return 参数的和
      */
     public static double add(Double... numArray) {
-        if(numArray == null || numArray.length == 0){
+        if (numArray == null || numArray.length == 0) {
             return 0d;
         }
         BigDecimal sum = new BigDecimal("0");
         for (Double num : numArray) {
-            if(num != null){
+            if (num != null) {
                 sum = sum.add(new BigDecimal(Double.toString(num)));
             }
         }
@@ -51,12 +51,12 @@ public class BalanceUtil {
      * @return 参数的和
      */
     public static BigDecimal add(BigDecimal... numArray) {
-        if(numArray == null || numArray.length == 0){
+        if (numArray == null || numArray.length == 0) {
             return new BigDecimal(0d);
         }
         BigDecimal sum = new BigDecimal(0);
         for (BigDecimal num : numArray) {
-            if(num != null){
+            if (num != null) {
                 sum = sum.add(num);
             }
         }
@@ -66,17 +66,16 @@ public class BalanceUtil {
     /**
      * 提供精确的减法运算。
      *
-     *
      * @param numArray
      * @return 两个参数的差
      */
     public static double sub(double... numArray) {
-        if (numArray == null || numArray.length ==0) {
+        if (numArray == null || numArray.length == 0) {
             return 0d;
         }
 
         BigDecimal result = new BigDecimal(Double.toString(numArray[0]));
-        for (int i=1; i<numArray.length; i++) {
+        for (int i = 1; i < numArray.length; i++) {
             result = result.subtract(new BigDecimal(Double.toString(numArray[i])));
         }
         return result.doubleValue();
@@ -142,6 +141,7 @@ public class BalanceUtil {
         BigDecimal one = new BigDecimal("1");
         return b.divide(one, scale, BigDecimal.ROUND_HALF_UP).doubleValue();
     }
+
     /**
      * 提供精确的小数位四舍五入处理
      *
@@ -155,6 +155,7 @@ public class BalanceUtil {
         }
         return v.setScale(scale, BigDecimal.ROUND_HALF_UP);
     }
+
     /**
      * 提供精确的小数位四舍五入处理
      *
@@ -173,7 +174,7 @@ public class BalanceUtil {
     /**
      * 提供精确的小数位四舍五入处理。
      *
-     * @param num     需要四舍五入的数字
+     * @param num   需要四舍五入的数字
      * @param scale 小数点后保留几位
      * @return 四舍五入后的结果
      */
@@ -182,7 +183,7 @@ public class BalanceUtil {
             throw new IllegalArgumentException(
                     "The scale must be a positive integer or zero");
         }
-        if (num == null){
+        if (num == null) {
             return null;
         }
 //        BigDecimal one = new BigDecimal("1");
@@ -204,7 +205,7 @@ public class BalanceUtil {
      * 如果小于0，则返回0
      */
     public static Double lagerZero(Double num) {
-        if (num==null || num < 0) {
+        if (num == null || num < 0) {
             return 0d;
         }
         return num;
@@ -219,8 +220,8 @@ public class BalanceUtil {
         }
 
         Double max = null;
-        for (Double num : numArray ) {
-            if(max == null){
+        for (Double num : numArray) {
+            if (max == null) {
                 max = num;
             }
             if (num > max) {
@@ -239,8 +240,8 @@ public class BalanceUtil {
         }
 
         Double max = null;
-        for (Double num : numArray ) {
-            if(max == null){
+        for (Double num : numArray) {
+            if (max == null) {
                 max = num;
             }
             if (num < max) {
@@ -252,12 +253,13 @@ public class BalanceUtil {
 
     /**
      * 金额对外友好展示
+     *
      * @param num
      * @return
      */
-    public static String prettyParseDouble(double num){
-        if(num % 1.0 == 0){
-            return String.valueOf((long)num);
+    public static String prettyParseDouble(double num) {
+        if (num % 1.0 == 0) {
+            return String.valueOf((long) num);
         }
         return String.valueOf(num);
     }
@@ -265,7 +267,7 @@ public class BalanceUtil {
     public static void main(String[] args) {
         Double a = 1.00D;
         Double b = 1D;
-        System.out.println("a = [" + round(a,3) + "]");
-        System.out.println("b = [" + round(b ,3) + "]");
+        System.out.println("a = [" + round(a, 3) + "]");
+        System.out.println("b = [" + round(b, 3) + "]");
     }
 }

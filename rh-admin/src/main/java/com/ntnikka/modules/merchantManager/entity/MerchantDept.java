@@ -26,7 +26,7 @@ public class MerchantDept implements Serializable {
     //部门名称
     private String name;
     //上级部门名称
-    @TableField(exist=false)
+    @TableField(exist = false)
     private String parentName;
     //排序
     private Integer orderNum;
@@ -38,9 +38,9 @@ public class MerchantDept implements Serializable {
     /**
      * ztree属性
      */
-    @TableField(exist=false)
+    @TableField(exist = false)
     private Boolean open;
-    @TableField(exist=false)
+    @TableField(exist = false)
     private List<?> list;
 
     public Long getMerchantId() {
@@ -58,36 +58,42 @@ public class MerchantDept implements Serializable {
     public Long getDeptId() {
         return deptId;
     }
+
     /**
      * 设置：上级部门ID，一级部门为0
      */
     public void setParentId(Long parentId) {
         this.parentId = parentId;
     }
+
     /**
      * 获取：上级部门ID，一级部门为0
      */
     public Long getParentId() {
         return parentId;
     }
+
     /**
      * 设置：部门名称
      */
     public void setName(String name) {
         this.name = name;
     }
+
     /**
      * 获取：部门名称
      */
     public String getName() {
         return name;
     }
+
     /**
      * 设置：排序
      */
     public void setOrderNum(Integer orderNum) {
         this.orderNum = orderNum;
     }
+
     /**
      * 获取：排序
      */

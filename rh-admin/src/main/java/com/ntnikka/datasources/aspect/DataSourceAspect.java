@@ -34,10 +34,10 @@ public class DataSourceAspect implements Ordered {
         Method method = signature.getMethod();
 
         DataSource ds = method.getAnnotation(DataSource.class);
-        if(ds == null){
+        if (ds == null) {
             DynamicDataSource.setDataSource(DataSourceNames.FIRST);
             logger.debug("set datasource is " + DataSourceNames.FIRST);
-        }else {
+        } else {
             DynamicDataSource.setDataSource(ds.name());
             logger.debug("set datasource is " + ds.name());
         }

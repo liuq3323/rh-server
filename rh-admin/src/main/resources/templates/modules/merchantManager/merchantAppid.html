@@ -9,7 +9,8 @@
     <div v-show="showList">
         <div class="grid-btn">
             <div class="form-group col-sm-2">
-                <input type="text" v-model="merchant.appid" class="form-control"  @keyup.enter="query" placeholder="渠道商appId">
+                <input type="text" v-model="merchant.appid" class="form-control" @keyup.enter="query"
+                       placeholder="渠道商appId">
             </div>
             <!--
               完整语法
@@ -104,7 +105,7 @@
 
 <!-- 选择部门 -->
 <!--<div id="deptLayer" style="display: none;padding:10px;">-->
-    <!--<ul id="deptTree" class="ztree"></ul>-->
+<!--<ul id="deptTree" class="ztree"></ul>-->
 <!--</div>-->
 
 <script src="${request.contextPath}/statics/js/modules/merchantManager/appid.js?_${.now?long}"></script>

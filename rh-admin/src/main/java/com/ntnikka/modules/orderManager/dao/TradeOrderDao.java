@@ -17,29 +17,29 @@ import java.util.Map;
  **/
 @Repository
 public interface TradeOrderDao extends BaseMapper<TradeOrder> {
-    List<Map<String , String>> queryOrderDataForBarChart(Map map);
+    List<Map<String, String>> queryOrderDataForBarChart(Map map);
 
-    Map<String , String> queryTotalOrderCount(Map map);
+    Map<String, String> queryTotalOrderCount(Map map);
 
-    Map<String , String> queryToPayOrderCount(Map map);
+    Map<String, String> queryToPayOrderCount(Map map);
 
-    Map<String , String> queryFailOrderCount(Map map);
+    Map<String, String> queryFailOrderCount(Map map);
 
-    Map<String , String> queryAllCountAndSum(Map map);
+    Map<String, String> queryAllCountAndSum(Map map);
 
-    Map<String , String> querySuccessCountAndSum(Map map);
+    Map<String, String> querySuccessCountAndSum(Map map);
 
-    List<Map<String , String>> queryOrderDataForBarChartByMerchant(Map map);
+    List<Map<String, String>> queryOrderDataForBarChartByMerchant(Map map);
 
-    Map<String , String> queryAllCountAndSumByMerchant(Map map);
+    Map<String, String> queryAllCountAndSumByMerchant(Map map);
 
-    Map<String , String> querySuccessCountAndSumByMerchant(Map map);
+    Map<String, String> querySuccessCountAndSumByMerchant(Map map);
 
-    Map<String , String> queryTotalOrderCountByMerchant(Map map);
+    Map<String, String> queryTotalOrderCountByMerchant(Map map);
 
-    Map<String , String> queryToPayOrderCountByMerchant(Map map);
+    Map<String, String> queryToPayOrderCountByMerchant(Map map);
 
-    Map<String , String> queryFailOrderCountByMerchant(Map map);
+    Map<String, String> queryFailOrderCountByMerchant(Map map);
 
     List<TradeOrder> queryList(Map map);
 }

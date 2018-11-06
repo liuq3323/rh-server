@@ -9,12 +9,11 @@ import java.lang.annotation.Target;
 
 /**
  * 系统日志注解
- *
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface SysLog {
 
-	String value() default "";
+    String value() default "";
 }

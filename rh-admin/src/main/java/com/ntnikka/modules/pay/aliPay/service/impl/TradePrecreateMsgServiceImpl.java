@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
  * @Date 2018/9/17 14:05
  **/
 @Service("TradePrecreateMsgService")
-public class TradePrecreateMsgServiceImpl extends ServiceImpl<TradePrecreateMsgDao , TradePrecreateMsg> implements TradePrecreateMsgService {
+public class TradePrecreateMsgServiceImpl extends ServiceImpl<TradePrecreateMsgDao, TradePrecreateMsg> implements TradePrecreateMsgService {
     @Override
     public void save(TradePrecreateMsg tradePrecreateMsg) {
         this.insert(tradePrecreateMsg);

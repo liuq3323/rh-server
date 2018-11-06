@@ -7,40 +7,40 @@ info:
 basePath: /rh-epframe
 
 schemes:
-  - http
+- http
 
 #定义接口数据
 paths:
   /captcha.jpg:
     get:
       tags:
-        - 用户登录
+      - 用户登录
       summary: 获取验证码
       produces:
-        - application/octet-stream
+      - application/octet-stream
   /sys/login:
     post:
       tags:
-        - 用户登录
+      - 用户登录
       summary: 用户登录
       produces:
-        - application/json
+      - application/json
       parameters:
-        - name: username
-          description: 用户名
-          in: query
-          type: string
-          required: true
-        - name: password
-          description: 密码
-          in: query
-          type: string
-          required: true
-        - name: captcha
-          description: 验证码
-          in: query
-          type: string
-          required: true
+      - name: username
+        description: 用户名
+        in: query
+        type: string
+        required: true
+      - name: password
+        description: 密码
+        in: query
+        type: string
+        required: true
+      - name: captcha
+        description: 验证码
+        in: query
+        type: string
+        required: true
       responses:
         '200':
           schema:
@@ -64,33 +64,33 @@ paths:
   /sys/user/list:
     get:
       tags:
-        - 管理员管理
+      - 管理员管理
       summary: 管理员列表
       produces:
-        - application/json
+      - application/json
       parameters:
-        - name: page
-          description: 页码
-          in: query
-          type: integer
-          required: true
-        - name: limit
-          description: 每页条数
-          in: query
-          type: integer
-          required: true
-        - name: sidx
-          description: 排序字段
-          in: query
-          type: string
-        - name: order
-          description: 排序方式，如：asc、desc
-          in: query
-          type: string
-        - name: username
-          description: 用户名
-          in: query
-          type: string
+      - name: page
+        description: 页码
+        in: query
+        type: integer
+        required: true
+      - name: limit
+        description: 每页条数
+        in: query
+        type: integer
+        required: true
+      - name: sidx
+        description: 排序字段
+        in: query
+        type: string
+      - name: order
+        description: 排序方式，如：asc、desc
+        in: query
+        type: string
+      - name: username
+        description: 用户名
+        in: query
+        type: string
       responses:
         '200':
           description: 返回管理员列表
@@ -99,10 +99,10 @@ paths:
   /sys/user/info:
     get:
       tags:
-        - 管理员管理
+      - 管理员管理
       summary: 当前管理员信息
       produces:
-        - application/json
+      - application/json
       responses:
         '200':
           description: 返回当前管理员信息
@@ -111,16 +111,16 @@ paths:
   /sys/user/info/{userId}:
     get:
       tags:
-        - 管理员管理
+      - 管理员管理
       summary: 获取管理员信息
       produces:
-        - application/json
+      - application/json
       parameters:
-        - name: userId
-          description: 用户ID
-          in: path
-          type: integer
-          required: true
+      - name: userId
+        description: 用户ID
+        in: path
+        type: integer
+        required: true
       responses:
         '200':
           description: 返回管理员信息
@@ -129,21 +129,21 @@ paths:
   /sys/user/password:
     post:
       tags:
-        - 管理员管理
+      - 管理员管理
       summary: 修改密码
       produces:
-        - application/json
+      - application/json
       parameters:
-        - name: password
-          description: 原密码
-          in: query
-          type: string
-          required: true
-        - name: newPassword
-          description: 新密码
-          in: query
-          type: string
-          required: true
+      - name: password
+        description: 原密码
+        in: query
+        type: string
+        required: true
+      - name: newPassword
+        description: 新密码
+        in: query
+        type: string
+        required: true
       responses:
         '200':
           schema:
@@ -151,18 +151,18 @@ paths:
   /sys/user/save:
     post:
       tags:
-        - 管理员管理
+      - 管理员管理
       summary: 添加管理员
       produces:
-        - application/json
+      - application/json
       parameters:
-        - name: body
-          description: 管理员对象
-          in: body
-          type: string
-          schema:
-            $ref: '#/definitions/SysUserEntityEdit'
-          required: true
+      - name: body
+        description: 管理员对象
+        in: body
+        type: string
+        schema:
+          $ref: '#/definitions/SysUserEntityEdit'
+        required: true
       responses:
         '200':
           schema:
@@ -170,18 +170,18 @@ paths:
   /sys/user/update:
     post:
       tags:
-        - 管理员管理
+      - 管理员管理
       summary: 修改管理员
       produces:
-        - application/json
+      - application/json
       parameters:
-        - name: body
-          description: 管理员对象
-          in: body
-          type: string
-          schema:
-            $ref: '#/definitions/SysUserEntityEdit'
-          required: true
+      - name: body
+        description: 管理员对象
+        in: body
+        type: string
+        schema:
+          $ref: '#/definitions/SysUserEntityEdit'
+        required: true
       responses:
         '200':
           schema:
@@ -189,20 +189,20 @@ paths:
   /sys/user/delete:
     post:
       tags:
-        - 管理员管理
+      - 管理员管理
       summary: 删除管理员
       produces:
-        - application/json
+      - application/json
       parameters:
-        - name: body
-          description: 用户ID列表
-          in: body
-          type: array
-          items:
-            type: integer
-            format: int64
-            default: 0
-          required: true
+      - name: body
+        description: 用户ID列表
+        in: body
+        type: array
+        items:
+          type: integer
+          format: int64
+          default: 0
+        required: true
       responses:
         '200':
           schema:
@@ -211,10 +211,10 @@ paths:
   /sys/dept/list:
     get:
       tags:
-        - 部门管理
+      - 部门管理
       summary: 部门列表
       produces:
-        - application/json
+      - application/json
       responses:
         '200':
           description: 返回部门列表
@@ -223,11 +223,11 @@ paths:
   /sys/dept/select:
     get:
       tags:
-        - 部门管理
+      - 部门管理
       summary: 选择部门
       description: 添加、修改部门的时候，选择上级部门接口
       produces:
-        - application/json
+      - application/json
       responses:
         '200':
           description: 返回部门列表
@@ -236,10 +236,10 @@ paths:
   /sys/dept/info:
     get:
       tags:
-        - 部门管理
+      - 部门管理
       summary: 获取上级部门Id(管理员则为0)
       produces:
-        - application/json
+      - application/json
       responses:
         '200':
           description: 返回部门信息
@@ -260,16 +260,16 @@ paths:
   /sys/dept/info/{deptId}:
     get:
       tags:
-        - 部门管理
+      - 部门管理
       summary: 获取部门信息
       produces:
-        - application/json
+      - application/json
       parameters:
-        - name: deptId
-          description: 部门ID
-          in: path
-          type: integer
-          required: true
+      - name: deptId
+        description: 部门ID
+        in: path
+        type: integer
+        required: true
       responses:
         '200':
           description: 返回部门信息
@@ -278,18 +278,18 @@ paths:
   /sys/dept/save:
     post:
       tags:
-        - 部门管理
+      - 部门管理
       summary: 添加部门
       produces:
-        - application/json
+      - application/json
       parameters:
-        - name: body
-          description: 部门对象
-          in: body
-          type: string
-          schema:
-            $ref: '#/definitions/SysDeptEntityEdit'
-          required: true
+      - name: body
+        description: 部门对象
+        in: body
+        type: string
+        schema:
+          $ref: '#/definitions/SysDeptEntityEdit'
+        required: true
       responses:
         '200':
           schema:
@@ -297,18 +297,18 @@ paths:
   /sys/dept/update:
     post:
       tags:
-        - 部门管理
+      - 部门管理
       summary: 修改部门
       produces:
-        - application/json
+      - application/json
       parameters:
-        - name: body
-          description: 部门对象
-          in: body
-          type: string
-          schema:
-            $ref: '#/definitions/SysDeptEntityEdit'
-          required: true
+      - name: body
+        description: 部门对象
+        in: body
+        type: string
+        schema:
+          $ref: '#/definitions/SysDeptEntityEdit'
+        required: true
       responses:
         '200':
           schema:
@@ -316,20 +316,20 @@ paths:
   /sys/dept/delete:
     post:
       tags:
-        - 部门管理
+      - 部门管理
       summary: 删除部门
       produces:
-        - application/json
+      - application/json
       parameters:
-        - name: body
-          description: 部门ID列表
-          in: body
-          type: array
-          items:
-            type: integer
-            format: int64
-            default: 0
-          required: true
+      - name: body
+        description: 部门ID列表
+        in: body
+        type: array
+        items:
+          type: integer
+          format: int64
+          default: 0
+        required: true
       responses:
         '200':
           schema:
@@ -338,33 +338,33 @@ paths:
   /sys/role/list:
     get:
       tags:
-        - 角色管理
+      - 角色管理
       summary: 角色列表
       produces:
-        - application/json
+      - application/json
       parameters:
-        - name: page
-          description: 页码
-          in: query
-          type: integer
-          required: true
-        - name: limit
-          description: 每页条数
-          in: query
-          type: integer
-          required: true
-        - name: sidx
-          description: 排序字段
-          in: query
-          type: string
-        - name: order
-          description: 排序方式，如：asc、desc
-          in: query
-          type: string
-        - name: roleName
-          description: 角色名
-          in: query
-          type: string
+      - name: page
+        description: 页码
+        in: query
+        type: integer
+        required: true
+      - name: limit
+        description: 每页条数
+        in: query
+        type: integer
+        required: true
+      - name: sidx
+        description: 排序字段
+        in: query
+        type: string
+      - name: order
+        description: 排序方式，如：asc、desc
+        in: query
+        type: string
+      - name: roleName
+        description: 角色名
+        in: query
+        type: string
       responses:
         '200':
           description: 返回管理员列表
@@ -373,11 +373,11 @@ paths:
   /sys/role/select:
     get:
       tags:
-        - 角色管理
+      - 角色管理
       summary: 当前账号角色列表
       description: 如果是超级管理员，则能查询所有的角色列表
       produces:
-        - application/json
+      - application/json
       responses:
         '200':
           description: 返回管理员列表
@@ -386,16 +386,16 @@ paths:
   /sys/role/info/{roleId}:
     get:
       tags:
-        - 角色管理
+      - 角色管理
       summary: 获取角色信息
       produces:
-        - application/json
+      - application/json
       parameters:
-        - name: roleId
-          description: 角色ID
-          in: path
-          type: integer
-          required: true
+      - name: roleId
+        description: 角色ID
+        in: path
+        type: integer
+        required: true
       responses:
         '200':
           description: 返回角色信息
@@ -404,18 +404,18 @@ paths:
   /sys/role/save:
     post:
       tags:
-        - 角色管理
+      - 角色管理
       summary: 添加角色
       produces:
-        - application/json
+      - application/json
       parameters:
-        - name: body
-          description: 角色对象
-          in: body
-          type: string
-          schema:
-            $ref: '#/definitions/SysRoleEntityEdit'
-          required: true
+      - name: body
+        description: 角色对象
+        in: body
+        type: string
+        schema:
+          $ref: '#/definitions/SysRoleEntityEdit'
+        required: true
       responses:
         '200':
           schema:
@@ -423,18 +423,18 @@ paths:
   /sys/role/update:
     post:
       tags:
-        - 角色管理
+      - 角色管理
       summary: 修改角色
       produces:
-        - application/json
+      - application/json
       parameters:
-        - name: body
-          description: 角色对象
-          in: body
-          type: string
-          schema:
-            $ref: '#/definitions/SysRoleEntityEdit'
-          required: true
+      - name: body
+        description: 角色对象
+        in: body
+        type: string
+        schema:
+          $ref: '#/definitions/SysRoleEntityEdit'
+        required: true
       responses:
         '200':
           schema:
@@ -442,20 +442,20 @@ paths:
   /sys/role/delete:
     post:
       tags:
-        - 角色管理
+      - 角色管理
       summary: 删除角色
       produces:
-        - application/json
+      - application/json
       parameters:
-        - name: body
-          description: 角色ID列表
-          in: body
-          type: array
-          items:
-            type: integer
-            format: int64
-            default: 0
-          required: true
+      - name: body
+        description: 角色ID列表
+        in: body
+        type: array
+        items:
+          type: integer
+          format: int64
+          default: 0
+        required: true
       responses:
         '200':
           schema:
@@ -464,10 +464,10 @@ paths:
   /sys/menu/list:
     get:
       tags:
-        - 菜单管理
+      - 菜单管理
       summary: 菜单列表
       produces:
-        - application/json
+      - application/json
       responses:
         '200':
           description: 返回菜单列表
@@ -476,10 +476,10 @@ paths:
   /sys/menu/nav:
     get:
       tags:
-        - 菜单管理
+      - 菜单管理
       summary: 导航菜单列表
       produces:
-        - application/json
+      - application/json
       responses:
         '200':
           description: 返回导航菜单列表
@@ -488,11 +488,11 @@ paths:
   /sys/menu/select:
     get:
       tags:
-        - 菜单管理
+      - 菜单管理
       summary: 选择菜单
       description: 添加、修改菜单的时候，选择上级菜单接口
       produces:
-        - application/json
+      - application/json
       responses:
         '200':
           description: 返回菜单列表
@@ -501,16 +501,16 @@ paths:
   /sys/menu/info/{menuId}:
     get:
       tags:
-        - 菜单管理
+      - 菜单管理
       summary: 获取菜单信息
       produces:
-        - application/json
+      - application/json
       parameters:
-        - name: menuId
-          description: 菜单ID
-          in: path
-          type: integer
-          required: true
+      - name: menuId
+        description: 菜单ID
+        in: path
+        type: integer
+        required: true
       responses:
         '200':
           description: 返回菜单信息
@@ -519,18 +519,18 @@ paths:
   /sys/menu/save:
     post:
       tags:
-        - 菜单管理
+      - 菜单管理
       summary: 添加菜单
       produces:
-        - application/json
+      - application/json
       parameters:
-        - name: body
-          description: 菜单对象
-          in: body
-          type: string
-          schema:
-            $ref: '#/definitions/SysMenuEntityEdit'
-          required: true
+      - name: body
+        description: 菜单对象
+        in: body
+        type: string
+        schema:
+          $ref: '#/definitions/SysMenuEntityEdit'
+        required: true
       responses:
         '200':
           schema:
@@ -538,18 +538,18 @@ paths:
   /sys/menu/update:
     post:
       tags:
-        - 菜单管理
+      - 菜单管理
       summary: 修改菜单
       produces:
-        - application/json
+      - application/json
       parameters:
-        - name: body
-          description: 菜单对象
-          in: body
-          type: string
-          schema:
-            $ref: '#/definitions/SysMenuEntityEdit'
-          required: true
+      - name: body
+        description: 菜单对象
+        in: body
+        type: string
+        schema:
+          $ref: '#/definitions/SysMenuEntityEdit'
+        required: true
       responses:
         '200':
           schema:
@@ -557,20 +557,20 @@ paths:
   /sys/menu/delete:
     post:
       tags:
-        - 菜单管理
+      - 菜单管理
       summary: 删除菜单
       produces:
-        - application/json
+      - application/json
       parameters:
-        - name: body
-          description: 菜单ID列表
-          in: body
-          type: array
-          items:
-            type: integer
-            format: int64
-            default: 0
-          required: true
+      - name: body
+        description: 菜单ID列表
+        in: body
+        type: array
+        items:
+          type: integer
+          format: int64
+          default: 0
+        required: true
       responses:
         '200':
           schema:
@@ -579,33 +579,33 @@ paths:
   /sys/log/list:
     get:
       tags:
-        - 系统日志
+      - 系统日志
       summary: 日志列表
       produces:
-        - application/json
+      - application/json
       parameters:
-        - name: page
-          description: 页码
-          in: query
-          type: integer
-          required: true
-        - name: limit
-          description: 每页条数
-          in: query
-          type: integer
-          required: true
-        - name: sidx
-          description: 排序字段
-          in: query
-          type: string
-        - name: order
-          description: 排序方式，如：asc、desc
-          in: query
-          type: string
-        - name: key
-          description: 用户名或用户操作
-          in: query
-          type: string
+      - name: page
+        description: 页码
+        in: query
+        type: integer
+        required: true
+      - name: limit
+        description: 每页条数
+        in: query
+        type: integer
+        required: true
+      - name: sidx
+        description: 排序字段
+        in: query
+        type: string
+      - name: order
+        description: 排序方式，如：asc、desc
+        in: query
+        type: string
+      - name: key
+        description: 用户名或用户操作
+        in: query
+        type: string
       responses:
         '200':
           description: 返回日志列表
@@ -615,33 +615,33 @@ paths:
   /sys/config/list:
     get:
       tags:
-        - 参数管理
+      - 参数管理
       summary: 参数列表
       produces:
-        - application/json
+      - application/json
       parameters:
-        - name: page
-          description: 页码
-          in: query
-          type: integer
-          required: true
-        - name: limit
-          description: 每页条数
-          in: query
-          type: integer
-          required: true
-        - name: sidx
-          description: 排序字段
-          in: query
-          type: string
-        - name: order
-          description: 排序方式，如：asc、desc
-          in: query
-          type: string
-        - name: key
-          description: 参数名
-          in: query
-          type: string
+      - name: page
+        description: 页码
+        in: query
+        type: integer
+        required: true
+      - name: limit
+        description: 每页条数
+        in: query
+        type: integer
+        required: true
+      - name: sidx
+        description: 排序字段
+        in: query
+        type: string
+      - name: order
+        description: 排序方式，如：asc、desc
+        in: query
+        type: string
+      - name: key
+        description: 参数名
+        in: query
+        type: string
       responses:
         '200':
           description: 返回参数列表
@@ -650,16 +650,16 @@ paths:
   /sys/config/info/{id}:
     get:
       tags:
-        - 参数管理
+      - 参数管理
       summary: 获取参数信息
       produces:
-        - application/json
+      - application/json
       parameters:
-        - name: id
-          description: 参数ID
-          in: path
-          type: integer
-          required: true
+      - name: id
+        description: 参数ID
+        in: path
+        type: integer
+        required: true
       responses:
         '200':
           description: 返回参数信息
@@ -668,18 +668,18 @@ paths:
   /sys/config/save:
     post:
       tags:
-        - 参数管理
+      - 参数管理
       summary: 添加参数
       produces:
-        - application/json
+      - application/json
       parameters:
-        - name: body
-          description: 参数对象
-          in: body
-          type: string
-          schema:
-            $ref: '#/definitions/SysConfigEntity'
-          required: true
+      - name: body
+        description: 参数对象
+        in: body
+        type: string
+        schema:
+          $ref: '#/definitions/SysConfigEntity'
+        required: true
       responses:
         '200':
           schema:
@@ -687,18 +687,18 @@ paths:
   /sys/config/update:
     post:
       tags:
-        - 参数管理
+      - 参数管理
       summary: 修改参数
       produces:
-        - application/json
+      - application/json
       parameters:
-        - name: body
-          description: 参数对象
-          in: body
-          type: string
-          schema:
-            $ref: '#/definitions/SysConfigEntity'
-          required: true
+      - name: body
+        description: 参数对象
+        in: body
+        type: string
+        schema:
+          $ref: '#/definitions/SysConfigEntity'
+        required: true
       responses:
         '200':
           schema:
@@ -706,20 +706,20 @@ paths:
   /sys/config/delete:
     post:
       tags:
-        - 参数管理
+      - 参数管理
       summary: 删除参数
       produces:
-        - application/json
+      - application/json
       parameters:
-        - name: body
-          description: 参数ID列表
-          in: body
-          type: array
-          items:
-            type: integer
-            format: int64
-            default: 0
-          required: true
+      - name: body
+        description: 参数ID列表
+        in: body
+        type: array
+        items:
+          type: integer
+          format: int64
+          default: 0
+        required: true
       responses:
         '200':
           schema:
@@ -728,33 +728,33 @@ paths:
   /sys/schedule/list:
     get:
       tags:
-        - 定时任务
+      - 定时任务
       summary: 定时任务列表
       produces:
-        - application/json
+      - application/json
       parameters:
-        - name: page
-          description: 页码
-          in: query
-          type: integer
-          required: true
-        - name: limit
-          description: 每页条数
-          in: query
-          type: integer
-          required: true
-        - name: sidx
-          description: 排序字段
-          in: query
-          type: string
-        - name: order
-          description: 排序方式，如：asc、desc
-          in: query
-          type: string
-        - name: beanName
-          description: spring bean名称
-          in: query
-          type: string
+      - name: page
+        description: 页码
+        in: query
+        type: integer
+        required: true
+      - name: limit
+        description: 每页条数
+        in: query
+        type: integer
+        required: true
+      - name: sidx
+        description: 排序字段
+        in: query
+        type: string
+      - name: order
+        description: 排序方式，如：asc、desc
+        in: query
+        type: string
+      - name: beanName
+        description: spring bean名称
+        in: query
+        type: string
       responses:
         '200':
           description: 返回定时任务列表
@@ -763,16 +763,16 @@ paths:
   /sys/schedule/info/{id}:
     get:
       tags:
-        - 定时任务
+      - 定时任务
       summary: 获取定时任务信息
       produces:
-        - application/json
+      - application/json
       parameters:
-        - name: jobId
-          description: 定时任务ID
-          in: path
-          type: integer
-          required: true
+      - name: jobId
+        description: 定时任务ID
+        in: path
+        type: integer
+        required: true
       responses:
         '200':
           description: 返回定时任务信息
@@ -781,18 +781,18 @@ paths:
   /sys/schedule/save:
     post:
       tags:
-        - 定时任务
+      - 定时任务
       summary: 添加定时任务
       produces:
-        - application/json
+      - application/json
       parameters:
-        - name: body
-          description: 定时任务对象
-          in: body
-          type: string
-          schema:
-            $ref: '#/definitions/ScheduleJobEntity'
-          required: true
+      - name: body
+        description: 定时任务对象
+        in: body
+        type: string
+        schema:
+          $ref: '#/definitions/ScheduleJobEntity'
+        required: true
       responses:
         '200':
           schema:
@@ -800,18 +800,18 @@ paths:
   /sys/schedule/update:
     post:
       tags:
-        - 定时任务
+      - 定时任务
       summary: 修改定时任务
       produces:
-        - application/json
+      - application/json
       parameters:
-        - name: body
-          description: 定时任务对象
-          in: body
-          type: string
-          schema:
-            $ref: '#/definitions/ScheduleJobEntity'
-          required: true
+      - name: body
+        description: 定时任务对象
+        in: body
+        type: string
+        schema:
+          $ref: '#/definitions/ScheduleJobEntity'
+        required: true
       responses:
         '200':
           schema:
@@ -819,20 +819,20 @@ paths:
   /sys/schedule/delete:
     post:
       tags:
-        - 定时任务
+      - 定时任务
       summary: 删除定时任务
       produces:
-        - application/json
+      - application/json
       parameters:
-        - name: body
-          description: 定时任务ID列表
-          in: body
-          type: array
-          items:
-            type: integer
-            format: int64
-            default: 0
-          required: true
+      - name: body
+        description: 定时任务ID列表
+        in: body
+        type: array
+        items:
+          type: integer
+          format: int64
+          default: 0
+        required: true
       responses:
         '200':
           schema:
@@ -840,20 +840,20 @@ paths:
   /sys/schedule/run:
     post:
       tags:
-        - 定时任务
+      - 定时任务
       summary: 立即执行任务
       produces:
-        - application/json
+      - application/json
       parameters:
-        - name: body
-          description: 定时任务ID列表
-          in: body
-          type: array
-          items:
-            type: integer
-            format: int64
-            default: 0
-          required: true
+      - name: body
+        description: 定时任务ID列表
+        in: body
+        type: array
+        items:
+          type: integer
+          format: int64
+          default: 0
+        required: true
       responses:
         '200':
           schema:
@@ -861,20 +861,20 @@ paths:
   /sys/schedule/pause:
     post:
       tags:
-        - 定时任务
+      - 定时任务
       summary: 暂停定时任务
       produces:
-        - application/json
+      - application/json
       parameters:
-        - name: body
-          description: 定时任务ID列表
-          in: body
-          type: array
-          items:
-            type: integer
-            format: int64
-            default: 0
-          required: true
+      - name: body
+        description: 定时任务ID列表
+        in: body
+        type: array
+        items:
+          type: integer
+          format: int64
+          default: 0
+        required: true
       responses:
         '200':
           schema:
@@ -882,20 +882,20 @@ paths:
   /sys/schedule/resume:
     post:
       tags:
-        - 定时任务
+      - 定时任务
       summary: 恢复定时任务
       produces:
-        - application/json
+      - application/json
       parameters:
-        - name: body
-          description: 定时任务ID列表
-          in: body
-          type: array
-          items:
-            type: integer
-            format: int64
-            default: 0
-          required: true
+      - name: body
+        description: 定时任务ID列表
+        in: body
+        type: array
+        items:
+          type: integer
+          format: int64
+          default: 0
+        required: true
       responses:
         '200':
           schema:
@@ -904,15 +904,15 @@ paths:
 #定义数据模型
 definitions:
   R:
-      type: object
-      properties:
-        code:
-          description: 状态码 0：成功  非0：失败
-          type: integer
-          format: int32
-        msg:
-          description: 失败原因
-          type: string
+    type: object
+    properties:
+      code:
+        description: 状态码 0：成功  非0：失败
+        type: integer
+        format: int32
+      msg:
+        description: 失败原因
+        type: string
   SysUserEntity:
     type: object
     properties:
@@ -958,38 +958,38 @@ definitions:
         type: string
         format: date-time
   SysUserEntityEdit:
-      type: object
-      properties:
-        userId:
-          description: 用户ID
-          type: integer
-          format: int64
-        username:
-          description: 用户名
-          type: string
-        deptId:
-          description: 部门ID
-          type: integer
-          format: int64
-        password:
-          description: 密码
-          type: string
-        email:
-          description: 邮箱
-          type: string
-        mobile:
-          description: 手机号
-          type: string
-        status:
-          description: 状态  0：禁用   1：正常
+    type: object
+    properties:
+      userId:
+        description: 用户ID
+        type: integer
+        format: int64
+      username:
+        description: 用户名
+        type: string
+      deptId:
+        description: 部门ID
+        type: integer
+        format: int64
+      password:
+        description: 密码
+        type: string
+      email:
+        description: 邮箱
+        type: string
+      mobile:
+        description: 手机号
+        type: string
+      status:
+        description: 状态  0：禁用   1：正常
+        type: integer
+        format: int32
+      roleIdList:
+        description: 角色ID列表
+        type: array
+        items:
           type: integer
           format: int32
-        roleIdList:
-          description: 角色ID列表
-          type: array
-          items:
-            type: integer
-            format: int32
   SysDeptEntity:
     type: object
     properties:

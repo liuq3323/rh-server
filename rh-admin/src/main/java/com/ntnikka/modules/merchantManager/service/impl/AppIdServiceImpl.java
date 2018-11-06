@@ -11,10 +11,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
-
 
 
 @Service("appIdService")
@@ -28,7 +28,7 @@ public class AppIdServiceImpl extends ServiceImpl<AppIdDao, AppIdEntity> impleme
         String appid = params.get("appid") == null ? "" : params.get("appid").toString();
         Page<AppIdEntity> page = this.selectPage(
                 new Query<AppIdEntity>(params).getPage(),
-                new EntityWrapper<AppIdEntity>().eq(EmptyUtil.isNotEmpty(appid) , "appid" , appid)
+                new EntityWrapper<AppIdEntity>().eq(EmptyUtil.isNotEmpty(appid), "appid", appid)
         );
 
         return new PageUtils(page);

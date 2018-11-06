@@ -1,8 +1,8 @@
 package com.ntnikka.common.Enum;
 
-public enum  PayTypeEnum {
+public enum PayTypeEnum {
 
-    WAP(0,"Wap"),QRCODE(1,"QrCode");
+    WAP(0, "Wap"), QRCODE(1, "QrCode");
 
     private int code;
     private String message;
@@ -23,7 +23,7 @@ public enum  PayTypeEnum {
         this.message = message;
     }
 
-    PayTypeEnum(int code , String message){
+    PayTypeEnum(int code, String message) {
         this.code = code;
         this.message = message;
     }

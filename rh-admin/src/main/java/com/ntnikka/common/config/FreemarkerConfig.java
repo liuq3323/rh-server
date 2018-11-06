@@ -12,14 +12,13 @@ import java.util.Properties;
 
 /**
  * Freemarker配置
- *
  */
 @Configuration
 public class
 FreemarkerConfig {
 
     @Bean
-    public FreeMarkerConfigurer freeMarkerConfigurer(ShiroTag shiroTag){
+    public FreeMarkerConfigurer freeMarkerConfigurer(ShiroTag shiroTag) {
         FreeMarkerConfigurer configurer = new FreeMarkerConfigurer();
         configurer.setTemplateLoaderPath("classpath:/templates");
         Map<String, Object> variables = new HashMap<>(1);

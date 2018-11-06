@@ -11,7 +11,7 @@ import java.util.Map;
  * Created by liuq on 2018/9/11.
  */
 @Repository
-public interface AliOrderDao extends BaseMapper<AliOrderEntity>{
+public interface AliOrderDao extends BaseMapper<AliOrderEntity> {
     int checkRepeatId(String orderId);
 
     void saveTradePrecreateMsg(TradePrecreateMsg tradePrecreateMsg);

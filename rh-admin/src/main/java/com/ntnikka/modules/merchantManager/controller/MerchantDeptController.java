@@ -32,7 +32,7 @@ public class MerchantDeptController extends AbstractController {
      * 列表
      */
     @RequestMapping("/list")
-    public List<MerchantDept> list(){
+    public List<MerchantDept> list() {
         List<MerchantDept> deptList = merchantDeptService.queryList(new HashMap<String, Object>());
 
         return deptList;
@@ -42,11 +42,11 @@ public class MerchantDeptController extends AbstractController {
      * 选择部门(添加、修改菜单)
      */
     @RequestMapping("/select")
-    public R select(){
+    public R select() {
         List<MerchantDept> deptList = merchantDeptService.queryList(new HashMap<String, Object>());
 
         //添加一级部门
-        if(getUserId() == Constant.SUPER_ADMIN){
+        if (getUserId() == Constant.SUPER_ADMIN) {
             MerchantDept root = new MerchantDept();
             root.setDeptId(0L);
             root.setName("一级部门");
@@ -62,18 +62,18 @@ public class MerchantDeptController extends AbstractController {
      * 上级部门Id(管理员则为0)
      */
     @RequestMapping("/info")
-    public R info(){
+    public R info() {
         long deptId = 0;
-        if(getUserId() != Constant.SUPER_ADMIN){
+        if (getUserId() != Constant.SUPER_ADMIN) {
             List<MerchantDept> deptList = merchantDeptService.queryList(new HashMap<String, Object>());
             Long parentId = null;
-            for(MerchantDept merchantDept : deptList){
-                if(parentId == null){
+            for (MerchantDept merchantDept : deptList) {
+                if (parentId == null) {
                     parentId = merchantDept.getParentId();
                     continue;
                 }
 
-                if(parentId > merchantDept.getParentId().longValue()){
+                if (parentId > merchantDept.getParentId().longValue()) {
                     parentId = merchantDept.getParentId();
                 }
             }
@@ -87,7 +87,7 @@ public class MerchantDeptController extends AbstractController {
      * 信息
      */
     @RequestMapping("/info/{deptId}")
-    public R info(@PathVariable("deptId") Long deptId){
+    public R info(@PathVariable("deptId") Long deptId) {
         MerchantDept dept = merchantDeptService.selectById(deptId);
 
         return R.ok().put("dept", dept);
@@ -97,7 +97,7 @@ public class MerchantDeptController extends AbstractController {
      * 保存
      */
     @RequestMapping("/save")
-    public R save(@RequestBody MerchantDept dept){
+    public R save(@RequestBody MerchantDept dept) {
         merchantDeptService.insert(dept);
         return R.ok();
     }
@@ -106,7 +106,7 @@ public class MerchantDeptController extends AbstractController {
      * 修改
      */
     @RequestMapping("/update")
-    public R update(@RequestBody MerchantDept dept){
+    public R update(@RequestBody MerchantDept dept) {
         merchantDeptService.updateById(dept);
 
         return R.ok();
@@ -116,10 +116,10 @@ public class MerchantDeptController extends AbstractController {
      * 删除
      */
     @RequestMapping("/delete")
-    public R delete(long deptId){
+    public R delete(long deptId) {
         //判断是否有子部门
         List<Long> deptList = merchantDeptService.queryDetpIdList(deptId);
-        if(deptList.size() > 0){
+        if (deptList.size() > 0) {
             return R.error("请先删除子部门");
         }
 

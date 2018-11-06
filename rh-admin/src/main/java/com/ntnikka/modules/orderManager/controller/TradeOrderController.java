@@ -33,25 +33,26 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/tradeOrder")
 public class TradeOrderController extends AbstractController {
 
-    private static final String[] title = {"序号","商户ID","商户名称","支付方式","商户订单号","系统订单号","银行订单号","订单金额","支付时间","通知状态"};
+    private static final String[] title = {"序号", "商户ID", "商户名称", "支付方式", "商户订单号", "系统订单号", "银行订单号", "订单金额", "支付时间", "通知状态"};
 
     @Autowired
     TradeOrderService tradeOrderService;
 
     @RequestMapping(value = "list")
-    public R queryOrderList(@RequestParam Map<String, Object> params){
+    public R queryOrderList(@RequestParam Map<String, Object> params) {
+        logger.info("" + getUser().getDeptId());
         System.out.println("params = [" + params + "]");
         PageUtils page = tradeOrderService.queryPage(params);
         return R.ok().put("page", page);
     }
 
     @RequestMapping(value = "listCheck")
-    public R queryOrderListCheck(@RequestParam Map<String, Object> params){
+    public R queryOrderListCheck(@RequestParam Map<String, Object> params) {
         System.out.println("params = [" + params + "]");
         String tradeId = params.get("tradeid") == null ? "" : params.get("tradeid").toString();
-        if (EmptyUtil.isEmpty(tradeId)){
+        if (EmptyUtil.isEmpty(tradeId)) {
             PageUtils pg = null;
-            return R.ok().put("page",pg);
+            return R.ok().put("page", pg);
         }
         PageUtils page = tradeOrderService.queryPage(params);
         return R.ok().put("page", page);
@@ -59,25 +60,26 @@ public class TradeOrderController extends AbstractController {
 
     /**
      * 导出列表
+     *
      * @return
      */
     @RequestMapping(value = "/export")
-    public void export(HttpServletRequest request , HttpServletResponse response) throws Exception {
+    public void export(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         //excel文件名
-        String fileName = "订单信息"+System.currentTimeMillis()+".xls";
+        String fileName = "订单信息" + System.currentTimeMillis() + ".xls";
         //sheet名
         String sheetName = "订单信息";
 
-        Map<String , Object> params = new HashMap();
+        Map<String, Object> params = new HashMap();
 
-        params.put("tradeid" , request.getParameter("tradeid"));
-        params.put("orderid" , request.getParameter("orderid"));
-        params.put("starttime" , request.getParameter("starttime"));
-        params.put("endtime" , request.getParameter("endtime"));
-        params.put("merchantid" , request.getParameter("merchantid"));
-        params.put("status" , request.getParameter("status"));
-        params.put("merchantdept" , request.getParameter("merchantdept"));
+        params.put("tradeid", request.getParameter("tradeid"));
+        params.put("orderid", request.getParameter("orderid"));
+        params.put("starttime", request.getParameter("starttime"));
+        params.put("endtime", request.getParameter("endtime"));
+        params.put("merchantid", request.getParameter("merchantid"));
+        params.put("status", request.getParameter("status"));
+        params.put("merchantdept", request.getParameter("merchantdept"));
         //orderList
         List<TradeOrder> orderList = tradeOrderService.queryList(params);
 
@@ -89,7 +91,7 @@ public class TradeOrderController extends AbstractController {
             content[i][0] = order.getId().toString();
             content[i][1] = order.getMerchantId().toString();
             content[i][2] = order.getMerchantName();
-            content[i][3] = order.getPayType().equals("Wap")? "Wap支付" : "二维码支付";
+            content[i][3] = order.getPayType().equals("Wap") ? "Wap支付" : "二维码支付";
             content[i][4] = order.getOrderId();
             content[i][5] = order.getSysTradeNo() == null ? "" : order.getSysTradeNo();
             content[i][6] = order.getTradeNo() == null ? "" : order.getTradeNo();
@@ -118,12 +120,12 @@ public class TradeOrderController extends AbstractController {
     public void setResponseHeader(HttpServletResponse response, String fileName) {
         try {
             try {
-                fileName = new String(fileName.getBytes(),"ISO8859-1");
+                fileName = new String(fileName.getBytes(), "ISO8859-1");
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
             response.setContentType("application/vnd.ms-excel;charset=ISO8859-1");
-            response.setHeader("Content-Disposition", "attachment;filename="+ fileName);
+            response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
             response.addHeader("Pargam", "no-cache");
             response.addHeader("Cache-Control", "no-cache");
         } catch (Exception ex) {
@@ -132,12 +134,12 @@ public class TradeOrderController extends AbstractController {
     }
 
     @RequestMapping(value = "testCount")
-    public R testCount(@RequestBody Map paramMap){
+    public R testCount(@RequestBody Map paramMap) {
 
-        List<Map<String , String>> tradeBarChart = tradeOrderService.queryOrderDataForBarChart(paramMap);
+        List<Map<String, String>> tradeBarChart = tradeOrderService.queryOrderDataForBarChart(paramMap);
         List<String> listDate = new ArrayList<>();
         List<Double> listAmount = new ArrayList<>();
-        tradeBarChart.stream().forEach(stringMap ->{
+        tradeBarChart.stream().forEach(stringMap -> {
             listDate.add(stringMap.get("dt"));
             listAmount.add(Double.parseDouble(String.valueOf(stringMap.get("total_count"))));
         });
@@ -148,19 +150,19 @@ public class TradeOrderController extends AbstractController {
         //总订单
         Map<String, String> totalMap = tradeOrderService.queryAllCountAndSum(paramMap);
         Map<String, String> successMap = tradeOrderService.querySuccessCountAndSum(paramMap);
-        return R.ok().put("nameList", listDate).put("amountList",listAmount)
-                .put("totalMap",totalMap).put("successMap",successMap)
-                .put("totalCount" , totalCount)
-                .put("toPayCount" , toPayCount)
-                .put("failCount" , failCount);
+        return R.ok().put("nameList", listDate).put("amountList", listAmount)
+                .put("totalMap", totalMap).put("successMap", successMap)
+                .put("totalCount", totalCount)
+                .put("toPayCount", toPayCount)
+                .put("failCount", failCount);
     }
 
     @RequestMapping(value = "merchantCount")
-    public R merchantCount(@RequestBody Map paramMap){
-        List<Map<String , String>> tradeBarChart = tradeOrderService.queryOrderDataForBarChartByMerchant(paramMap);
+    public R merchantCount(@RequestBody Map paramMap) {
+        List<Map<String, String>> tradeBarChart = tradeOrderService.queryOrderDataForBarChartByMerchant(paramMap);
         List<String> listDate = new ArrayList<>();
         List<Double> listAmount = new ArrayList<>();
-        tradeBarChart.stream().forEach(stringMap ->{
+        tradeBarChart.stream().forEach(stringMap -> {
             listDate.add(stringMap.get("dt"));
             listAmount.add(Double.parseDouble(String.valueOf(stringMap.get("total_count"))));
         });
@@ -171,11 +173,11 @@ public class TradeOrderController extends AbstractController {
         Map<String, String> totalCount = tradeOrderService.queryTotalOrderCountByMerchant(paramMap);
         Map<String, String> toPayCount = tradeOrderService.queryToPayOrderCountByMerchant(paramMap);
         Map<String, String> failCount = tradeOrderService.queryFailOrderCountByMerchant(paramMap);
-        return R.ok().put("nameList", listDate).put("amountList",listAmount)
-                .put("totalMap",totalMap).put("successMap",successMap)
-                .put("totalCount" , totalCount)
-                .put("toPayCount" , toPayCount)
-                .put("failCount" , failCount);
+        return R.ok().put("nameList", listDate).put("amountList", listAmount)
+                .put("totalMap", totalMap).put("successMap", successMap)
+                .put("totalCount", totalCount)
+                .put("toPayCount", toPayCount)
+                .put("failCount", failCount);
     }
 
 }

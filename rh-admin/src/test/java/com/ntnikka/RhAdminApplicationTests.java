@@ -21,18 +21,18 @@ import java.util.Map;
 @SpringBootTest()
 public class RhAdminApplicationTests {
 
-	@Autowired
-	private GbService gbService;
+    @Autowired
+    private GbService gbService;
 
-	@Autowired
-	private MyGbService myGbService;
+    @Autowired
+    private MyGbService myGbService;
 
-	@Test
-	public void contextLoads() {
-	}
+    @Test
+    public void contextLoads() {
+    }
 
-	@Test
-	public void excel2Object() throws Exception {
+    @Test
+    public void excel2Object() throws Exception {
 
 //		String path = "C:\\home\\最新2017年国民经济行业分类(GB-T-4754—2017).xlsx";
 //
@@ -57,8 +57,8 @@ public class RhAdminApplicationTests {
 //			System.out.println(gb);
 //		}
 
-		//数据库转换 gb_lib => gb_mylib
-		//存一级大类 A,B,C ...
+        //数据库转换 gb_lib => gb_mylib
+        //存一级大类 A,B,C ...
 //		List<Map<String,Object>> rt = gbService.getAllCids();
 //		for (int i = 0; i < rt.size(); i++) {
 //			Map<String, Object> map = rt.get(i);
@@ -70,7 +70,7 @@ public class RhAdminApplicationTests {
 //			myGbService.save(mygb);
 //		}
 
-		//存二级类 01,02,03 ...
+        //存二级类 01,02,03 ...
 
 //		List<Map<String,Object>> rt = gbService.getAllBids();
 //		for (int i = 0; i < rt.size() ; i++) {
@@ -95,7 +95,7 @@ public class RhAdminApplicationTests {
 //			myGbService.save(mygb);
 //		}
 
-		//存四级类 0111,0112,,0113 ...
+        //存四级类 0111,0112,,0113 ...
 //		List<Map<String,Object>> rt = gbService.getAllLids();
 //		for (int i = 0; i < rt.size() ; i++) {
 //			Map<String, Object> map = rt.get(i);
@@ -107,6 +107,6 @@ public class RhAdminApplicationTests {
 //			myGbService.save(mygb);
 //		}
 
-	}
+    }
 
 }

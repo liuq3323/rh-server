@@ -86,7 +86,7 @@ public class HttpClientUtil {
                     paramList.add(new BasicNameValuePair(key, param.get(key)));
                 }
                 // 模拟表单
-                UrlEncodedFormEntity entity = new UrlEncodedFormEntity(paramList,"utf-8");
+                UrlEncodedFormEntity entity = new UrlEncodedFormEntity(paramList, "utf-8");
                 httpPost.setEntity(entity);
             }
             // 执行http请求
@@ -138,8 +138,8 @@ public class HttpClientUtil {
         return resultString;
     }
 
-    public static String notifyMerchant(String url , Map<String , String > paramMap){
-        String returnStr = doPost(url , paramMap);
+    public static String notifyMerchant(String url, Map<String, String> paramMap) {
+        String returnStr = doPost(url, paramMap);
         return returnStr;
     }
 }

@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.ntnikka.modules.apply.dao.MyGbDao">
-	
-	<select id="getIdByCode" parameterType="java.lang.String" resultType="java.lang.Long">
-		SELECT id FROM gb_mylib WHERE CODE= #{code}
-	</select>
+
+    <select id="getIdByCode" parameterType="java.lang.String" resultType="java.lang.Long">
+        SELECT id FROM gb_mylib WHERE CODE= #{code}
+    </select>
 
 </mapper>

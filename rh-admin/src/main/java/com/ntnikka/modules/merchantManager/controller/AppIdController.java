@@ -16,11 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
-
-
 /**
- * 
- *
  * @author Liuq
  * @email 530775870@qq.com
  * @date 2018-10-10 11:56:51
@@ -35,7 +31,7 @@ public class AppIdController {
      * 列表
      */
     @RequestMapping("/list")
-    public R list(@RequestParam Map<String, Object> params){
+    public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = appIdService.queryPage(params);
 
         return R.ok().put("page", page);
@@ -46,8 +42,8 @@ public class AppIdController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    public R info(@PathVariable("id") Integer id){
-			AppIdEntity appId = appIdService.selectById(id);
+    public R info(@PathVariable("id") Integer id) {
+        AppIdEntity appId = appIdService.selectById(id);
 
         return R.ok().put("appId", appId);
     }
@@ -56,8 +52,8 @@ public class AppIdController {
      * 保存
      */
     @RequestMapping("/save")
-    public R save(@RequestBody AppIdEntity appId){
-			appIdService.insert(appId);
+    public R save(@RequestBody AppIdEntity appId) {
+        appIdService.insert(appId);
 
         return R.ok();
     }
@@ -66,8 +62,8 @@ public class AppIdController {
      * 修改
      */
     @RequestMapping("/update")
-    public R update(@RequestBody AppIdEntity appId){
-			appIdService.updateById(appId);
+    public R update(@RequestBody AppIdEntity appId) {
+        appIdService.updateById(appId);
 
         return R.ok();
     }
@@ -76,22 +72,22 @@ public class AppIdController {
      * 删除
      */
     @RequestMapping("/delete")
-    public R delete(@RequestBody Map ids){
+    public R delete(@RequestBody Map ids) {
         String idListStr = ids.get("ids").toString();
         appIdService.deleteBatchIds(Arrays.asList(idListStr));
         return R.ok();
     }
 
     @RequestMapping("/queryAppid")
-    public R queryAppidList(){
+    public R queryAppidList() {
         List<Long> appidList = appIdService.queryAppid();
-        return R.ok().put("appId" , appidList);
+        return R.ok().put("appId", appidList);
     }
 
     @RequestMapping("/queryInfoByAppid")
-    public R queryAppidInfo(@RequestBody Map map){
+    public R queryAppidInfo(@RequestBody Map map) {
         AppIdEntity appIdEntity = appIdService.queryInfoByAppid(map);
-        return R.ok().put("appId" , appIdEntity);
+        return R.ok().put("appId", appIdEntity);
     }
 
 }

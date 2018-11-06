@@ -7,49 +7,49 @@
 </head>
 <body>
 
-    <input id="firstfile" type="file" name="firstfile">
+<input id="firstfile" type="file" name="firstfile">
 
-    <button onclick="upload()">上传</button>
+<button onclick="upload()">上传</button>
 
-    <br/>
+<br/>
 
-    <!--<input id="file1" type="file" name="files">-->
+<!--<input id="file1" type="file" name="files">-->
 
-    <!--<input id="file2" type="file" name="files">-->
+<!--<input id="file2" type="file" name="files">-->
 
-    <!--<input id="file3" type="file" name="files">-->
+<!--<input id="file3" type="file" name="files">-->
 
-    <!--<button onclick="uploads()">多上传</button>-->
-    <!--<br>-->
+<!--<button onclick="uploads()">多上传</button>-->
+<!--<br>-->
 
-    <!--<form action="http://localhost:8081/thingsparse/addorupdthingsparse" method="post" enctype="multipart/form-data">-->
-        <!--<input type="file" name="file" value="选择jar包"/>-->
-        <!--<input id="submit_form" type="submit" class="btn btn-success save" value="保存"/>-->
-    <!--</form>-->
+<!--<form action="http://localhost:8081/thingsparse/addorupdthingsparse" method="post" enctype="multipart/form-data">-->
+<!--<input type="file" name="file" value="选择jar包"/>-->
+<!--<input id="submit_form" type="submit" class="btn btn-success save" value="保存"/>-->
+<!--</form>-->
 
-    <form id="uploadForm"  method="post" enctype="multipart/form-data" >
+<form id="uploadForm" method="post" enctype="multipart/form-data">
 
-        <input id="file1" type="file" name="file1"/>
-        <input id="file2" type="file"name="file2"/>
-        <input id="file3" type="file" name="file3"/>
-        <input id="file4" type="file" name="file4"/>
-        <input id="file5" type="file" name="file5"/>
-        <input id="file6" type="file" name="file6"/>
-        <input id="file7" type="file" name="file7"/>
-        <input id="file8" type="file" name="file8"/>
+    <input id="file1" type="file" name="file1"/>
+    <input id="file2" type="file" name="file2"/>
+    <input id="file3" type="file" name="file3"/>
+    <input id="file4" type="file" name="file4"/>
+    <input id="file5" type="file" name="file5"/>
+    <input id="file6" type="file" name="file6"/>
+    <input id="file7" type="file" name="file7"/>
+    <input id="file8" type="file" name="file8"/>
 
-        <input type="button" value="提交" id="btnImportOK">
+    <input type="button" value="提交" id="btnImportOK">
 
-    </form>
+</form>
 
 
-    <script type="text/javascript">
+<script type="text/javascript">
 
     function upload() {
         $.ajaxFileUpload
         ({
-            url: baseURL+
-            '/upload/ToUploadFile', //用于文件上传的服务器端请求地址
+            url: baseURL +
+                '/upload/ToUploadFile', //用于文件上传的服务器端请求地址
             type: 'post',
             secureuri: false, //是否需要安全协议，一般设置为false
             fileElementId: "firstfile", //文件上传域的ID
@@ -76,10 +76,10 @@
         $.ajax({
             type: "POST",
             data: formData,
-            url: baseURL+"/upload/uploadfiles",
+            url: baseURL + "/upload/uploadfiles",
             contentType: false,
             processData: false,
-            success: function (data,status) {
+            success: function (data, status) {
                 alert("上传提示");
                 if (data.code == 0) {
                     alert("上传成功");
@@ -93,6 +93,6 @@
 
 </script>
 
-    <script src="${request.contextPath}/statics/plugins/ajaxfileupload.js"></script>
+<script src="${request.contextPath}/statics/plugins/ajaxfileupload.js"></script>
 </body>
 </html>

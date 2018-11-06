@@ -11,7 +11,6 @@ import java.util.Map;
 
 /**
  * 系统用户
- * 
  */
 public interface GbService extends IService<GbEntity> {
 
@@ -21,26 +20,28 @@ public interface GbService extends IService<GbEntity> {
 //	 * 查询用户的所有Gb ID
 //	 */
 //	List<Long> queryAllGbId(Long gbId);
-	
-	/**
-	 * 保存国民经济行业分类库
-	 */
-	void save(GbEntity gb);
-	/**
-	 * 修改用户
-	 */
-	void update(GbEntity gb);
-	/**
-	 * 列表
-	 */
-	List<GbEntity> queryAll();
 
-	List<Map<String,Object>> getAllCids();
+    /**
+     * 保存国民经济行业分类库
+     */
+    void save(GbEntity gb);
 
-	List<Map<String,Object>> getAllBids();
+    /**
+     * 修改用户
+     */
+    void update(GbEntity gb);
 
-	List<Map<String,Object>> getAllMids();
+    /**
+     * 列表
+     */
+    List<GbEntity> queryAll();
 
-	List<Map<String,Object>> getAllLids();
+    List<Map<String, Object>> getAllCids();
+
+    List<Map<String, Object>> getAllBids();
+
+    List<Map<String, Object>> getAllMids();
+
+    List<Map<String, Object>> getAllLids();
 
 }

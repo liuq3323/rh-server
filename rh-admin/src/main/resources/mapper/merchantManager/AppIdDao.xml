@@ -3,7 +3,7 @@
 
 <mapper namespace="com.ntnikka.modules.merchantManager.dao.AppIdDao">
 
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.ntnikka.modules.merchantManager.entity.AppIdEntity" id="appIdMap">
         <result property="appid" column="appid"/>
         <result property="aliPubKey" column="ali_pub_key"/>
@@ -16,7 +16,8 @@
         select appid
         from app_id
     </select>
-    <select id="queryInfoByAppid" resultType="com.ntnikka.modules.merchantManager.entity.AppIdEntity" parameterType="map">
+    <select id="queryInfoByAppid" resultType="com.ntnikka.modules.merchantManager.entity.AppIdEntity"
+            parameterType="map">
         select *
         from app_id
         where appid = #{appid}
