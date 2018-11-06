@@ -260,7 +260,13 @@ var vm = new Vue({
                     //选择上级部门
                     vm.role.deptId = node[0].deptId;
                     vm.role.deptName = node[0].name;
-
+                    // if (node[0].deptId === 8){
+                    //     console.log("====>"+node[0].deptId);
+                    //     $("#dept").attr("style","display:block;");
+                    // }else {
+                    //     console.log("====>"+node[0].deptId);
+                    //     $("#dept").attr("style","display:none;");
+                    // }
                     layer.close(index);
                 }
             });
