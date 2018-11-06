@@ -19,16 +19,16 @@ import java.util.Map;
  * @Date 2018/9/18 14:17
  **/
 @Service("MerchantDeptService")
-public class MerchantDeptServiceImpl extends ServiceImpl<MerchantDeptDao , MerchantDept> implements MerchantDeptService {
+public class MerchantDeptServiceImpl extends ServiceImpl<MerchantDeptDao, MerchantDept> implements MerchantDeptService {
     @Override
-    public List<MerchantDept> queryList(Map<String, Object> params){
+    public List<MerchantDept> queryList(Map<String, Object> params) {
         List<MerchantDept> deptList =
                 this.selectList(new EntityWrapper<MerchantDept>()
-                        .addFilterIfNeed(params.get(Constant.SQL_FILTER) != null, (String)params.get(Constant.SQL_FILTER)));
+                        .addFilterIfNeed(params.get(Constant.SQL_FILTER) != null, (String) params.get(Constant.SQL_FILTER)));
 
-        for(MerchantDept merchantDept : deptList){
-            MerchantDept parentDeptEntity =  this.selectById(merchantDept.getParentId());
-            if(parentDeptEntity != null){
+        for (MerchantDept merchantDept : deptList) {
+            MerchantDept parentDeptEntity = this.selectById(merchantDept.getParentId());
+            if (parentDeptEntity != null) {
                 merchantDept.setParentName(parentDeptEntity.getName());
             }
         }
@@ -41,7 +41,7 @@ public class MerchantDeptServiceImpl extends ServiceImpl<MerchantDeptDao , Merch
     }
 
     @Override
-    public List<Long> getSubDeptIdList(Long deptId){
+    public List<Long> getSubDeptIdList(Long deptId) {
         //部门及子部门ID列表
         List<Long> deptIdList = new ArrayList<>();
 
@@ -55,10 +55,10 @@ public class MerchantDeptServiceImpl extends ServiceImpl<MerchantDeptDao , Merch
     /**
      * 递归
      */
-    private void getDeptTreeList(List<Long> subIdList, List<Long> deptIdList){
-        for(Long deptId : subIdList){
+    private void getDeptTreeList(List<Long> subIdList, List<Long> deptIdList) {
+        for (Long deptId : subIdList) {
             List<Long> list = queryDetpIdList(deptId);
-            if(list.size() > 0){
+            if (list.size() > 0) {
                 getDeptTreeList(list, deptIdList);
             }
 

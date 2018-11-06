@@ -11,6 +11,7 @@ public class MD5Utils {
 
     /**
      * 加密
+     *
      * @param str
      * @return
      */
@@ -58,10 +59,10 @@ public class MD5Utils {
     /**
      * 加密解密算法 执行一次加密，两次解密
      */
-    public static String convertMD5(String inStr){
+    public static String convertMD5(String inStr) {
 
         char[] a = inStr.toCharArray();
-        for (int i = 0; i < a.length; i++){
+        for (int i = 0; i < a.length; i++) {
             a[i] = (char) (a[i] ^ 't');
         }
         String s = new String(a);
@@ -69,9 +70,9 @@ public class MD5Utils {
 
     }
 
-    public static String creatMerchantKey(MerchantEntity merchantEntity){
-        String str = "phone="+merchantEntity.getMerchantPhone()+"&pid"+merchantEntity.getPid()+"&storeNumber="+merchantEntity.getStoreNumber()
-                +"&authCode="+merchantEntity.getAuthCode();
+    public static String creatMerchantKey(MerchantEntity merchantEntity) {
+        String str = "phone=" + merchantEntity.getMerchantPhone() + "&pid" + merchantEntity.getPid() + "&storeNumber=" + merchantEntity.getStoreNumber()
+                + "&authCode=" + merchantEntity.getAuthCode();
         String merchantKey = encode(str).toUpperCase();
         return merchantKey;
     }
@@ -80,10 +81,10 @@ public class MD5Utils {
         String s = "orderAmount=1.0&orderId=1524709290382234&partner=120180423025954421&payMethod=22&payType=QrCode&signType=MD5&version=1.0";
         String s2 = "B67EC9504492E88E3F37C23EE7F3D3EA";
         String Md5Str = encode(s);
-        System.out.println("加密============================"+Md5Str);
+        System.out.println("加密============================" + Md5Str);
         String Str = convertMD5(JM("98568d540134639BE4655198a36614a4"));
-        System.out.println("解密==========================="+Str);
-        System.out.println(SignUtil.checkSign(Md5Str , s));
-        System.out.println("================>>"+ Md5Str.toUpperCase());
+        System.out.println("解密===========================" + Str);
+        System.out.println(SignUtil.checkSign(Md5Str, s));
+        System.out.println("================>>" + Md5Str.toUpperCase());
     }
 }

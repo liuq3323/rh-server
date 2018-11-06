@@ -16,7 +16,7 @@ import java.util.Map;
  * Created by liuq on 2018/9/11.
  */
 @Service("AliOrderService")
-public class AliOrderServiceImpl extends ServiceImpl<AliOrderDao , AliOrderEntity> implements AliOrderService{
+public class AliOrderServiceImpl extends ServiceImpl<AliOrderDao, AliOrderEntity> implements AliOrderService {
 
     @Autowired
     private AliOrderDao aliOrderDao;
@@ -47,13 +47,13 @@ public class AliOrderServiceImpl extends ServiceImpl<AliOrderDao , AliOrderEntit
     }
 
     @Override
-    public void updateNotifyStatus(String orderId){
+    public void updateNotifyStatus(String orderId) {
         aliOrderDao.updateNotifyStatus(orderId);
     }
 
     @Override
     public AliOrderEntity queryById(Long id) {
-        return this.selectOne(new EntityWrapper<AliOrderEntity>().eq("id" , id));
+        return this.selectOne(new EntityWrapper<AliOrderEntity>().eq("id", id));
     }
 
     @Override
@@ -63,6 +63,6 @@ public class AliOrderServiceImpl extends ServiceImpl<AliOrderDao , AliOrderEntit
 
     @Override
     public List<AliOrderEntity> testOrderList(Map<String, Object> map) {
-        return this.selectList(new EntityWrapper<AliOrderEntity>().eq("merchant_id",map.get("merchantId")));
+        return this.selectList(new EntityWrapper<AliOrderEntity>().eq("merchant_id", map.get("merchantId")));
     }
 }

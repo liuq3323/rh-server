@@ -3,7 +3,7 @@
 
 <mapper namespace="com.ntnikka.modules.merchantManager.dao.MerchantDao">
 
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.ntnikka.modules.merchantManager.entity.MerchantEntity" id="merchantMap">
         <result property="id" column="id"/>
         <result property="merchantName" column="merchant_name"/>
@@ -27,12 +27,14 @@
         where id = #{merchantId}
     </update>
 
-    <select id="findByPriKey" parameterType="java.lang.String" resultType="com.ntnikka.modules.merchantManager.entity.MerchantEntity">
+    <select id="findByPriKey" parameterType="java.lang.String"
+            resultType="com.ntnikka.modules.merchantManager.entity.MerchantEntity">
         SELECT * from merchant where
         merchant_key = #{priKey}
     </select>
 
-    <select id="findById" parameterType="java.lang.Long" resultType="com.ntnikka.modules.merchantManager.entity.MerchantEntity">
+    <select id="findById" parameterType="java.lang.Long"
+            resultType="com.ntnikka.modules.merchantManager.entity.MerchantEntity">
         select * from merchant
         where id = #{id}
     </select>

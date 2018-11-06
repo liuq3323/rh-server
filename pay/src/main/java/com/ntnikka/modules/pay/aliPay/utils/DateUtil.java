@@ -78,6 +78,7 @@ public class DateUtil {
 
     /**
      * 增加多少小时（从当前时间开始）
+     *
      * @param hour
      * @return
      */
@@ -90,6 +91,7 @@ public class DateUtil {
 
     /**
      * 增加多少小时
+     *
      * @param date
      * @param hour
      * @return
@@ -103,6 +105,7 @@ public class DateUtil {
 
     /**
      * 本月的第一天
+     *
      * @param calendar
      * @return
      */
@@ -156,7 +159,7 @@ public class DateUtil {
     }
 
     public static String format(Date date, String format) {
-        if(Objects.isNull(date) || Objects.isNull(format)){
+        if (Objects.isNull(date) || Objects.isNull(format)) {
             return null;
         }
         try {
@@ -206,17 +209,17 @@ public class DateUtil {
     }
 
     public static Date getDateByStr(String dateStr, String format) {
-        if(dateStr == null) return null;
+        if (dateStr == null) return null;
         try {
             SimpleDateFormat fmt = new SimpleDateFormat(format);
             Date date = fmt.parse(dateStr);
             return date;
-        } catch (Exception e){
+        } catch (Exception e) {
             return null;
         }
     }
 
-    public static Date formatDate(Date date, String format){
+    public static Date formatDate(Date date, String format) {
         String str = format(date, format);
         return getDateByStr(str, format);
     }
@@ -239,13 +242,13 @@ public class DateUtil {
         return formatTime(calendar.getTime(), DEFAULT_PATTERN_SHORT);
     }
 
-    public static Date formatCurrentDate(){
+    public static Date formatCurrentDate() {
         try {
             SimpleDateFormat fmt = new SimpleDateFormat(DEFAULT_PATTERN_LONG);
             String dateStr = fmt.format(new Date().getTime());
             Date date = fmt.parse(dateStr);
             return date;
-        } catch (Exception e){
+        } catch (Exception e) {
             return null;
         }
     }
@@ -381,6 +384,7 @@ public class DateUtil {
 
     /**
      * 得到第二天凌晨
+     *
      * @return
      */
     public static Date getSecondDay() {
@@ -391,7 +395,7 @@ public class DateUtil {
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
         cal.add(Calendar.DAY_OF_MONTH, 1);
-        return  cal.getTime();
+        return cal.getTime();
     }
 
     /**
@@ -482,62 +486,73 @@ public class DateUtil {
 
     /**
      * 行程单独有时间
+     *
      * @param date
      * @return
      */
-    public  static String getFpTime(Date date){
-        String date1=format(date, "MM-dd HH:mm");
-        String date2=getDayForWeek(date);
-        return date1+date2;
+    public static String getFpTime(Date date) {
+        String date1 = format(date, "MM-dd HH:mm");
+        String date2 = getDayForWeek(date);
+        return date1 + date2;
     }
 
 
     //获取指定日期是星期几
-    public static String getDayForWeek(Date date){
+    public static String getDayForWeek(Date date) {
         Calendar c = Calendar.getInstance();
         c.setTime(date);
-        int day= c.get(Calendar.DAY_OF_WEEK);
-        String week="";
-        switch(day){
+        int day = c.get(Calendar.DAY_OF_WEEK);
+        String week = "";
+        switch (day) {
             case 1:
-                week="周日";break;
+                week = "周日";
+                break;
             case 2:
-                week="周一";break;
+                week = "周一";
+                break;
             case 3:
-                week="周二";break;
+                week = "周二";
+                break;
             case 4:
-                week="周三";break;
+                week = "周三";
+                break;
             case 5:
-                week="周四";break;
+                week = "周四";
+                break;
             case 6:
-                week="周五";break;
+                week = "周五";
+                break;
             case 7:
-                week="周六";break;
+                week = "周六";
+                break;
             default:
-                week="周一";break;
+                week = "周一";
+                break;
         }
-        return  week;
+        return week;
     }
 
     /**
      * 时间是否在误差范围内
+     *
      * @param time
      * @param maxDffSecond
      * @return
      */
-    public static boolean timeInDiff(long time, int maxDffSecond){
-        long diffTime = (time - System.currentTimeMillis())/ 1000;
-        return (diffTime > maxDffSecond || diffTime < -1*maxDffSecond) ? false : true ;
+    public static boolean timeInDiff(long time, int maxDffSecond) {
+        long diffTime = (time - System.currentTimeMillis()) / 1000;
+        return (diffTime > maxDffSecond || diffTime < -1 * maxDffSecond) ? false : true;
     }
 
 
     /**
      * 获取日志 前n天
+     *
      * @param date
      * @param days
      * @return
      */
-    public static Date getDayBefore(Date date, int days){
+    public static Date getDayBefore(Date date, int days) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.add(Calendar.DATE, -days);
@@ -546,10 +561,11 @@ public class DateUtil {
 
     /**
      * 字符串转日期
+     *
      * @param dateStr
      * @return
      */
-    public static Date string2Date(String dateStr){
+    public static Date string2Date(String dateStr) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
             return sdf.parse(dateStr);
@@ -564,5 +580,27 @@ public class DateUtil {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String str = format.format(date);
         return str;
+    }
+
+    public static String dtToStr(String dt) {
+        Date date = new Date(Long.parseLong(dt));
+        return Date2Str(date);
+    }
+
+    public static void main(String[] args) {
+        String a = "3";
+        switch (a) {
+            case "1":
+                String aa = "1";
+                break;
+            case "2":
+                aa = "2";
+            case "3":
+                aa = "3";
+            case "4":
+                aa = "4";
+                System.out.println("args = [" + aa + "]");
+                break;
+        }
     }
 }

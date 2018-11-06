@@ -27,25 +27,23 @@ public class ImageToBase64Util {
 
     /**
      * 将图片转换成Base64编码
+     *
      * @param imgFile 待处理图片
      * @return
      */
-    public static String getImgStr(String imgFile){
+    public static String getImgStr(String imgFile) {
         //将图片文件转化为字节数组字符串，并对其进行Base64编码处理
 
 
         InputStream in = null;
         byte[] data = null;
         //读取图片字节数组
-        try
-        {
+        try {
             in = new FileInputStream(imgFile);
             data = new byte[in.available()];
             in.read(data);
             in.close();
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return new String(Base64.encodeBase64(data));
@@ -53,24 +51,22 @@ public class ImageToBase64Util {
 
     /**
      * 对字节数组字符串进行Base64解码并生成图片
-     * @param imgStr 图片数据
+     *
+     * @param imgStr      图片数据
      * @param imgFilePath 保存图片全路径地址
      * @return
      */
-    public static boolean generateImage(String imgStr,String imgFilePath){
+    public static boolean generateImage(String imgStr, String imgFilePath) {
         //
         if (imgStr == null) //图像数据为空
             return false;
 
-        try
-        {
+        try {
             //Base64解码
             byte[] b = Base64.decodeBase64(imgStr);
-            for(int i=0;i<b.length;++i)
-            {
-                if(b[i]<0)
-                {//调整异常数据
-                    b[i]+=256;
+            for (int i = 0; i < b.length; ++i) {
+                if (b[i] < 0) {//调整异常数据
+                    b[i] += 256;
                 }
             }
             //生成jpeg图片
@@ -80,18 +76,16 @@ public class ImageToBase64Util {
             out.flush();
             out.close();
             return true;
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             return false;
         }
     }
 
     /**
-     * @Title: GetImageStrFromUrl
-     * @Description: TODO(将一张网络图片转化成Base64字符串)
      * @param imgURL 网络资源位置
      * @return Base64字符串
+     * @Title: GetImageStrFromUrl
+     * @Description: TODO(将一张网络图片转化成Base64字符串)
      */
     public static String GetImageStrFromUrl(String imgURL) {
         byte[] data = null;
@@ -117,6 +111,7 @@ public class ImageToBase64Util {
 
     /**
      * 创建图片二维码 返回图片base64码
+     *
      * @param data
      * @return
      */
@@ -175,13 +170,13 @@ public class ImageToBase64Util {
     }
 
 
-        public static void main(String[] args) {
+    public static void main(String[] args) {
         String imgFile = "https://qr.alipay.com/bax01288y2l392an3rjh206c";//待处理的图片
         String imgBase = GetImageStrFromUrl(imgFile);
 //        String imgbese=getImgStr(imgFile);
         System.out.println(imgBase.length());
         System.out.println(imgBase);
         String imgFilePath = "d:\\testPic\\123.png";//新生成的图片
-        generateImage(imgBase,imgFilePath);
+        generateImage(imgBase, imgFilePath);
     }
 }

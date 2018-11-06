@@ -6,11 +6,12 @@ package com.ntnikka.modules.pay.aliPay.utils;
 public class SignUtil {
     /**
      * 校验MD5签名
+     *
      * @param sign
      * @param ParamStr
      * @return
      */
-    public static Boolean checkSign(String sign , String ParamStr){
+    public static Boolean checkSign(String sign, String ParamStr) {
 
         String checkSign = MD5Utils.encode(ParamStr).toUpperCase();
         if (checkSign == sign || checkSign.equals(sign))
@@ -18,9 +19,9 @@ public class SignUtil {
         return false;
     }
 
-    public static String doubleTrans(double d){
-        if(Math.round(d)-d==0){
-            return String.valueOf((long)d);
+    public static String doubleTrans(double d) {
+        if (Math.round(d) - d == 0) {
+            return String.valueOf((long) d);
         }
         return String.valueOf(d);
     }

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
  * @Date 2018/9/25 15:41
  **/
 @Service("AliNotifyService")
-public class AliNotifyServiceImpl extends ServiceImpl<AliNotifyDao , AliNotifyEntity> implements AliNotifyService {
+public class AliNotifyServiceImpl extends ServiceImpl<AliNotifyDao, AliNotifyEntity> implements AliNotifyService {
     @Override
     public void save(AliNotifyEntity aliNotifyEntity) {
         this.insert(aliNotifyEntity);

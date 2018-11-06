@@ -14,7 +14,6 @@ import java.util.Date;
 public class AliOrderEntity implements Serializable {
 
 
-
     private static final long serialVersionUID = 1L;
 
 
@@ -178,7 +177,6 @@ public class AliOrderEntity implements Serializable {
     }
 
 
-
     public String getPayType() {
         return payType;
     }
@@ -243,7 +241,7 @@ public class AliOrderEntity implements Serializable {
         this.notifyUrl = notifyUrl;
     }
 
-    public static boolean checkParam(AliOrderEntity aliOrderEntity){
+    public static boolean checkParam(AliOrderEntity aliOrderEntity) {
         if (null == aliOrderEntity.getNotifyUrl() || null == aliOrderEntity.getOrderAmount() || null == aliOrderEntity.getOrderId()
                 || null == aliOrderEntity.getMerchantId() || null == aliOrderEntity.getPayType() || null == aliOrderEntity.getVersion()
                 || null == aliOrderEntity.getSign() || null == aliOrderEntity.getSignType() || null == aliOrderEntity.getProductName())
