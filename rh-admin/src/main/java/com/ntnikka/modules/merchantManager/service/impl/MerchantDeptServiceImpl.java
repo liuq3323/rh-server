@@ -72,4 +72,9 @@ public class MerchantDeptServiceImpl extends ServiceImpl<MerchantDeptDao, Mercha
     public List<Long> queryMerchantDeptIdList(Long parentId) {
         return baseMapper.queryMerchantDeptIdList(parentId);
     }
+
+    @Override
+    public List<MerchantDept> queryMerchantParentDeptList() {
+        return baseMapper.queryMerchantParentDeptList();
+    }
 }

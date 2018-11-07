@@ -48,7 +48,7 @@ public class TradeOrderController extends AbstractController {
     @RequestMapping(value = "listForMerchant")
     public R queryOrderListForMerchant(@RequestParam Map<String, Object> params){
         params.put("merchantdept",getUser().getMerchantDeptId());
-        PageUtils page = tradeOrderService.queryPage(params);
+        PageUtils page = tradeOrderService.queryPageForMerchant(params);
         return R.ok().put("page", page);
     }
 

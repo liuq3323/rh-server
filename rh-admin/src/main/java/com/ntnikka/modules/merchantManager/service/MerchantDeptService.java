@@ -36,4 +36,6 @@ public interface MerchantDeptService extends IService<MerchantDept> {
      * @return
      */
     List<Long> queryMerchantDeptIdList(Long parentId);
+
+    List<MerchantDept> queryMerchantParentDeptList();
 }

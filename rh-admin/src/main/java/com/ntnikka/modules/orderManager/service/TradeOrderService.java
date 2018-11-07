@@ -17,6 +17,8 @@ import java.util.Map;
 public interface TradeOrderService extends IService<TradeOrder> {
     PageUtils queryPage(Map<String, Object> params);
 
+    PageUtils queryPageForMerchant(Map<String, Object> params);
+
     List<TradeOrder> queryList(Map<String, Object> params);
 
     List<Map<String, String>> queryOrderDataForBarChart(Map map);

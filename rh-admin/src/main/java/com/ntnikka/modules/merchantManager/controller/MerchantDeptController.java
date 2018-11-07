@@ -126,4 +126,11 @@ public class MerchantDeptController extends AbstractController {
         merchantDeptService.deleteById(deptId);
         return R.ok();
     }
+
+
+    @RequestMapping("/selectParent")
+    public R selectParent() {
+        List<MerchantDept> deptList = merchantDeptService.queryMerchantParentDeptList();
+        return R.ok().put("deptList", deptList);
+    }
 }

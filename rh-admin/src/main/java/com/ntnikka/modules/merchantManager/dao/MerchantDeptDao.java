@@ -23,4 +23,6 @@ public interface MerchantDeptDao extends BaseMapper<MerchantDept> {
     List<Long> queryDetpIdList(Long parentId);
 
     List<Long> queryMerchantDeptIdList(Long parentId);
+
+    List<MerchantDept> queryMerchantParentDeptList();
 }

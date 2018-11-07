@@ -87,13 +87,13 @@ public class SysUserEntity implements Serializable {
     @TableField(exist = false)
     private String deptName;
 
-    private Integer merchantDeptId;
+    private String merchantDeptId;
 
-    public Integer getMerchantDeptId() {
+    public String getMerchantDeptId() {
         return merchantDeptId;
     }
 
-    public void setMerchantDeptId(Integer merchantDeptId) {
+    public void setMerchantDeptId(String merchantDeptId) {
         this.merchantDeptId = merchantDeptId;
     }
 

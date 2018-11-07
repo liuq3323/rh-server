@@ -65,6 +65,26 @@ var setting = {
 };
 var ztree;
 var ztree2;
+//数据树
+var data_ztree;
+var data_setting = {
+    data: {
+        simpleData: {
+            enable: true,
+            idKey: "deptId",
+            pIdKey: "parentId",
+            rootPId: -1
+        },
+        key: {
+            url: "nourl"
+        }
+    },
+    check: {
+        enable: true,
+        nocheckInherit: true,
+        chkboxType: {"Y": "", "N": ""}
+    }
+};
 var vm = new Vue({
     el: '#rrapp',
     data: {
@@ -117,6 +137,16 @@ var vm = new Vue({
 
             vm.getDept();
             vm.getMerchantDept();
+
+            vm.getDataTree();
+        },
+        getDataTree: function (roleId) {
+            //加载菜单树
+            $.get(baseURL + "merchant/dept/selectParent", function (r) {
+                data_ztree = $.fn.zTree.init($("#dataTree"), data_setting, r.deptList);
+                //展开所有节点
+                data_ztree.expandAll(false);
+            });
         },
         getDept: function () {
             //加载部门树
@@ -181,6 +211,14 @@ var vm = new Vue({
         },
         saveOrUpdate: function () {
             var url = vm.user.userId == null ? "sys/user/save" : "sys/user/update";
+            //获取选择的数据
+            var nodes = data_ztree.getCheckedNodes(true);
+            var deptIdList = "";
+            debugger;
+            for (var i = 0; i < nodes.length; i++) {
+                deptIdList += nodes[i].deptId+",";
+            }
+            vm.user.merchantDeptId = deptIdList;
             $.ajax({
                 type: "POST",
                 url: baseURL + url,
@@ -204,6 +242,7 @@ var vm = new Vue({
 
                 vm.getDept();
                 vm.getMerchantDept();
+                vm.getDataTree();
             });
         },
         getRoleList: function () {
@@ -229,10 +268,12 @@ var vm = new Vue({
                     vm.user.deptName = node[0].name;
                     if (node[0].deptId === 8){
                         // console.log("====>"+node[0].deptId);
-                        $("#merchantDept").attr("style","display:block;");
+                        // $("#merchantDept").attr("style","display:block;");
+                        $("#deptDataTree").attr("style","display:block;");
                     }else {
                         // console.log("====>"+node[0].deptId);
-                        $("#merchantDept").attr("style","display:none;");
+                        // $("#merchantDept").attr("style","display:none;");
+                        $("#deptDataTree").attr("style","display:none;");
                         vm.user.merchantDeptName = null;
                         vm.user.merchantDeptId = null;
                      }

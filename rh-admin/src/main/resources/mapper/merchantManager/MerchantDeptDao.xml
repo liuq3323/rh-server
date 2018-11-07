@@ -12,4 +12,10 @@
         where parent_id = #{value}
         and del_flag = 0
     </select>
+
+    <select id="queryMerchantParentDeptList" resultType="com.ntnikka.modules.merchantManager.entity.MerchantDept">
+        select * from merchant_dept
+        where parent_id = 0
+        and del_flag = 0
+    </select>
 </mapper>
