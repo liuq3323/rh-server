@@ -87,6 +87,16 @@ public class SysUserEntity implements Serializable {
     @TableField(exist = false)
     private String deptName;
 
+    private Integer merchantDeptId;
+
+    public Integer getMerchantDeptId() {
+        return merchantDeptId;
+    }
+
+    public void setMerchantDeptId(Integer merchantDeptId) {
+        this.merchantDeptId = merchantDeptId;
+    }
+
     /**
      * 设置：
      *

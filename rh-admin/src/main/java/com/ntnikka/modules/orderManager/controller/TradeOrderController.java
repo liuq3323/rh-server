@@ -40,8 +40,14 @@ public class TradeOrderController extends AbstractController {
 
     @RequestMapping(value = "list")
     public R queryOrderList(@RequestParam Map<String, Object> params) {
-        logger.info("" + getUser().getDeptId());
         System.out.println("params = [" + params + "]");
+        PageUtils page = tradeOrderService.queryPage(params);
+        return R.ok().put("page", page);
+    }
+
+    @RequestMapping(value = "listForMerchant")
+    public R queryOrderListForMerchant(@RequestParam Map<String, Object> params){
+        params.put("merchantdept",getUser().getMerchantDeptId());
         PageUtils page = tradeOrderService.queryPage(params);
         return R.ok().put("page", page);
     }

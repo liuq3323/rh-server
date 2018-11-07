@@ -64,7 +64,7 @@ var setting = {
     }
 };
 var ztree;
-
+var ztree2;
 var vm = new Vue({
     el: '#rrapp',
     data: {
@@ -80,7 +80,9 @@ var vm = new Vue({
             status: 1,
             deptId: null,
             deptName: null,
-            roleIdList: []
+            roleIdList: [],
+            merchantDeptId : null,
+            merchantDeptName: null
         }
     },
     methods: {
@@ -108,12 +110,13 @@ var vm = new Vue({
             vm.showList3 = true;
             vm.title = "新增";
             vm.roleList = {};
-            vm.user = {deptName: null, deptId: null, status: 1, roleIdList: []};
+            vm.user = {deptName: null, deptId: null, status: 1, roleIdList: [],merchantDeptId : null,merchantDeptName: null};
 
             //获取角色信息
             this.getRoleList();
 
             vm.getDept();
+            vm.getMerchantDept();
         },
         getDept: function () {
             //加载部门树
@@ -124,6 +127,17 @@ var vm = new Vue({
                     ztree.selectNode(node);
 
                     vm.user.deptName = node.name;
+                }
+            })
+        },
+        getMerchantDept: function () {
+            //加载部门树
+            $.get(baseURL + "merchant/dept/select", function (r) {
+                ztree2 = $.fn.zTree.init($("#deptTree2"), setting, r.deptList);
+                var node = ztree.getNodeByParam("deptId", vm.user.merchantDeptId);
+                if (node != null) {
+                    ztree2.selectNode(node);
+                    vm.user.merchantDeptName = node.name;
                 }
             })
         },
@@ -189,6 +203,7 @@ var vm = new Vue({
                 vm.user.password = null;
 
                 vm.getDept();
+                vm.getMerchantDept();
             });
         },
         getRoleList: function () {
@@ -212,7 +227,37 @@ var vm = new Vue({
                     //选择上级部门
                     vm.user.deptId = node[0].deptId;
                     vm.user.deptName = node[0].name;
-
+                    if (node[0].deptId === 8){
+                        // console.log("====>"+node[0].deptId);
+                        $("#merchantDept").attr("style","display:block;");
+                    }else {
+                        // console.log("====>"+node[0].deptId);
+                        $("#merchantDept").attr("style","display:none;");
+                        vm.user.merchantDeptName = null;
+                        vm.user.merchantDeptId = null;
+                     }
+                    layer.close(index);
+                }
+            });
+        },
+        merchantDeptTree:function(){
+            layer.open({
+                type: 1,
+                offset: '50px',
+                skin: 'layui-layer-molv',
+                title: "选择商户",
+                area: ['300px', '450px'],
+                shade: 0,
+                shadeClose: false,
+                content: jQuery("#deptLayer2"),
+                btn: ['确定', '取消'],
+                btn1: function (index) {
+                    var node = ztree2.getSelectedNodes();
+                    //选择上级部门
+                    // $("#merchantDeptId").val(node[0].deptId);
+                    //                     // $("#merchantDeptName").val(node[0].name);
+                    vm.user.merchantDeptName = node[0].name;
+                    vm.user.merchantDeptId = node[0].deptId;
                     layer.close(index);
                 }
             });
