@@ -1,6 +1,7 @@
 package com.ntnikka.modules.merchantManager.controller;
 
 import com.ntnikka.common.utils.Constant;
+import com.ntnikka.common.utils.EmptyUtil;
 import com.ntnikka.modules.merchantManager.entity.MerchantDept;
 import com.ntnikka.modules.merchantManager.service.MerchantDeptService;
 import com.ntnikka.modules.sys.controller.AbstractController;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -35,6 +38,17 @@ public class MerchantDeptController extends AbstractController {
     public List<MerchantDept> list() {
         List<MerchantDept> deptList = merchantDeptService.queryList(new HashMap<String, Object>());
 
+        return deptList;
+    }
+
+    @RequestMapping("/listForMerchant")
+    public List<MerchantDept> listForMerchant(){
+        String deptIdList = getUser().getMerchantDeptId() == null ? "" : getUser().getMerchantDeptId();
+        if (EmptyUtil.isEmpty(deptIdList)){
+            return new ArrayList<MerchantDept>();
+        }
+        List<String> idList = Arrays.asList(deptIdList.split(","));
+        List<MerchantDept> deptList = merchantDeptService.queryListForMerchant(idList);
         return deptList;
     }
 

@@ -38,4 +38,6 @@ public interface MerchantDeptService extends IService<MerchantDept> {
     List<Long> queryMerchantDeptIdList(Long parentId);
 
     List<MerchantDept> queryMerchantParentDeptList();
+
+    List<MerchantDept> queryListForMerchant(List<String> idList);
 }

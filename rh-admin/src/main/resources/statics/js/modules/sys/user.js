@@ -117,7 +117,7 @@ var vm = new Vue({
             }
 
             vm.showList = false;
-            vm.showList2 = true;
+            vm.showList3 = true;
             vm.title = "详情";
 
             vm.getUser(userId);
@@ -140,12 +140,22 @@ var vm = new Vue({
 
             vm.getDataTree();
         },
-        getDataTree: function (roleId) {
+        getDataTree: function (deptId) {
             //加载菜单树
             $.get(baseURL + "merchant/dept/selectParent", function (r) {
                 data_ztree = $.fn.zTree.init($("#dataTree"), data_setting, r.deptList);
-                //展开所有节点
-                data_ztree.expandAll(false);
+                if (null == deptId){
+                    //展开所有节点
+                    data_ztree.expandAll(false);
+                }else {
+                    //勾选角色所拥有的部门数据权限str = str.substring(0, str.lastIndexOf(','));
+                    var deptIds = (deptId.substring(0, deptId.lastIndexOf(","))).split(",");
+                    for (var i = 0; i < deptIds.length; i++) {
+                        var node = data_ztree.getNodeByParam("deptId", deptIds[i]);
+                        data_ztree.checkNode(node, true, false);
+                    }
+                }
+
             });
         },
         getDept: function () {
@@ -153,9 +163,11 @@ var vm = new Vue({
             $.get(baseURL + "sys/dept/list", function (r) {
                 ztree = $.fn.zTree.init($("#deptTree"), setting, r);
                 var node = ztree.getNodeByParam("deptId", vm.user.deptId);
+                if (vm.user.deptId === 8){
+                    $("#deptDataTree").attr("style","display:block;");
+                }
                 if (node != null) {
                     ztree.selectNode(node);
-
                     vm.user.deptName = node.name;
                 }
             })
@@ -180,7 +192,6 @@ var vm = new Vue({
             vm.showList = false;
             vm.showList3 = true;
             vm.title = "修改";
-
             vm.getUser(userId);
             //获取角色信息
             this.getRoleList();
@@ -214,7 +225,6 @@ var vm = new Vue({
             //获取选择的数据
             var nodes = data_ztree.getCheckedNodes(true);
             var deptIdList = "";
-            debugger;
             for (var i = 0; i < nodes.length; i++) {
                 deptIdList += nodes[i].deptId+",";
             }
@@ -239,10 +249,9 @@ var vm = new Vue({
             $.get(baseURL + "sys/user/info/" + userId, function (r) {
                 vm.user = r.user;
                 vm.user.password = null;
-
                 vm.getDept();
                 vm.getMerchantDept();
-                vm.getDataTree();
+                vm.getDataTree(vm.user.merchantDeptId);
             });
         },
         getRoleList: function () {
@@ -312,6 +321,7 @@ var vm = new Vue({
                 postData: {'username': vm.q.username},
                 page: page
             }).trigger("reloadGrid");
+            $("#deptDataTree").attr("style","display:none;");
         }
     }
 });

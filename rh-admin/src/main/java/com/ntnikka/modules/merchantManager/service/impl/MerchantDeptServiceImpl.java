@@ -4,10 +4,12 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.ntnikka.common.annotation.DataFilter;
 import com.ntnikka.common.utils.Constant;
+import com.ntnikka.common.utils.EmptyUtil;
 import com.ntnikka.modules.merchantManager.dao.MerchantDeptDao;
 import com.ntnikka.modules.merchantManager.entity.MerchantDept;
 import com.ntnikka.modules.merchantManager.service.MerchantDeptService;
 import com.ntnikka.modules.sys.entity.SysDeptEntity;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -76,5 +78,12 @@ public class MerchantDeptServiceImpl extends ServiceImpl<MerchantDeptDao, Mercha
     @Override
     public List<MerchantDept> queryMerchantParentDeptList() {
         return baseMapper.queryMerchantParentDeptList();
+    }
+
+    @Override
+    public List<MerchantDept> queryListForMerchant(List<String> idList) {
+        List<MerchantDept> deptList =
+                this.selectList(new EntityWrapper<MerchantDept>().in("dept_id",idList));
+        return deptList;
     }
 }
