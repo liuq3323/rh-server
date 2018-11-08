@@ -22,11 +22,9 @@ import com.ntnikka.modules.pay.aliPay.utils.*;
 import com.ntnikka.modules.sys.controller.AbstractController;
 import com.ntnikka.utils.R;
 import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.session.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -86,11 +84,6 @@ public class AliPayController extends AbstractController {
             logger.error("验签失败, sign = {} , paramstr = {}", sign, ParamStr);
             return R.error(403013, "验签失败");
         }
-        //校验商户时候有权限操作
-//        MerchantEntity merchantEntity = merchantService.findByPriKey(aliOrderEntity.getPartner());
-//        if (merchant == null){
-//            return R.error(403015, "商户不存在");
-//        }
         if (merchant.getTradeStatus() == 1) {
             return R.error(403016, "该商户已关闭交易权限，请联系客服人员");
         }
@@ -245,19 +238,7 @@ public class AliPayController extends AbstractController {
     @RequestMapping(value = "/QrCodeTest", method = RequestMethod.POST)
     public R QcCodeTestController() {
         try {
-//            String result = AliPayRequest.doQrCodeAliRequest(20180917095254L , 1.0 , "MECHREVO");
-//            JSONObject resultJson = JSON.parseObject(result).getJSONObject("alipay_trade_precreate_response");
-////            runAsync(() -> {//异步保存
-//////                TradePrecreateMsg tradePrecreateMsg = new TradePrecreateMsg();
-//////                tradePrecreateMsg.setCode(resultJson.getInteger("code"));
-//////                tradePrecreateMsg.setOrderId(201809170115L);
-//////                tradePrecreateMsg.setMsg(resultJson.getString("msg"));
-//////                tradePrecreateMsgService.save(tradePrecreateMsg);
-//////            });
-//            String imgStr = ImageToBase64Util.createQRCode(resultJson.getString("qr_code"));
             Map resultMap = new HashMap();
-//            resultMap.put("out_trade_no",resultJson.getString("out_trade_no"));
-//            resultMap.put("qr_code",imgStr);
             MerchantEntity merchantEntity = merchantService.findByPriKey("6816CCBB9923D7B006A02C877B2D9F68");
             resultMap.put("data", merchantEntity);
             return R.ok(resultMap);
