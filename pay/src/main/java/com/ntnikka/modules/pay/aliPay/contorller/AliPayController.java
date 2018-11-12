@@ -647,7 +647,7 @@ public class AliPayController extends AbstractController {
         }
         logger.info("回调金额 ， amount = {}", amount);
         logger.info("订单金额 ， amount = {}", aliOrderEntity.getOrderAmount().toString());
-        String checkSignStr = "dt=" + dt + "&mark=" + sys_trade_no + "&money=" + money + "&no=" + trade_no + "&type=" + type + "123456789";
+        String checkSignStr = "dt=" + dt + "&mark=" + sys_trade_no + "&money=" + money + "&no=" + trade_no + "&type=" + type + aliOrderEntity.getPartner();
         String checkSign = MD5Utils.encode(checkSignStr);
         logger.info("sign , sign = {}", sign);
         logger.info("sign , checkSignStr = {}", checkSignStr);
@@ -664,7 +664,7 @@ public class AliPayController extends AbstractController {
             aliOrderService.updateTradeOrder(map);
             //通知
             String returnMsg = this.doNotify(aliOrderEntity.getNotifyUrl(), aliOrderEntity.getOrderId().toString(), AlipayTradeStatus.TRADE_SUCCESS.getStatus(), aliOrderEntity.getOrderAmount().toString(), aliOrderEntity.getPartner());
-            if (returnMsg.contains("success")) {
+            if (returnMsg.contains("success") || returnMsg.contains("SUCCESS")) {
                 logger.info("通知商户成功，修改通知状态");
                 aliOrderService.updateNotifyStatus(aliOrderEntity.getSysTradeNo());
             } else {
