@@ -760,13 +760,13 @@ public class AliPayController extends AbstractController {
         return R.ok();
     }
 
-//    @RequestMapping(value = "testRedis")
-//    public R testRedis(@RequestBody Map params){
-//        if (redisTemplate.hasKey(params.get("mark").toString())){
-//            return R.ok("已通知");
-//        }
-//        redisTemplate.opsForValue().set(params.get("mark").toString(),params.get("mark").toString(),24*60*60*1000);
-//        return R.ok();
-//    }
+    @RequestMapping(value = "testWechatChannel2")
+    public R testRedis(@RequestBody Map params){
+        Long timestamp = new Date().getTime();
+        String no = IdWorker.getSysTradeNum();
+        String result = WechatRequest.doWechatOrderCreateChannel2("0.01","CET15407983846401","http://47.92.241.14/api/v1/wechatNotify",
+                no,"WECHAT_H5PAY","test",String.valueOf(timestamp),"219dde935d4078ffae082a57c3f08dfb");
+        return R.ok(result);
+    }
 
 }

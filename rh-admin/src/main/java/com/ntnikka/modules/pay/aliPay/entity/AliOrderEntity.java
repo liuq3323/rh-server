@@ -234,7 +234,8 @@ public class AliOrderEntity implements Serializable {
     public static boolean checkParam(AliOrderEntity aliOrderEntity) {
         if (null == aliOrderEntity.getNotifyUrl() || null == aliOrderEntity.getOrderAmount() || null == aliOrderEntity.getOrderId()
                 || null == aliOrderEntity.getMerchantId() || null == aliOrderEntity.getPayType() || null == aliOrderEntity.getVersion()
-                || null == aliOrderEntity.getSign() || null == aliOrderEntity.getSignType() || null == aliOrderEntity.getProductName())
+                || null == aliOrderEntity.getSign() || null == aliOrderEntity.getSignType() || null == aliOrderEntity.getProductName()
+                || null == aliOrderEntity.getPayMethod() || "".equals(aliOrderEntity.getPayMethod()))
             return false;
         return true;
     }
