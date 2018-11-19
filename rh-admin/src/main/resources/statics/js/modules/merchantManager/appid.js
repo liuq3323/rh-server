@@ -31,7 +31,7 @@ $(function () {
             }
         ],
         viewrecords: true,
-        height: 600,
+        height: 720,
         rowNum: 10,
         rowList: [10, 20, 30],
         rownumbers: true,

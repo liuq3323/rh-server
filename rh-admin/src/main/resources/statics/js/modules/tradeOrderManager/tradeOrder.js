@@ -72,7 +72,7 @@ $(function () {
             }
         ],
         viewrecords: true,
-        height: 600,
+        height: 720,
         rowNum: 30,
         rowList: [30, 50, 80],
         rownumbers: true,
@@ -95,6 +95,8 @@ $(function () {
         gridComplete: function () {
             //隐藏grid底部滚动条
             $("#jqGrid").closest(".ui-jqgrid-bdiv").css({"overflow-x": "hidden"});
+            // var newHeight = $(window).height() - $(".gridPanel").offset().top - 66;
+            // $(".ui-jqgrid .ui-jqgrid-bdiv").css("cssText","height: "+newHeight+"px!important;");
         },
     });
 

@@ -73,7 +73,7 @@ $(function () {
             }
         ],
         viewrecords: true,
-        height: 600,
+        height: 720,
         rowNum: 30,
         rowList: [30, 50, 80],
         rownumbers: true,
