@@ -138,6 +138,15 @@ Dept.initColumn = function () {
         {field: 'selectItem', radio: true},
         {title: '商户ID', field: 'deptId', visible: false, align: 'center', valign: 'middle', width: '80px'},
         {title: '商户名称', field: 'name', align: 'center', valign: 'middle', sortable: true, width: '180px'},
+        {title: '商户号', field: 'merchantId', visible: false, align: 'center', valign: 'middle', width: '80px',
+            formatter: function (value, options, row) {
+                if (value.merchantId == null || value.merchantId == "") {
+                    return "";
+                } else {
+                    return value.merchantId;
+                }
+            }
+        },
         {title: '上级商户', field: 'parentName', align: 'center', valign: 'middle', sortable: true, width: '100px'},
         {title: '排序号', field: 'orderNum', align: 'center', valign: 'middle', sortable: true, width: '100px'}]
     return columns;
