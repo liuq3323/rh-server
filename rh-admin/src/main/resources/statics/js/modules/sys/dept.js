@@ -167,5 +167,6 @@ $(function () {
         table.setExpandAll(false);
         table.init();
         Dept.table = table;
+        $(".treegrid-tbody").attr("style","height:700px");
     });
 });
