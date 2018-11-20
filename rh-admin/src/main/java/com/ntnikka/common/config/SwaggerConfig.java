@@ -34,7 +34,7 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("日华信息")
+                .title("")
                 .description("rh-admin文档")
                 .termsOfServiceUrl("http://www.ntnikka.com")
                 .version("1.0.0")
