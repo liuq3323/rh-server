@@ -647,7 +647,12 @@ public class AliPayController extends AbstractController {
         }
         logger.info("回调金额 ， amount = {}", amount);
         logger.info("订单金额 ， amount = {}", aliOrderEntity.getOrderAmount().toString());
-        String checkSignStr = "dt=" + dt + "&mark=" + sys_trade_no + "&money=" + money + "&no=" + trade_no + "&type=" + type + aliOrderEntity.getPartner();
+        String checkSignStr = "";
+        if (type.equals("支付宝")){
+            checkSignStr = "dt=" + dt + "&mark=" + sys_trade_no + "&money=" + aliOrderEntity.getOrderAmount() + "&no=" + trade_no + "&type=" + type + aliOrderEntity.getPartner();
+        }else {
+            checkSignStr = "dt=" + dt + "&mark=" + sys_trade_no + "&money=" + money.substring(0,1) +aliOrderEntity.getOrderAmount() + "&no=" + trade_no + "&type=" + type + aliOrderEntity.getPartner();
+        }
         String checkSign = MD5Utils.encode(checkSignStr);
         logger.info("sign , sign = {}", sign);
         logger.info("sign , checkSignStr = {}", checkSignStr);
