@@ -93,15 +93,13 @@
                 "<td>1</td>"+
                 "<td>"+displayData.merchantId+"</td>"+
                 "<td>"+displayData.sysTradeNo+"</td>"+
-                "<td>"+displayData.orderId+"</td>"+
-                "<td>"+displayData.tradeNo+"</td>"+
-                "<td>"+displayData.orderAmount+"</td>";
+                "<td>"+displayData.orderId+"</td>";
           if (displayData.status == 1) {
-              tempStr += "<td class= 'greenBg'>已支付</td>" ;
+              tempStr += "<td>"+displayData.tradeNo+"</td>" + "<td>"+displayData.orderAmount+"</td>" + "<td class= 'greenBg'>已支付</td>" ;
           }else if(displayData.status == 0){
-              tempStr += "<td class= 'redBg'>下单未支付</td>" ;
+              tempStr += "<td></td>" + "<td>"+displayData.orderAmount+"</td>" + "<td class= 'redBg'>下单未支付</td>" ;
           }else{
-              tempStr += "<td class= 'redBg'>下单失败</td>" ;
+              tempStr += "<td></td>" + "<td>"+displayData.orderAmount+"</td>" + "<td class= 'redBg'>下单失败</td>" ;
           }
           if (displayData.payType == "Wap") {
               tempStr +=  "<td>WAP支付</td>";
