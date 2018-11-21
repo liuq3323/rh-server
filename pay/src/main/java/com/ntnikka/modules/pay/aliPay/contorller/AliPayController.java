@@ -645,11 +645,17 @@ public class AliPayController extends AbstractController {
         if (aliOrderEntity == null) {
             return "success订单不存在";
         }
+        logger.info("回调参数 ， money = {} ，no = {} , mark = {} , type = {} , dt = {} ", money , trade_no , sys_trade_no , type , dt);
         logger.info("回调金额 ， amount = {}", amount);
         logger.info("订单金额 ， amount = {}", aliOrderEntity.getOrderAmount().toString());
+        //11.21修改 支付宝返回参数修改 金额带上符号
         String checkSignStr = "";
-        if (type.equals("支付宝")){
-            checkSignStr = "dt=" + dt + "&mark=" + sys_trade_no + "&money=" + aliOrderEntity.getOrderAmount() + "&no=" + trade_no + "&type=" + type + aliOrderEntity.getPartner();
+        if (type.equals("支付宝") || type.equals("alipay")){
+            if ("￥".equals(money.substring(0,1))){
+                checkSignStr = "dt=" + dt + "&mark=" + sys_trade_no + "&money=" +  money.substring(0,1) + aliOrderEntity.getOrderAmount() + "&no=" + trade_no + "&type=" + type + aliOrderEntity.getPartner();
+            }else {
+                checkSignStr = "dt=" + dt + "&mark=" + sys_trade_no + "&money=" + aliOrderEntity.getOrderAmount() + "&no=" + trade_no + "&type=" + type + aliOrderEntity.getPartner();
+            }
         }else {
             checkSignStr = "dt=" + dt + "&mark=" + sys_trade_no + "&money=" + money.substring(0,1) +aliOrderEntity.getOrderAmount() + "&no=" + trade_no + "&type=" + type + aliOrderEntity.getPartner();
         }
