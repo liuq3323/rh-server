@@ -22,6 +22,9 @@ public class WechatRequest {
     private static final String wxpay_Create = "http://pay.efr360.cn/Channel/WxPay/wxPayOrder.do";
     private static final String wxpay_Query = "http://pay.efr360.cn/Channel/WxPay/wxTrdQuery.do";
 
+    private static final String wxpay_Create_Channel2 = "http://www.sucsen.cn/admin/api/pay/order";
+    private static final String wxpay_Query_Channel2 = "http://47.75.192.90/wenfu/api/pay/query";
+
     /**
      * @param merchantNo  唯一商户标识
      * @param signType    加密方式 MD5 or RSA
@@ -78,5 +81,26 @@ public class WechatRequest {
             e.printStackTrace();
         }
         return sign;
+    }
+
+
+
+    public static String doWechatOrderCreateChannel2(String amount, String merchantNum, String notifyUrl ,String orderNum ,String payType ,String product ,String timestamp ,String prikey){
+        Map<String, String> map = new HashMap<>();
+        map.put("amount", amount);
+        map.put("merchantNum", merchantNum);
+        map.put("notifyUrl", notifyUrl);
+        map.put("orderNum", orderNum);
+        map.put("payType", payType);
+        map.put("product", product);
+        map.put("timestamp", timestamp);
+        //body inst_id  notify_url   out_trade_no  sign_type  spbill_create_ip    total_fee    trade_type
+        String paramStr = String.format("amount=%s&merchantNum=%s&notifyUrl=%s&orderNum=%s&payType=%s&product=%s&timestamp=%s&key=%s",
+                amount, merchantNum, notifyUrl, orderNum, payType, product, timestamp, prikey);
+        String sign = MD5Utils.encode(paramStr);
+        map.put("sign", sign.toUpperCase());
+        String resultMsg = HttpClientUtil.doGet(wxpay_Create_Channel2, map );
+        logger.info("接口返回: {}", resultMsg);
+        return resultMsg;
     }
 }
